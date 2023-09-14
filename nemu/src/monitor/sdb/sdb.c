@@ -101,13 +101,14 @@ static int cmd_x(char *args){
 
 	/* turn into int. */
 	len = atoi(len_str);
-	addr = RESET_VECTOR + strtol(addr_str, &endptr, 16);
+	addr = strtol(addr_str, &endptr, 16);
 	
 	/* evaluate pmem address. */
 	printf("test scan addr: %u, len: %x.\n",addr,len);
 	for (int i=0; i<len; i++){
 		uint32_t res = paddr_read(addr, 4);
-		printf("0x%0*x  ",4,res);
+		printf("0x%0*x  ",8,res);
+		addr+=4;
 	}	
 	printf("\n");
 	
