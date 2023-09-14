@@ -55,7 +55,10 @@ static int cmd_q(char *args) {
 
 static int cmd_si(char *args){
 	//TODO sdb_command: si[nu]
-	cpu_exec(1);
+	char step = args[0];
+	for (int i=0; i<step; i++){
+		cpu_exec(1);
+	}
 	return 0;
 }
 
