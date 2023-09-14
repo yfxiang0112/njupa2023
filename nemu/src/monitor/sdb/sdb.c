@@ -93,7 +93,7 @@ static int cmd_x(char *args){
 	//char *expr = args;
 	char *endptr;
 	uint32_t addr;
-	uint32_t len;
+	int32_t len;
 
 	/* extract factor from *args. */
 	char *len_str = strtok(NULL, " ");
@@ -101,6 +101,7 @@ static int cmd_x(char *args){
 
 	/* turn into int. */
 	len = atoi(len_str);
+	if (len<=0) { return 0; }
 	addr = strtol(addr_str, &endptr, 16);
 	
 	/* evaluate & increse pmem address. */
