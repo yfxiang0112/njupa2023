@@ -56,19 +56,31 @@ static int cmd_q(char *args) {
 static int cmd_si(char *args){
 	unsigned int step;
 	//TODO sdb_command: si[nu]
-	if(args==0x0){
+	if(args==NULL){
 		step=1;
 	}else{
 		step = atoi(args);
 	}
-	//TODO handle undesired arg input
-	for (int i=0; i<step; i++){
-		cpu_exec(1);
-	}
+	//TODO handle undesired arg input, TODO check nemu state.
+	cpu_exec(step);
 	return 0;
 }
 
-
+static int cmd_info(char *args){
+	char subCmd='\0';
+	if (args!=NULL){subCmd=args[0];}
+	switch (subCmd){
+		case 'w':
+			//TODO
+			break;
+		case 'r':
+			isa_reg_display();	
+			break;
+		default:
+			break;
+	}
+	return 0;
+}
 
 static int cmd_help(char *args);
 
@@ -80,7 +92,8 @@ static struct {
   { "help", "Display information about all supported commands", cmd_help },
   { "c", "Continue the execution of the program", cmd_c },
   { "q", "Exit NEMU", cmd_q },
-	{ "si", "single instruction", cmd_si },
+	{ "si", "Run single instruction", cmd_si },
+	{ "info", "Print info of reg or watchpoint", cmd_info },
 
   /* TODO: Add more commands */
 
