@@ -73,7 +73,7 @@ static int cmd_si(char *args){
 /* print watchpoint or regi info. */
 static int cmd_info(char *args){
 	char subCmd='\0';
-	if (args!=NULL){subCmd=args[0];}
+	if (args!=NULL && strlen(args)==1){subCmd=args[0];}
 	switch (subCmd){
 		case 'w':
 			//TODO
