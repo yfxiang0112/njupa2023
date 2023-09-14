@@ -15,6 +15,7 @@
 
 #include <isa.h>
 #include <cpu/cpu.h>
+#include <memory/paddr.h>
 #include <readline/readline.h>
 #include <readline/history.h>
 #include "sdb.h"
@@ -93,12 +94,19 @@ static int cmd_x(char *args){
 	char *endptr;
 	uint32_t addr;
 	uint32_t len;
+
+	/* extract factor from *args. */
 	char *len_str = strtok(NULL, " ");
 	char *addr_str = strtok(NULL, " ");
 
+	/* turn into int. */
 	len = atoi(len_str);
 	addr = strtol(addr_str, &endptr, 16);
+	
+	/* evaluate pmem address. */
 	printf("test scan addr: %d, len: %x.\n",addr,len);
+	uint32_t res = paddr_read(addr, len);
+	printf("%x\n",res);
 	
 	return 0;
 }
