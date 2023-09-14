@@ -103,8 +103,7 @@ static int cmd_x(char *args){
 	len = atoi(len_str);
 	addr = strtol(addr_str, &endptr, 16);
 	
-	/* evaluate pmem address. */
-	printf("test scan addr: %u, len: %x.\n",addr,len);
+	/* evaluate & increse pmem address. */
 	for (int i=0; i<len; i++){
 		uint32_t res = paddr_read(addr, 4);
 		printf("0x%0*x\n",8,res);
