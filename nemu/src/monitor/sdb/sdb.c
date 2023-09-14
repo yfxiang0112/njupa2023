@@ -42,17 +42,20 @@ static char* rl_gets() {
   return line_read;
 }
 
+
 static int cmd_c(char *args) {
   cpu_exec(-1);
   return 0;
 }
 
 
+/* quit. */
 static int cmd_q(char *args) {
 	nemu_state.state = NEMU_END; 
   return -1;
 }
 
+/* run single instruction in sdb. */
 static int cmd_si(char *args){
 	unsigned int step;
 	//TODO sdb_command: si[nu]
@@ -66,6 +69,7 @@ static int cmd_si(char *args){
 	return 0;
 }
 
+/* print watchpoint or regi info. */
 static int cmd_info(char *args){
 	char subCmd='\0';
 	if (args!=NULL){subCmd=args[0];}
@@ -74,11 +78,21 @@ static int cmd_info(char *args){
 			//TODO
 			break;
 		case 'r':
+			// pr
 			isa_reg_display();	
 			break;
 		default:
 			break;
 	}
+	return 0;
+}
+
+/* scan emory. */
+static int cmd_x(char *args){
+	//char *expr = args;
+	//uint32_t addr;
+	//uint32_t len;
+	printf("test scan");
 	return 0;
 }
 
@@ -94,6 +108,7 @@ static struct {
   { "q", "Exit NEMU", cmd_q },
 	{ "si", "Run single instruction", cmd_si },
 	{ "info", "Print info of reg or watchpoint", cmd_info },
+  { "x", "Scan memory", cmd_x },
 
   /* TODO: Add more commands */
 
