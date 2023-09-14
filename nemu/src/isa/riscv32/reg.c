@@ -23,6 +23,7 @@ const char *regs[] = {
   "s8", "s9", "s10", "s11", "t3", "t4", "t5", "t6"
 };
 
+//TODO: to be tested.
 void isa_reg_display() {
 	printf("test output\n");
 	printf("test regi[0]=%x\n", cpu.gpr[0]);	
