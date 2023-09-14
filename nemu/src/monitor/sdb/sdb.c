@@ -54,15 +54,17 @@ static int cmd_q(char *args) {
 }
 
 static int cmd_si(char *args){
+	unsigned int step;
 	//TODO sdb_command: si[nu]
-	//if(args)
-	//int step = atoi(args);
+	if(args==0x0){
+		step=1;
+	}else{
+		step = atoi(args);
+	}
 	//TODO handle undesired arg input
-	/*
 	for (int i=0; i<step; i++){
 		cpu_exec(1);
 	}
-	*/
 	return 0;
 }
 
