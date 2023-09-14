@@ -90,14 +90,16 @@ static int cmd_info(char *args){
 /* scan emory. */
 static int cmd_x(char *args){
 	//char *expr = args;
+	char *endptr;
 	uint32_t addr;
 	uint32_t len;
 	char *len_str = strtok(NULL, " ");
 	char *addr_str = strtok(NULL, " ");
 
 	len = atoi(len_str);
-	addr = atoi(addr_str);
+	addr = strtol(addr_str, &endptr, 16);
 	printf("test scan addr: %d, len: %x.\n",addr,len);
+	
 	return 0;
 }
 
