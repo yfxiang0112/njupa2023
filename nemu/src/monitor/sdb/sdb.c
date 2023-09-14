@@ -92,12 +92,12 @@ static int cmd_x(char *args){
 	//char *expr = args;
 	uint32_t addr;
 	uint32_t len;
-	char *addr_str = strtok(NULL, " ");
 	char *len_str = strtok(NULL, " ");
+	char *addr_str = strtok(NULL, " ");
 
-	addr = atoi(addr_str);
 	len = atoi(len_str);
-	printf("test scan addr: %d, len: %x./n",addr,len);
+	addr = atoi(addr_str);
+	printf("test scan addr: %d, len: %x.\n",addr,len);
 	return 0;
 }
 
