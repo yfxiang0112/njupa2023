@@ -25,8 +25,6 @@ const char *regs[] = {
 
 //TODO: to be tested.
 void isa_reg_display() {
-	printf("test output\n");
-	printf("test regi[0]=%x\n", cpu.gpr[0]);	
 	for (int i=0; i<32; i++){
 		printf("%-*s0x%-*x\n",20,regs[i],20,cpu.gpr[i]);
 	}
