@@ -105,8 +105,11 @@ static int cmd_x(char *args){
 	
 	/* evaluate pmem address. */
 	printf("test scan addr: %d, len: %x.\n",addr,len);
-	uint32_t res = paddr_read(addr, len);
-	printf("%x\n",res);
+	for (int i=0; i<len; i++){
+		uint32_t res = paddr_read(addr, 4);
+		printf("%x  ",res);
+	}	
+	printf("\n");
 	
 	return 0;
 }
