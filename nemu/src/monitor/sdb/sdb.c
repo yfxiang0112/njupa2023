@@ -106,7 +106,7 @@ static int cmd_x(char *args){
 	/* evaluate & increse pmem address. */
 	for (int i=0; i<len; i++){
 		if(addr-CONFIG_MBASE > CONFIG_MSIZE) {
-			printf("Error: Invalid memory address.");
+			printf("Error: Invalid memory address.\n");
 			return 0;
 		}
 		uint32_t res = paddr_read(addr, 4);
