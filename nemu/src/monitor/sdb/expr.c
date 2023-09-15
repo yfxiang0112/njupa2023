@@ -170,6 +170,7 @@ static word_t eval_expr(int p, int q) {
 	else if (p<q) {
 		//TODO
 		int main_op;
+		word_t l_expr, r_expr;
 
 		/* scan expr & find rightmost plus/minus and multi/divide operator. */
 		int p_plus=-1, p_mul=-1;
@@ -194,12 +195,31 @@ static word_t eval_expr(int p, int q) {
 
 		printf("mul: %d, plus: %d \n", p_mul, p_plus);
 		printf("mop: %d \n", main_op);
+
+		/* evaluate left and right expr, eval curr expr with main op. */
+		l_expr = eval_expr(p, main_op-1);
+		r_expr = eval_expr(main_op+1, q);
+		switch(tokens[main_op].type){
+			case TK_PLUS:
+				return l_expr+r_expr;
+			case TK_MINU:
+				return l_expr-r_expr;
+			case TK_MUL:
+				return l_expr*r_expr;
+			case TK_DIV:
+				if (r_expr!=0){ return l_expr/r_expr; }
+			default:
+				//TODO
+				assert(0);
+				return -1;
+		}
 		return 0;
 	}
 
 	/* other cases, invalid expr. */
 	else {
 		//TODO
+		assert(0);
 		return -1;
 	}
 }
