@@ -22,6 +22,7 @@
 
 static bool check_parentheses(int p, int q);
 static word_t eval_expr(int p, int q);
+unsigned int op_prio(int type);
 
 enum {
    TK_EQ, TK_MINU, TK_PLUS, TK_DIV, TK_MUL, TK_RB, TK_LB, TK_NUM, TK_NOTYPE = 256
@@ -164,30 +165,38 @@ static word_t eval_expr(int p, int q) {
 	else if (p<q) {
 		//TODO
 		int main_op;
+		unsigned int m_prio = -1;
 		word_t l_expr, r_expr;
 
 		/* scan expr & find rightmost plus/minus and multi/divide operator. */
-		int p_plus=-1, p_mul=-1;
+		//int p_plus=-1, p_mul=-1;
 		int nr_brk = 0;
 		for (int i=p; i<=q; i++) {
 			if (tokens[i].type==TK_LB) { nr_brk++; }
 			if (tokens[i].type==TK_RB) { nr_brk--; }
 
 			if (nr_brk==0) {
+				/*
 				if (tokens[i].type==TK_MUL || tokens[i].type==TK_DIV) {
 					p_mul = i;
 				}
 				else if (tokens[i].type==TK_PLUS || tokens[i].type==TK_MINU) { 
 					p_plus = i;
 				}
+				*/
+				if (op_prio(tokens[i].type)>0 && op_prio(tokens[i].type)<=m_prio) {
+					main_op = i;
+					m_prio = op_prio(tokens[i].type);
+				}
 			}
 		}
 
-		/* locate the main operator. */
+		printf("mop %d/n", main_op);
+		/* locate the main operator. 
 		if (p_plus == -1){ main_op = p_mul; }
 		else { main_op = p_plus; }
 
-		/* evaluate left and right expr, eval curr expr with main op. */
+		 evaluate left and right expr, eval curr expr with main op. */
 		l_expr = eval_expr(p, main_op-1);
 		r_expr = eval_expr(main_op+1, q);
 		switch(tokens[main_op].type){
@@ -231,4 +240,15 @@ static bool check_parentheses(int p, int q){
 	}
 	
 	return false;
+}
+
+unsigned int op_prio(int type) {
+	switch(type) {
+		case TK_PLUS: case TK_MINU:
+									return 1;
+		case TK_MUL: case TK_DIV:
+								 return 2;
+		default:
+								 return 0;
+	}
 }
