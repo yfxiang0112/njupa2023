@@ -109,7 +109,7 @@ static bool make_token(char *e) {
 						tokens[position].type = rules[i].token_type;
 						//tokens[position].str = substr_start;
 						if (substr_len<=32){
-							strncpy(tokens[position].str, substr_start, 32);
+							strncpy(tokens[position].str, substr_start, substr_len);
 						} else {
 							assert(0);
 							//TODO: handle overflow error.
