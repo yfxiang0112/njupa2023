@@ -37,7 +37,7 @@ static struct rule {
    */
 
   {" +", TK_NOTYPE},    // spaces
-	{"\\d", 'd'},					// number digit
+	{"\\d+", 'd'},					// number digit
 	{"\\(", '('},
 	{"\\)", ')'},					// left & right braces
 	{"\\*", '*'},					// multiple
