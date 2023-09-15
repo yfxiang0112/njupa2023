@@ -172,7 +172,7 @@ static word_t eval_expr(int p, int q) {
 		int p_plus=-1, p_mul=-1;
 		int nr_brce = 0;
 
-		for (int i=p; i>=q; i++) {
+		for (int i=p; i<=q; i++) {
 			if (tokens[i].type==TK_LB) { nr_brce++; }
 			if (tokens[i].type==TK_RB) { nr_brce--; }
 
