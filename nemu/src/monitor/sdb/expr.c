@@ -21,6 +21,7 @@
 #include <regex.h>
 
 static bool check_parentheses(int p, int q);
+static word_t eval_expr(int p, int q);
 
 enum {
    TK_EQ, TK_MINU, TK_PLUS, TK_DIV, TK_MUL, TK_RB, TK_LB, TK_NUM, TK_NOTYPE = 256
@@ -150,28 +151,57 @@ word_t expr(char *e, bool *success) {
     return 0;
   }
 
-	printf("test check parentheses: %d \n", check_parentheses(0, nr_token-1));
+	//printf("test check parentheses: %d \n", check_parentheses(0, nr_token-1));
 
   /* TODO: Insert codes to evaluate the expression. */
   //TODO();
 
-  return 0;
+  return eval_expr(0, nr_token-1);
+}
+
+static word_t eval_expr(int p, int q) {
+	/* case1. single number */
+	if (p==q && tokens[p].type == TK_NUM) { return atoi(tokens[p].str); }
+
+	/* case2. closed by braces */
+	else if (check_parentheses(p, q)) { return eval_expr(p+1, q-1); }
+
+	/* case 3. other valid expr, find main operator. */
+	else if (p<q) {
+		//TODO
+		int p_plus=-1, p_mul=-1;
+		int nr_brce = 0;
+
+		for (int i=q; i>=p; i--) {
+			if (tokens[i].type==TK_RB) { nr_brce++; }
+			if (tokens[i].type==TK_LB) { nr_brce--; }
+
+			if (nr_brce==0) {
+				if (tokens[i].type==TK_MUL || tokens[i].type==TK_DIV) {
+					p_mul = i;
+				}
+				else if (tokens[i].type==TK_PLUS || tokens[i].type==TK_MINU) { 
+					p_plus = i;
+				}
+			}
+		}
+		printf("mul: %d, plus: %d \n", p_mul, p_plus);
+		return 0;
+	}
+
+	/* other cases, invalid expr. */
+	else {
+		//TODO
+		return -1;
+	}
 }
 
 static bool check_parentheses(int p, int q){
+	/* invalid input & unclosed braces. */
 	if (p<0 || q>=32 || p>=q){ return false; }
 	if (tokens[p].type!=TK_LB || tokens[q].type!=TK_RB){ return false; }
 
-	/* check nu left brace == right brace? */
-	/*
-	int cnt_l=0, cnt_r=0;
-	for (int i=p; i<=q; i++) {
-		if (tokens[i].type==TK_LB){ cnt_l++; }
-		if (tokens[i].type==TK_RB){ cnt_r++; }
-	}
-	if (cnt_l != cnt_r){ return false; }
-	*/
-
+	/* check if braces are paired & p-q are paired. */
 	int nr_pair=0;
 	for (int pos = p; pos<=q; pos++) {
 		if (tokens[pos].type == TK_LB){ nr_pair++; }
@@ -182,21 +212,4 @@ static bool check_parentheses(int p, int q){
 	}
 	
 	return false;
-
-	/*/
-	do {
-		p++;
-	} while (tokens[p].type!=TK_LB && p<q-1);
-
-	do {
-		q--;
-	} while (tokens[q].type!=TK_RB && q>p+1);
-
-	if (p==q-1) {
-		return true;
-	} else if (q-p < 1) {
-		return false;
-	} else {
-		return check_parentheses(p,q);
-	} */
 }
