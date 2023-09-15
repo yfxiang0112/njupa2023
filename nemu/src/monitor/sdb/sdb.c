@@ -117,10 +117,11 @@ static int cmd_x(char *args){
 	return 0;
 }
 
+/* evaluate expression */
 static int cmd_p(char *args){
 	bool success = true;
-	expr(args, &success);
-	printf("success: %d\n", success);
+	word_t res = expr(args, &success);
+	printf("res: %d, success: %d\n", res, success);
 	return 0;
 }
 
