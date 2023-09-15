@@ -191,7 +191,7 @@ static word_t eval_expr(int p, int q) {
 			}
 		}
 
-		printf("mop %d/n", main_op);
+		printf("mop %d\n", main_op);
 		/* locate the main operator. 
 		if (p_plus == -1){ main_op = p_mul; }
 		else { main_op = p_plus; }
