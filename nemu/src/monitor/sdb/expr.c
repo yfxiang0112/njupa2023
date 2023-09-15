@@ -21,7 +21,7 @@
 #include <regex.h>
 
 enum {
-  TK_NOTYPE = 256, TK_EQ,
+  TK_NOTYPE = 256, TK_EQ, TK_MINU, TK_PLUS, TK_DIV, TK_MUL, TK_RB, TK_LB, TK_NUM
 
   /* TODO: Add more token types */
 
@@ -37,13 +37,13 @@ static struct rule {
    */
 
   {" +", TK_NOTYPE},    // spaces
-	{"[0-9]+", 'd'},					// number digit
-	{"\\(", '('},
-	{"\\)", ')'},					// left & right braces
-	{"\\*", '*'},					// multiple
-	{"/", '/'},						// divide
-  {"\\+", '+'},          // plus
-	{"\\-", '-'},					// minus
+	{"[0-9]+", TK_NUM},					// number digit
+	{"\\(", TK_LB},
+	{"\\)", TK_RB},					// left & right braces
+	{"\\*", TK_MUL},					// multiple
+	{"/", TK_DIV},						// divide
+  {"\\+", TK_PLUS},          // plus
+	{"\\-", TK_MINU},					// minus
   {"==", TK_EQ},        // equal
 };
 
@@ -93,24 +93,36 @@ static bool make_token(char *e) {
         Log("match rules[%d] = \"%s\" at position %d with len %d: %.*s",
             i, rules[i].regex, position, substr_len, substr_len, substr_start);
 
-        printf("match rules[%d] = \"%s\" at position %d with len %d: %.*s\n",
-            i, rules[i].regex, position, substr_len, substr_len, substr_start);
-
-        position += substr_len;
-
         /* TODO: Now a new token is recognized with rules[i]. Add codes
          * to record the token in the array `tokens'. For certain types
          * of tokens, some extra actions should be performed.
          */
 
+
         switch (rules[i].token_type) {
-          default: //TODO();
+					case TK_NOTYPE:
+						break;
+					case TK_NUM:
+						printf("%d\n",atoi(substr_start));
+						
+          default: 
+						tokens[position].type = rules[i].token_type;
+						//tokens[position].str = substr_start;
+						if (substr_len<=32){
+							strncpy(tokens[position].str, substr_start, 32);
+						} else {
+							assert(0);
+							//TODO: handle overflow error.
+						}
+						printf("test output: %d, %s\n", tokens[position].type, tokens[position].str);
         }
 
+        position += substr_len;
         break;
       }
     }
 
+		/* Matching Fail */
     if (i == NR_REGEX) {
       printf("no match at position %d\n%s\n%*.s^\n", position, e, position, "");
       return false;
