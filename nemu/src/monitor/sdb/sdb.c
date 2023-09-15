@@ -122,7 +122,7 @@ static int cmd_p(char *args){
 	bool success = true;
 	word_t res = expr(args, &success);
 	//printf("res: %d, success: %d\n", res, success);
-	printf("%d\n", res);
+	printf("%u\n", res);
 	return 1-success;
 }
 
