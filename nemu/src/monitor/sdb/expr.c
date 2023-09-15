@@ -20,6 +20,8 @@
  */
 #include <regex.h>
 
+static bool check_parentheses(int p, int q);
+
 enum {
    TK_EQ, TK_MINU, TK_PLUS, TK_DIV, TK_MUL, TK_RB, TK_LB, TK_NUM, TK_NOTYPE = 256
 
@@ -93,31 +95,40 @@ static bool make_token(char *e) {
         Log("match rules[%d] = \"%s\" at position %d with len %d: %.*s",
             i, rules[i].regex, position, substr_len, substr_len, substr_start);
 
+        position += substr_len;
+
         /* TODO: Now a new token is recognized with rules[i]. Add codes
          * to record the token in the array `tokens'. For certain types
          * of tokens, some extra actions should be performed.
          */
 
+				/*TODO: handle too long expr.*/
+				if (nr_token >= 32){
+					assert(0);
+					//TODO: handle too long expr.
+				}
 
         switch (rules[i].token_type) {
 					case TK_NOTYPE:
+						/* bspace, quit. */
 						break;
+
 					case TK_NUM:
+						/* number, eval the val. */
 						printf("%d\n",atoi(substr_start));
+						//TODO: store the value?
 						
           default: 
-						tokens[position].type = rules[i].token_type;
-						//tokens[position].str = substr_start;
+						/* record the current token type & str. */
+						tokens[nr_token].type = rules[i].token_type;
 						if (substr_len<=32){
-							strncpy(tokens[position].str, substr_start, substr_len);
+							strncpy(tokens[nr_token].str, substr_start, substr_len);
 						} else {
 							assert(0);
 							//TODO: handle overflow error.
 						}
-						printf("test output: %d, %s\n", tokens[position].type, tokens[position].str);
+						nr_token ++;
         }
-
-        position += substr_len;
         break;
       }
     }
@@ -139,8 +150,53 @@ word_t expr(char *e, bool *success) {
     return 0;
   }
 
+	printf("test check parentheses: %d \n", check_parentheses(0, nr_token-1));
+
   /* TODO: Insert codes to evaluate the expression. */
   //TODO();
 
   return 0;
+}
+
+static bool check_parentheses(int p, int q){
+	if (p<0 || q>=32 || p>=q){ return false; }
+	if (tokens[p].type!=TK_LB || tokens[q].type!=TK_RB){ return false; }
+
+	/* check nu left brace == right brace? */
+	/*
+	int cnt_l=0, cnt_r=0;
+	for (int i=p; i<=q; i++) {
+		if (tokens[i].type==TK_LB){ cnt_l++; }
+		if (tokens[i].type==TK_RB){ cnt_r++; }
+	}
+	if (cnt_l != cnt_r){ return false; }
+	*/
+
+	int nr_pair=0;
+	for (int pos = p; pos<=q; pos++) {
+		if (tokens[pos].type == TK_LB){ nr_pair++; }
+		if (tokens[pos].type == TK_RB){ nr_pair--; }
+		if (nr_pair <= 0) {
+			return pos==q;
+		}
+	}
+	
+	return false;
+
+	/*/
+	do {
+		p++;
+	} while (tokens[p].type!=TK_LB && p<q-1);
+
+	do {
+		q--;
+	} while (tokens[q].type!=TK_RB && q>p+1);
+
+	if (p==q-1) {
+		return true;
+	} else if (q-p < 1) {
+		return false;
+	} else {
+		return check_parentheses(p,q);
+	} */
 }
