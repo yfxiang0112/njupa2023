@@ -113,11 +113,6 @@ static bool make_token(char *e) {
 					case TK_NOTYPE:
 						/* bspace, quit. */
 						break;
-
-					case TK_NUM:
-						/* number, eval the val. */
-						printf("%d\n",atoi(substr_start));
-						//TODO: store the value?
 						
           default: 
 						/* record the current token type & str. */
@@ -151,7 +146,6 @@ word_t expr(char *e, bool *success) {
     return 0;
   }
 
-	//printf("test check parentheses: %d \n", check_parentheses(0, nr_token-1));
 
   /* TODO: Insert codes to evaluate the expression. */
   //TODO();
@@ -192,9 +186,6 @@ static word_t eval_expr(int p, int q) {
 		/* locate the main operator. */
 		if (p_plus == -1){ main_op = p_mul; }
 		else { main_op = p_plus; }
-
-		printf("mul: %d, plus: %d \n", p_mul, p_plus);
-		printf("mop: %d \n", main_op);
 
 		/* evaluate left and right expr, eval curr expr with main op. */
 		l_expr = eval_expr(p, main_op-1);

@@ -121,8 +121,9 @@ static int cmd_x(char *args){
 static int cmd_p(char *args){
 	bool success = true;
 	word_t res = expr(args, &success);
-	printf("res: %d, success: %d\n", res, success);
-	return 0;
+	//printf("res: %d, success: %d\n", res, success);
+	printf("%d\n", res);
+	return 1-success;
 }
 
 static int cmd_help(char *args);
