@@ -168,12 +168,12 @@ static word_t eval_expr(int p, int q) {
 
 		/* scan expr & find rightmost plus/minus and multi/divide operator. */
 		int p_plus=-1, p_mul=-1;
-		int nr_brce = 0;
+		int nr_brk = 0;
 		for (int i=p; i<=q; i++) {
-			if (tokens[i].type==TK_LB) { nr_brce++; }
-			if (tokens[i].type==TK_RB) { nr_brce--; }
+			if (tokens[i].type==TK_LB) { nr_brk++; }
+			if (tokens[i].type==TK_RB) { nr_brk--; }
 
-			if (nr_brce==0) {
+			if (nr_brk==0) {
 				if (tokens[i].type==TK_MUL || tokens[i].type==TK_DIV) {
 					p_mul = i;
 				}
