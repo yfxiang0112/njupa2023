@@ -169,9 +169,11 @@ static word_t eval_expr(int p, int q) {
 	/* case 3. other valid expr, find main operator. */
 	else if (p<q) {
 		//TODO
+		int main_op;
+
+		/* scan expr & find rightmost plus/minus and multi/divide operator. */
 		int p_plus=-1, p_mul=-1;
 		int nr_brce = 0;
-
 		for (int i=p; i<=q; i++) {
 			if (tokens[i].type==TK_LB) { nr_brce++; }
 			if (tokens[i].type==TK_RB) { nr_brce--; }
@@ -185,7 +187,13 @@ static word_t eval_expr(int p, int q) {
 				}
 			}
 		}
+
+		/* locate the main operator. */
+		if (p_plus == -1){ main_op = p_mul; }
+		else { main_op = p_plus; }
+
 		printf("mul: %d, plus: %d \n", p_mul, p_plus);
+		printf("mop: %d \n", main_op);
 		return 0;
 	}
 
