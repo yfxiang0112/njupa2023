@@ -120,7 +120,7 @@ static int cmd_x(char *args){
 static int cmd_p(char *args){
 	bool success;
 	expr(args, &success);
-	printf("success: %d", success);
+	printf("success: %d\n", success);
 	return 0;
 }
 
