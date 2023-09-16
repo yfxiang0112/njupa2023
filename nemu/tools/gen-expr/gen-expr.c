@@ -32,7 +32,46 @@ static char *code_format =
 "}";
 
 static void gen_rand_expr() {
-  buf[0] = '\0';
+	if (strlen(buf)>=65335) {
+		return;
+	}
+	switch(choose(3)) {
+		case 0:
+			for (int i=0; i<choose(6); i++) {
+				int len = strlen(buf);
+				buf[len] = '0'+choose(10);
+				buf[len+1] = '\0';
+			}
+			break;
+		case 1:
+			buf[0] = '(';
+			gen_rand_expr();
+			int len = strlen(buf);
+			buf[len] = ')';
+			buf[len+1] = '\0';
+			break;
+		default:
+			gen_rand_expr();
+			int len = strlen(buf);
+			switch(choose(4)) {
+				case 0:
+					buf[len] = '+';
+					break;
+				case 1:
+					buf[len] = '-';
+					break;
+				case 3:
+					buf[len] = '*';
+					break;
+				default:
+					buf[len] = '/';
+					break;
+			}
+			buf[len+1] = '\0';
+			gen_rand_expr();
+			break;
+	}
+  //buf[0] = '\0';
 }
 
 int main(int argc, char *argv[]) {
