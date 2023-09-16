@@ -31,29 +31,42 @@ static char *code_format =
 "  return 0; "
 "}";
 
+/* 
+int choose(int max) {
+	srand((unsigned int)time(0));
+	return rand()%max;
+}
+*/
+
 static void gen_rand_expr() {
-	if (strlen(buf)>=65335) {
-		return;
-	}
-	switch(choose(3)) {
+	int len;
+	switch(rand()%3) {
 		case 0:
-			for (int i=0; i<choose(6); i++) {
-				int len = strlen(buf);
-				buf[len] = '0'+choose(10);
-				buf[len+1] = '\0';
+			int sub_len = strlen(buf);
+			buf[sub_len] = '1'+rand()%9;
+			buf[sub_len+1] = '\0';
+			for (int i=0; i<rand()%2; i++) {
+				int sub_len = strlen(buf);
+				buf[sub_len] = '0'+rand()%10;
+				buf[sub_len+1] = '\0';
 			}
 			break;
 		case 1:
-			buf[0] = '(';
+			len = strlen(buf);
+			buf[len] = '(';
+			buf[len+1] = '\0';
 			gen_rand_expr();
-			int len = strlen(buf);
+			len = strlen(buf);
 			buf[len] = ')';
 			buf[len+1] = '\0';
+ 			if (strlen(buf)>=65035) {
+				return;
+			}
 			break;
 		default:
 			gen_rand_expr();
-			int len = strlen(buf);
-			switch(choose(4)) {
+			len = strlen(buf);
+			switch(rand()%4) {
 				case 0:
 					buf[len] = '+';
 					break;
@@ -69,9 +82,11 @@ static void gen_rand_expr() {
 			}
 			buf[len+1] = '\0';
 			gen_rand_expr();
+ 			if (strlen(buf)>=65335) {
+				return;
+			}
 			break;
 	}
-  //buf[0] = '\0';
 }
 
 int main(int argc, char *argv[]) {
@@ -83,6 +98,7 @@ int main(int argc, char *argv[]) {
   }
   int i;
   for (i = 0; i < loop; i ++) {
+  	buf[0] = '\0';
     gen_rand_expr();
 
     sprintf(code_buf, code_format, buf);
