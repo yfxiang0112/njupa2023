@@ -105,7 +105,7 @@ static bool make_token(char *e) {
          */
 
 				/*TODO: handle too long expr.*/
-				if (nr_token >= 32){
+				if (nr_token >= 65535){
 					assert(0);
 					//TODO: handle too long expr.
 				}
