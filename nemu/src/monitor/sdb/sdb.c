@@ -129,7 +129,7 @@ static int cmd_p(char *args){
 	FILE *fp = fopen("tools/gen-expr/input","r");
 	assert(fp!=NULL);
 
-	while(!feof(fp)) {
+	if(!feof(fp)) {
 		int *res=NULL;
 		char* expr_test="";
 		assert(fscanf(fp, "%d %s\n", res, expr_test) ==2);
