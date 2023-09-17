@@ -164,7 +164,7 @@ static word_t eval_expr(int p, int q) {
 	/* case 3. other valid expr, find main operator. */
 	else if (p<q) {
 		//TODO
-		int main_op;
+		int main_op=0;
 		unsigned int m_prio = -1;
 		word_t l_expr, r_expr;
 
@@ -191,7 +191,6 @@ static word_t eval_expr(int p, int q) {
 			}
 		}
 
-		printf("mop %d\n", main_op);
 		/* locate the main operator. 
 		if (p_plus == -1){ main_op = p_mul; }
 		else { main_op = p_plus; }
