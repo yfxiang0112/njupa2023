@@ -120,12 +120,12 @@ static int cmd_x(char *args){
 /* evaluate expression */
 static int cmd_p(char *args){
 	bool success = true;
-	/* 
+ 
 	word_t res = expr(args, &success);
 	//printf("res: %d, success: %d\n", res, success);
 	printf("%u\n", res);
-	*/
-
+	
+/* 
 	FILE *fp = fopen("tools/gen-expr/input","r");
 	assert(fp!=NULL);
 
@@ -137,7 +137,10 @@ static int cmd_p(char *args){
 	}
 
 	return 1-success;
+	*/
+	return 1;
 }
+
 
 static int cmd_help(char *args);
 
