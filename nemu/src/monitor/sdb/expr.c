@@ -29,7 +29,7 @@ static word_t eval_expr(uint32_t p, uint32_t q, bool *success);
 unsigned int op_prio(int type);
 
 enum {
-   TK_EQ, TK_MINU, TK_PLUS, TK_DIV, TK_MUL, TK_RB, TK_LB, TK_DRF, TK_NEG, TK_NUM, TK_NOTYPE = 256
+   TK_NUM, TK_NEG, TK_DRF, TK_REG, TK_LB, TK_RB, TK_MUL, TK_DIV, TK_PLUS, TK_MINU, TK_EQ, TK_NEQ, TK_AND, TK_OR, TK_NOTYPE = 256
 };
 
 static struct rule {
@@ -45,6 +45,10 @@ static struct rule {
   {"\\+", TK_PLUS},           // plus
 	{"\\-", TK_MINU},			  		// minus
   {"==", TK_EQ},              // equal
+  {"!=", TK_NEQ},             // nonequal
+	{"&&", TK_AND},	  		  	  // and
+	{"\\|\\|", TK_AND},	      	 // or 
+	{"\\$[a-z|A-Z]", TK_REG}		// register pointer
 };
 
 #define NR_REGEX ARRLEN(rules)
