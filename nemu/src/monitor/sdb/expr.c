@@ -28,22 +28,23 @@ static word_t eval_expr(uint32_t p, uint32_t q, bool *success);
 unsigned int op_prio(int type);
 
 enum {
-   TK_EQ, TK_MINU, TK_PLUS, TK_DIV, TK_MUL, TK_RB, TK_LB, TK_NUM, TK_NOTYPE = 256
+   TK_EQ, TK_MINU, TK_PLUS, TK_DIV, TK_MUL, TK_RB, TK_LB, TK_NUM, TK_DRF, TK_NOTYPE = 256
 };
 
 static struct rule {
   const char *regex;
   int token_type;
 } rules[] = {
-  {" +", TK_NOTYPE},    // spaces
+	{"[^)0-9] +*", TK_DRF},     // Dereference
+  {" +", TK_NOTYPE},          // spaces
 	{"[0-9]+", TK_NUM},					// number digit
 	{"\\(", TK_LB},
-	{"\\)", TK_RB},					// left & right braces
-	{"\\*", TK_MUL},					// multiple
-	{"/", TK_DIV},						// divide
-  {"\\+", TK_PLUS},          // plus
-	{"\\-", TK_MINU},					// minus
-  {"==", TK_EQ},        // equal
+	{"\\)", TK_RB},			    		// left & right braces
+	{"\\*", TK_MUL},				  	// multiple
+	{"/", TK_DIV},					  	// divide
+  {"\\+", TK_PLUS},           // plus
+	{"\\-", TK_MINU},			  		// minus
+  {"==", TK_EQ},              // equal
 };
 
 #define NR_REGEX ARRLEN(rules)
