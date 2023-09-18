@@ -182,9 +182,7 @@ static word_t eval_expr(uint32_t p, uint32_t q, bool *success) {
 
 	/* case 4. single register value */
 	else if (p==q && tokens[p].type == TK_REG) {
-		printf("%s\n", tokens[p].str+1);
 		return isa_reg_str2val(tokens[p].str+1, success);
-			//TODO
 	}
 
 	/* case 5. closed by braces */
