@@ -15,6 +15,7 @@
 
 #include <isa.h>
 #include <memory/paddr.h>
+#include <cpu/cpu.h>
 
 /* We use the POSIX regex functions to process regular expressions.
  * Type 'man regex' for more information about POSIX regex functions.
@@ -170,7 +171,7 @@ static word_t eval_expr(uint32_t p, uint32_t q, bool *success) {
 	}
 
 	/* case 2. negtive number */
-	if (tokens[p].type == TK_NEG) {
+	else if (tokens[p].type == TK_NEG) {
 		return 0-eval_expr(p+1, q, success);
 	}
 
@@ -179,12 +180,19 @@ static word_t eval_expr(uint32_t p, uint32_t q, bool *success) {
 		return atoi(tokens[p].str);
 	}
 
-	/* case 4. closed by braces */
+	/* case 4. single register value */
+	else if (p==q && tokens[p].type == TK_REG) {
+		printf("%s\n", tokens[p].str+1);
+		return 0;
+			//TODO
+	}
+
+	/* case 5. closed by braces */
 	else if (check_parentheses(p, q)) { 
 		return eval_expr(p+1, q-1, success); 
 	}
 
-	/* case 5. other valid expr, find main operator. */
+	/* case 6. other valid expr, find main operator. */
 	else if (p<q) {
 		int main_op=0;
 		unsigned int m_prio = -1;
@@ -229,6 +237,14 @@ static word_t eval_expr(uint32_t p, uint32_t q, bool *success) {
 					printf("Nan (Divide by 0)\n");
 					return 0;
 				}
+			case TK_AND:
+				return l_expr&&r_expr;
+			case TK_OR:
+				return l_expr||r_expr;
+			case TK_EQ:
+				return l_expr==r_expr;
+			case TK_NEQ:
+				return l_expr!=r_expr;
 			default:
 				*success = false;
 				printf("Invalid operator. Please input a valid expression.\n");
@@ -269,6 +285,12 @@ unsigned int op_prio(int type) {
 									return 1;
 		case TK_MUL: case TK_DIV:
 								 return 2;
+		case TK_EQ: case TK_NEQ:
+								 return 3;
+		case TK_AND:
+								 return 4;
+		case TK_OR:
+								 return 5;
 		default:
 								 return 0;
 	}
