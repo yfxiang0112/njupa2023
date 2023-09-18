@@ -120,12 +120,12 @@ void display_wp() {
 	WP *curr = head;
 	if (head != NULL) {
 		while (curr!=NULL) {
-			printf("-------\nwatchpoint No.%d \n", curr->NO);
+			printf("watchpoint No.%d \n", curr->NO);
 			curr = curr->next;
 		}
 	}
 
-	printf("TEMP test for free wp pool:\n");
+	printf("----------\nTEMP test for free wp pool:\n");
 	curr = free_;
 	if (free_ != NULL) {
 		while (curr!=NULL) {
