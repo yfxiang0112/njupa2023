@@ -56,6 +56,7 @@ WP* new_wp() {
 	
 	WP *curr = head;
 	if (head == NULL || ret->NO < head->NO) {
+		ret->next = head;
 		head = ret;
 		return ret;
 	}
