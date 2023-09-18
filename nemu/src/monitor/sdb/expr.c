@@ -35,7 +35,7 @@ static struct rule {
   const char *regex;
   int token_type;
 } rules[] = {
-	{"[^)0-9] +*", TK_DRF},     // Dereference
+	{"[^)0-9] +\\*", TK_DRF},     // Dereference
   {" +", TK_NOTYPE},          // spaces
 	{"[0-9]+", TK_NUM},					// number digit
 	{"\\(", TK_LB},
@@ -181,14 +181,13 @@ static word_t eval_expr(uint32_t p, uint32_t q, bool *success) {
 		}
 
 		/* invalid expr if no main op */
-		/*
 		printf("mainop: %d\n", main_op);
 		if (main_op == 0) {
 			*success = false;
 			printf("Invalid expression, cannot find main op. Please input a valid expression.\n");
 			return 0;
 		}
-		*/
+		
 
 		/*evaluate left and right expr, eval curr expr with main op. */
 		l_expr = eval_expr(p, main_op-1, success);
