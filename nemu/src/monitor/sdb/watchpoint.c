@@ -47,29 +47,35 @@ WP* new_wp() {
 	WP* ret = free_;
 	free_ = free_->next;
 	
-	WP *curr = head;
-	while(curr->next != NULL) {
-		curr = curr->next;
+	if (head == NULL) {
+		head = ret;
+	} else {
+		WP *curr = head;
+		while(curr->next != NULL) {
+			curr = curr->next;
+		}
+		curr->next = ret;
+		ret->next = NULL;
 	}
-	curr->next = ret;
-	ret->next = NULL;
 
 	return ret;
 }
 
 void free_wp(WP *wp) {
 	WP *curr = head;
-	while(curr->next != NULL) {
-		if (curr->next == wp) {
-			curr->next = curr->next->next;
-			break;
+	if (head != NULL) {
+		while(curr->next != NULL) {
+			if (curr->next == wp) {
+				curr->next = curr->next->next;
+				break;
+			}
+			curr = curr->next;
 		}
-		curr = curr->next;
 	}
 	
 	curr = free_;
-	if (wp->NO < curr->NO) {
-		wp->next = curr;
+	if (free_==NULL || wp->NO < free_->NO) {
+		wp->next = free_;
 		free_ = wp;
 		return;
 	}
