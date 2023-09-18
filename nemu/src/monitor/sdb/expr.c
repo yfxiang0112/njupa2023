@@ -150,7 +150,6 @@ static word_t eval_expr(uint32_t p, uint32_t q, bool *success) {
 		return atoi(tokens[p].str);
 	}
 
-
 	/* case2. closed by braces */
 	else if (check_parentheses(p, q)) { 
 		return eval_expr(p+1, q-1, success); 
@@ -174,6 +173,13 @@ static word_t eval_expr(uint32_t p, uint32_t q, bool *success) {
 					m_prio = op_prio(tokens[i].type);
 				}
 			}
+		}
+
+		/* invalid expr if no main op */
+		if (main_op == 0) {
+			*success = false;
+			printf("Invalid expression. Please input a valid expression.\n");
+			return 0;
 		}
 
 		/*evaluate left and right expr, eval curr expr with main op. */
