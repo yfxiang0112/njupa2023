@@ -28,7 +28,6 @@ int main(int argc, char *argv[]) {
   init_monitor(1, &argv[0]);
 #endif
 
-	printf("%d",argc);
   /* Start engine. */
   engine_start();
 
