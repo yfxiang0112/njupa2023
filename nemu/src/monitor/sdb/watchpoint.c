@@ -21,6 +21,7 @@ typedef struct watchpoint {
   int NO;
   struct watchpoint *next;
 	char expr[MAX_TOKENS_LEN];
+	word_t val;
   /* TODO: Add more members if necessary */
 
 } WP;
@@ -117,13 +118,21 @@ void free_wp(WP *wp) {
 /* ---------------------------------------- */
 /* add, remove and show info about wp-s. */
 
-void add_wp(char *expr) {
+void add_wp(char *args) {
 	bool success = true;
+
+	/* check & eval the value of expr. */
+	word_t val = expr(args, &success);
+	if (!success) {
+		return;
+	}
+
+	/* create a new wp*/
 	WP *newwp = new_wp(&success);
 	if (success) {
-		//newwp->expr = expr;
-		strcpy(newwp->expr, expr);
-		printf("new watchpoint #%d for %s\n", newwp->NO, newwp->expr);
+		newwp->val = val;
+		strcpy(newwp->expr, args);
+		printf("new watchpoint #%d for %s = %d\n", newwp->NO, newwp->expr, newwp->val);
 		return;
 	}
 	printf("the maximum watchpoint number is %d.\n", NR_WP);
