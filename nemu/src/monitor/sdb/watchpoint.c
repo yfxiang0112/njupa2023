@@ -75,7 +75,9 @@ WP* new_wp() {
 
 void free_wp(WP *wp) {
 	WP *curr = head;
-	if (head != NULL) {
+	if (head == wp) {
+		head = head->next;
+	} else if (head != NULL) {
 		while(curr->next != NULL) {
 			if (curr->next == wp) {
 				curr->next = curr->next->next;
