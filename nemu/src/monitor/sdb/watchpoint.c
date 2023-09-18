@@ -44,9 +44,15 @@ void init_wp_pool() {
 
 /* TODO: Implement the functionality of watchpoint */
 WP* new_wp() {
+
 	WP* ret = free_;
-	free_ = free_->next;
-	ret->next = NULL;
+	if (free_ != NULL) { 
+		free_ = free_->next;
+		ret->next = NULL;
+	} else {
+		//TODO: no empty watchpoint
+		return NULL;
+	}
 	
 	if (head == NULL) {
 		head = ret;
