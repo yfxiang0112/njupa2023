@@ -20,26 +20,26 @@
  */
 #include <regex.h>
 
-static bool check_parentheses(int p, int q);
-static word_t eval_expr(int p, int q);
+/*
+static const unsigned int MAX_TOKENS_LEN = 65535;
+static const unsigned int MAX_STR_SIZE = 32;
+*/
+
+#define MAX_TOKENS_LEN 65535
+#define MAX_STR_SIZE 32
+
+static bool check_parentheses(uint32_t p, uint32_t q);
+static word_t eval_expr(uint32_t p, uint32_t q);
 unsigned int op_prio(int type);
 
 enum {
    TK_EQ, TK_MINU, TK_PLUS, TK_DIV, TK_MUL, TK_RB, TK_LB, TK_NUM, TK_NOTYPE = 256
-
-  /* TODO: Add more token types */
-
 };
 
 static struct rule {
   const char *regex;
   int token_type;
 } rules[] = {
-
-  /* TODO: Add more rules.
-   * Pay attention to the precedence level of different rules.
-   */
-
   {" +", TK_NOTYPE},    // spaces
 	{"[0-9]+", TK_NUM},					// number digit
 	{"\\(", TK_LB},
@@ -77,7 +77,7 @@ typedef struct token {
   char str[32];
 } Token;
 
-static Token tokens[32] __attribute__((used)) = {};
+static Token tokens[MAX_TOKENS_LEN] __attribute__((used)) = {};
 static int nr_token __attribute__((used))  = 0;
 
 static bool make_token(char *e) {
@@ -105,9 +105,9 @@ static bool make_token(char *e) {
          */
 
 				/*TODO: handle too long expr.*/
-				if (nr_token >= 32){
-					assert(0);
-					//TODO: handle too long expr.
+				if (nr_token >= MAX_TOKENS_LEN){
+					printf("Max expression length is %d. Please input a valid expression.", MAX_TOKENS_LEN);
+					return 0;
 				}
 
         switch (rules[i].token_type) {
@@ -118,11 +118,13 @@ static bool make_token(char *e) {
           default: 
 						/* record the current token type & str. */
 						tokens[nr_token].type = rules[i].token_type;
-						if (substr_len<=32){
+						if (substr_len<=MAX_STR_SIZE){
 							strncpy(tokens[nr_token].str, substr_start, substr_len);
+							tokens[nr_token].str[substr_len] = '\0';
+
 						} else {
-							assert(0);
-							//TODO: handle overflow error.
+							printf("Max token length is %d. Please input a valid expression.", MAX_STR_SIZE);
+							return 0;
 						}
 						nr_token ++;
         }
@@ -147,43 +149,36 @@ word_t expr(char *e, bool *success) {
     return 0;
   }
 
-
-  /* TODO: Insert codes to evaluate the expression. */
-  //TODO();
-
   return eval_expr(0, nr_token-1);
 }
 
-static word_t eval_expr(int p, int q) {
+
+static word_t eval_expr(uint32_t p, uint32_t q) {
+
 	/* case1. single number */
-	if (p==q && tokens[p].type == TK_NUM) { return atoi(tokens[p].str); }
+	if (p==q && tokens[p].type == TK_NUM) { 
+		return atoi(tokens[p].str);
+	}
+
 
 	/* case2. closed by braces */
-	else if (check_parentheses(p, q)) { return eval_expr(p+1, q-1); }
+	else if (check_parentheses(p, q)) { 
+		return eval_expr(p+1, q-1); 
+	}
 
 	/* case 3. other valid expr, find main operator. */
 	else if (p<q) {
-		//TODO
-		int main_op;
+		int main_op=0;
 		unsigned int m_prio = -1;
 		word_t l_expr, r_expr;
 
 		/* scan expr & find rightmost plus/minus and multi/divide operator. */
-		//int p_plus=-1, p_mul=-1;
 		int nr_brk = 0;
 		for (int i=p; i<=q; i++) {
 			if (tokens[i].type==TK_LB) { nr_brk++; }
 			if (tokens[i].type==TK_RB) { nr_brk--; }
 
 			if (nr_brk==0) {
-				/*
-				if (tokens[i].type==TK_MUL || tokens[i].type==TK_DIV) {
-					p_mul = i;
-				}
-				else if (tokens[i].type==TK_PLUS || tokens[i].type==TK_MINU) { 
-					p_plus = i;
-				}
-				*/
 				if (op_prio(tokens[i].type)>0 && op_prio(tokens[i].type)<=m_prio) {
 					main_op = i;
 					m_prio = op_prio(tokens[i].type);
@@ -191,12 +186,7 @@ static word_t eval_expr(int p, int q) {
 			}
 		}
 
-		printf("mop %d\n", main_op);
-		/* locate the main operator. 
-		if (p_plus == -1){ main_op = p_mul; }
-		else { main_op = p_plus; }
-
-		 evaluate left and right expr, eval curr expr with main op. */
+		/*evaluate left and right expr, eval curr expr with main op. */
 		l_expr = eval_expr(p, main_op-1);
 		r_expr = eval_expr(main_op+1, q);
 		switch(tokens[main_op].type){
@@ -208,25 +198,26 @@ static word_t eval_expr(int p, int q) {
 				return l_expr*r_expr;
 			case TK_DIV:
 				if (r_expr!=0){ return l_expr/r_expr; }
+				else {
+					printf("Nan (Divide by 0)");
+				}
 			default:
-				//TODO
-				assert(0);
-				return -1;
+				printf("Invalid operator. Please input a valid expression.\n");
+				return 0;
 		}
 		return 0;
 	}
 
 	/* other cases, invalid expr. */
 	else {
-		//TODO
-		assert(0);
-		return -1;
+		printf("Invalid expression. Please input a valid expression.\n");
+		return 0;
 	}
 }
 
-static bool check_parentheses(int p, int q){
+static bool check_parentheses(uint32_t p, uint32_t q){
 	/* invalid input & unclosed braces. */
-	if (p<0 || q>=32 || p>=q){ return false; }
+	if (p<0 || q>=nr_token || p>=q){ return false; }
 	if (tokens[p].type!=TK_LB || tokens[q].type!=TK_RB){ return false; }
 
 	/* check if braces are paired & p-q are paired. */
