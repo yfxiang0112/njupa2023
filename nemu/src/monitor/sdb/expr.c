@@ -145,7 +145,11 @@ word_t expr(char *e, bool *success) {
 
 static word_t eval_expr(uint32_t p, uint32_t q) {
 	/* case1. single number */
-	if (p==q && tokens[p].type == TK_NUM) { return atoi(tokens[p].str); }
+	if (p==q && tokens[p].type == TK_NUM) { 
+		printf("%d\n",atoi(tokens[p].str));
+		return atoi(tokens[p].str);
+	}
+
 
 	/* case2. closed by braces */
 	else if (check_parentheses(p, q)) { return eval_expr(p+1, q-1); }
