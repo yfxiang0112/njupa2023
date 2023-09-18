@@ -112,8 +112,11 @@ static bool make_token(char *e) {
 						tokens[nr_token].type = rules[i].token_type;
 						if (substr_len<=32){
 							strncpy(tokens[nr_token].str, substr_start, substr_len);
+							
+							//TODO: 
 							tokens[nr_token].str[substr_len] = '\0';
-							printf("regstr: %.*s, tokenstr: %s \n", substr_len, substr_start, tokens[nr_token].str);
+
+							//printf("regstr: %.*s, tokenstr: %s \n", substr_len, substr_start, tokens[nr_token].str);
 						} else {
 							printf("Max token length is 32. Please input a valid expression.");
 							return 0;
@@ -136,7 +139,7 @@ static bool make_token(char *e) {
 
 
 word_t expr(char *e, bool *success) {
-	printf("expr: %s\n",e);
+	//printf("expr: %s\n",e);
   if (!make_token(e)) {
     *success = false;
     return 0;
@@ -149,7 +152,7 @@ word_t expr(char *e, bool *success) {
 static word_t eval_expr(uint32_t p, uint32_t q) {
 	/* case1. single number */
 	if (p==q && tokens[p].type == TK_NUM) { 
-		printf("s%s\n",tokens[p].str);
+		//printf("s%s\n",tokens[p].str);
 		return atoi(tokens[p].str);
 	}
 
@@ -196,19 +199,19 @@ static word_t eval_expr(uint32_t p, uint32_t q) {
 		r_expr = eval_expr(main_op+1, q);
 		switch(tokens[main_op].type){
 			case TK_PLUS:
-				printf("%d\n",l_expr+r_expr);
+				//printf("%d\n",l_expr+r_expr);
 				return l_expr+r_expr;
 			case TK_MINU:
-				printf("%d\n",l_expr-r_expr);
+				//printf("%d\n",l_expr-r_expr);
 				return l_expr-r_expr;
 			case TK_MUL:
-				printf("%d\n",l_expr*r_expr);
+				//printf("%d\n",l_expr*r_expr);
 				return l_expr*r_expr;
 			case TK_DIV:
-				printf("%d\n",l_expr/r_expr);
+				//printf("%d\n",l_expr/r_expr);
 				if (r_expr!=0){ return l_expr/r_expr; }
 			default:
-				printf("Invalid operator. Please input a valid expression.");
+				printf("Invalid operator. Please input a valid expression.\n");
 				return 0;
 		}
 		return 0;
@@ -216,16 +219,15 @@ static word_t eval_expr(uint32_t p, uint32_t q) {
 
 	/* other cases, invalid expr. */
 	else {
-		//printf("Invalid expression. Please input a valid expression.\n");
+		printf("Invalid expression. Please input a valid expression.\n");
 
-		printf("p:%d, q:%d\n", p, q);
-		for (uint32_t i=p; i<=q; i++) {
-			printf("%s", tokens[i].str);
-		}
-		printf("\n");
+		//printf("p:%d, q:%d\n", p, q);
+		//for (uint32_t i=p; i<=q; i++) {
+		//	printf("%s", tokens[i].str);
+		//}
+		//printf("\n");
 
 		assert(0);
-		printf("0");
 		return 0;
 	}
 }
