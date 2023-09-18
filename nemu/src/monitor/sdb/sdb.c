@@ -130,7 +130,7 @@ static int cmd_p(char *args){
 
 /* add watchpoint */
 static int cmd_w(char *args){
-	add_wp(" ");
+	add_wp(args);
 	return 0;
 }
 
