@@ -21,7 +21,7 @@
 #include <regex.h>
 
 static bool check_parentheses(int p, int q);
-static word_t eval_expr(int p, int q);
+static word_t eval_expr(uint32_t p, uint32_t q);
 unsigned int op_prio(int type);
 
 enum {
@@ -154,7 +154,7 @@ word_t expr(char *e, bool *success) {
   return eval_expr(0, nr_token-1);
 }
 
-static word_t eval_expr(int p, int q) {
+static word_t eval_expr(uint32_t p, uint32_t q) {
 	/* case1. single number */
 	if (p==q && tokens[p].type == TK_NUM) { return atoi(tokens[p].str); }
 
@@ -219,7 +219,7 @@ static word_t eval_expr(int p, int q) {
 		//printf("Invalid expression. Please input a valid expression.\n");
 
 		printf("p:%d, q:%d\n", p, q);
-		for (int i=p; i<=q; i++) {
+		for (uint32_t i=p; i<=q; i++) {
 			printf("%s", tokens[i].str);
 		}
 		printf("\n");
