@@ -35,7 +35,6 @@ static struct rule {
   const char *regex;
   int token_type;
 } rules[] = {
-	{"(?<![0-9\\)])\\*", TK_DRF},     // Dereference
   {" +", TK_NOTYPE},          // spaces
 	{"[0-9]+", TK_NUM},					// number digit
 	{"\\(", TK_LB},
@@ -105,6 +104,11 @@ static bool make_token(char *e) {
 						/* bspace, quit. */
 						break;
 						
+					case TK_MUL:
+						if (tokens[nr_token-1].type != TK_RB && tokens[nr_token-1].type != TK_NUM) {
+							tokens[nr_token].type = TK_DRF;
+							break;
+						}
           default: 
 						/* record the current token type & str. */
 						tokens[nr_token].type = rules[i].token_type;
