@@ -181,12 +181,14 @@ static word_t eval_expr(uint32_t p, uint32_t q, bool *success) {
 		}
 
 		/* invalid expr if no main op */
-		printf("mainop: %d/n", main_op);
+		/*
+		printf("mainop: %d\n", main_op);
 		if (main_op == 0) {
 			*success = false;
 			printf("Invalid expression, cannot find main op. Please input a valid expression.\n");
 			return 0;
 		}
+		*/
 
 		/*evaluate left and right expr, eval curr expr with main op. */
 		l_expr = eval_expr(p, main_op-1, success);
