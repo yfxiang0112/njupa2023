@@ -159,7 +159,7 @@ static word_t eval_expr(uint32_t p, uint32_t q, bool *success) {
 	}
 
 	/* case 2. negtive number */
-	if (tokens[p].type == TK_DRF) {
+	if (tokens[p].type == TK_NEG) {
 		return 0-eval_expr(p+1, q, success);
 	}
 
