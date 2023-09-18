@@ -106,8 +106,8 @@ static bool make_token(char *e) {
 
 				/*TODO: handle too long expr.*/
 				if (nr_token >= 65535){
-					assert(0);
-					//TODO: handle too long expr.
+					printf("Max expression length is 65535. Please input a valid expression.");
+					return 0;
 				}
 
         switch (rules[i].token_type) {
@@ -121,8 +121,8 @@ static bool make_token(char *e) {
 						if (substr_len<=32){
 							strncpy(tokens[nr_token].str, substr_start, substr_len);
 						} else {
-							assert(0);
-							//TODO: handle overflow error.
+							printf("Max token length is 32. Please input a valid expression.");
+							return 0;
 						}
 						nr_token ++;
         }
@@ -208,18 +208,16 @@ static word_t eval_expr(int p, int q) {
 			case TK_DIV:
 				if (r_expr!=0){ return l_expr/r_expr; }
 			default:
-				//TODO
-				assert(0);
-				return -1;
+				printf("Invalid operator. Please input a valid expression.");
+				return 0;
 		}
 		return 0;
 	}
 
 	/* other cases, invalid expr. */
 	else {
-		//TODO
-		assert(0);
-		return -1;
+		printf("Invalid expression. Please input a valid expression.");
+		return 0;
 	}
 }
 
