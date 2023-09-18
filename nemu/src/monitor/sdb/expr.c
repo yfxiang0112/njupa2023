@@ -177,7 +177,7 @@ static word_t eval_expr(uint32_t p, uint32_t q) {
 	/* case2. closed by braces */
 	else if (check_parentheses(p, q)) { 
 		brk_cnt++;
-		printf("bracket count: %d\n", brk_cnt);
+		//printf("bracket count: %d\n", brk_cnt);
 		return eval_expr(p+1, q-1); 
 	}
 
