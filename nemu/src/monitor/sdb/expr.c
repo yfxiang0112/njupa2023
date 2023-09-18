@@ -176,6 +176,9 @@ static word_t eval_expr(uint32_t p, uint32_t q, bool *success) {
 
 	/* case 3. single number */
 	else if (p==q && tokens[p].type == TK_NUM) { 
+		if (tokens[p].str[1]=='x'||tokens[p].str[1]=='X') { 
+			return strtol(tokens[p].str+2, NULL, 16); 
+		}
 		return atoi(tokens[p].str);
 	}
 
