@@ -43,12 +43,11 @@ static char* rl_gets() {
   return line_read;
 }
 
-
+/* coutinue exec */
 static int cmd_c(char *args) {
   cpu_exec(-1);
   return 0;
 }
-
 
 /* quit. */
 static int cmd_q(char *args) {
@@ -77,6 +76,7 @@ static int cmd_info(char *args){
 	switch (subCmd){
 		case 'w':
 			//TODO
+			display_wp();
 			break;
 		case 'r':
 			// pr
@@ -128,8 +128,15 @@ static int cmd_p(char *args){
 	return 0;
 }
 
+/* add watchpoint */
 static int cmd_w(char *args){
 	add_wp(" ");
+	return 0;
+}
+
+/* remove watchpoint */
+static int cmd_d(char *args) {
+	rm_wp(atoi(args));
 	return 0;
 }
 
@@ -148,6 +155,7 @@ static struct {
   { "x", "Scan memory", cmd_x },
   { "p", "Print expression", cmd_p },
   { "w", "Set a watchpoint", cmd_w },
+  { "d", "Delete a watchpoint", cmd_d },
 
   /* TODO: Add more commands */
 

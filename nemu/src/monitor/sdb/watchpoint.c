@@ -99,3 +99,29 @@ void add_wp(char *expr) {
 	printf("WP No.%d\n", newwp->NO);
 	free_wp(newwp);	
 }
+
+void rm_wp(int no) {
+	if (head != NULL) {
+		WP *curr = head;
+		while (curr != NULL) {
+			if (curr->NO == no) {
+				break;
+			}
+			curr = curr->next;
+		}
+		//TODO: handle WP not find 
+		//
+		free_wp(curr);
+	}
+	//TODO: WP not find?
+}
+
+void display_wp() {
+	WP *curr = head;
+	if (head != NULL) {
+		while (curr!=NULL) {
+			printf("watchpoint No.%d \n", curr->NO);
+			curr = curr->next;
+		}
+	}
+}

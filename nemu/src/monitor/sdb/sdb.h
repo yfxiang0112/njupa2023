@@ -22,5 +22,6 @@ word_t expr(char *e, bool *success);
 
 void add_wp(char *expr);
 void rm_wp(int no);
+void display_wp();
 
 #endif
