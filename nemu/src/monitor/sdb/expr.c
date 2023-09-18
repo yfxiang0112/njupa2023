@@ -139,12 +139,9 @@ word_t expr(char *e, bool *success) {
     return 0;
   }
 
-
-  /* TODO: Insert codes to evaluate the expression. */
-  //TODO();
-
   return eval_expr(0, nr_token-1);
 }
+
 
 static word_t eval_expr(uint32_t p, uint32_t q) {
 	/* case1. single number */
@@ -192,12 +189,16 @@ static word_t eval_expr(uint32_t p, uint32_t q) {
 		r_expr = eval_expr(main_op+1, q);
 		switch(tokens[main_op].type){
 			case TK_PLUS:
+				printf("%d\n",l_expr+r_expr);
 				return l_expr+r_expr;
 			case TK_MINU:
+				printf("%d\n",l_expr-r_expr);
 				return l_expr-r_expr;
 			case TK_MUL:
+				printf("%d\n",l_expr*r_expr);
 				return l_expr*r_expr;
 			case TK_DIV:
+				printf("%d\n",l_expr/r_expr);
 				if (r_expr!=0){ return l_expr/r_expr; }
 			default:
 				printf("Invalid operator. Please input a valid expression.");
