@@ -22,8 +22,7 @@
  */
 #include <regex.h>
 
-#define MAX_TOKENS_LEN 65535
-#define MAX_STR_SIZE 32
+#include "sdb.h"
 
 static bool check_parentheses(uint32_t p, uint32_t q);
 static word_t eval_expr(uint32_t p, uint32_t q, bool *success);

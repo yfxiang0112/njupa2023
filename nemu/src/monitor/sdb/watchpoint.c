@@ -20,7 +20,7 @@
 typedef struct watchpoint {
   int NO;
   struct watchpoint *next;
-	char *expr;
+	char expr[MAX_TOKENS_LEN];
   /* TODO: Add more members if necessary */
 
 } WP;
@@ -121,7 +121,8 @@ void add_wp(char *expr) {
 	bool success = true;
 	WP *newwp = new_wp(&success);
 	if (success) {
-		newwp->expr = expr;
+		//newwp->expr = expr;
+		strcpy(newwp->expr, expr);
 		printf("new watchpoint #%d for %s\n", newwp->NO, newwp->expr);
 		return;
 	}
