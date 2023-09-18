@@ -175,3 +175,24 @@ void display_wp() {
 	}
 	*/
 }
+
+/* scan the wp-s and check the change of val 
+ * return TRUE if any val changed */
+bool scan_wp() {
+	bool changed = false;
+	bool success = true;
+
+	WP* curr = head;
+	while (curr != NULL) {
+		word_t n_val = expr(curr->expr, &success);
+		if (n_val != curr->val) {
+			changed = true;
+			printf("watchpoint #%d: %s changed %d to %d\n", curr->NO, curr->expr, curr->val, n_val);
+			curr->val = n_val;
+		}
+
+		curr = curr->next;
+	}
+
+	return changed;
+}
