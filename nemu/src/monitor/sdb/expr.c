@@ -37,7 +37,7 @@ static struct rule {
   int token_type;
 } rules[] = {
   {" +", TK_NOTYPE},          // spaces
-	{"[0-9]+", TK_NUM},					// number digit
+	{"(0x|0X)?[0-9]+", TK_NUM},					// number digit
 	{"\\(", TK_LB},
 	{"\\)", TK_RB},			    		// left & right braces
 	{"\\*", TK_MUL},				  	// multiple
@@ -137,7 +137,7 @@ static bool make_token(char *e) {
 
 		/* Matching Fail */
     if (i == NR_REGEX) {
-      printf("no match at position %d\n%s\n%*.s^\n", position, e, position, "");
+      printf("invalid expression, no match at position %d\n%s\n%*.s^\n", position, e, position, "");
       return false;
     }
   }
