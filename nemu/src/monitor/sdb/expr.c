@@ -217,6 +217,10 @@ static word_t eval_expr(int p, int q) {
 	/* other cases, invalid expr. */
 	else {
 		//printf("Invalid expression. Please input a valid expression.\n");
+		for (int i=p; i<=q; i++) {
+			printf("%s", tokens[i].str);
+		}
+		printf("\n");
 		assert(0);
 		printf("0");
 		return 0;
