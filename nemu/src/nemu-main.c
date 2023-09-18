@@ -25,7 +25,7 @@ int main(int argc, char *argv[]) {
 #ifdef CONFIG_TARGET_AM
   am_init_monitor();
 #else
-  init_monitor(0, '\0');
+  init_monitor(1, &argv[0]);
 #endif
 
 	printf("%d",argc);
