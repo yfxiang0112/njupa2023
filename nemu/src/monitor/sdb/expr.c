@@ -28,7 +28,7 @@ static word_t eval_expr(uint32_t p, uint32_t q, bool *success);
 unsigned int op_prio(int type);
 
 enum {
-   TK_EQ, TK_MINU, TK_PLUS, TK_DIV, TK_MUL, TK_RB, TK_LB, TK_NUM, TK_DRF, TK_NOTYPE = 256
+   TK_EQ, TK_MINU, TK_PLUS, TK_DIV, TK_MUL, TK_RB, TK_LB, TK_DRF, TK_NEG, TK_NUM, TK_NOTYPE = 256
 };
 
 static struct rule {
@@ -104,10 +104,12 @@ static bool make_token(char *e) {
 						/* bspace, quit. */
 						break;
 						
-					case TK_MUL:
+					/* case of deference (single '*') or neg sign (single '-'). 
+					 * Modify the value of tokens[i]. */
+					case TK_MUL: case TK_MINU:
 						if ((nr_token==0) || (tokens[nr_token-1].type != TK_RB && tokens[nr_token-1].type != TK_NUM)) {
-							tokens[nr_token].type = TK_DRF;
-							printf("find deref at %d.\n", nr_token);
+							if (rules[i].token_type == TK_MUL) { tokens[nr_token].type = TK_DRF; }
+							else if (rules[i].token_type == TK_MINU) { tokens[nr_token].type = TK_NEG; }
 							nr_token++;
 							break;
 						}
@@ -153,21 +155,25 @@ static word_t eval_expr(uint32_t p, uint32_t q, bool *success) {
 
 	/* case 1. dereference */
 	if (tokens[p].type == TK_DRF) {
-		printf("deref\n");
 		return 1+eval_expr(p+1, q, success);
 	}
 
-	/* case 2. single number */
+	/* case 2. negtive number */
+	if (tokens[p].type == TK_DRF) {
+		return 0-eval_expr(p+1, q, success);
+	}
+
+	/* case 3. single number */
 	else if (p==q && tokens[p].type == TK_NUM) { 
 		return atoi(tokens[p].str);
 	}
 
-	/* case 3. closed by braces */
+	/* case 4. closed by braces */
 	else if (check_parentheses(p, q)) { 
 		return eval_expr(p+1, q-1, success); 
 	}
 
-	/* case 4. other valid expr, find main operator. */
+	/* case 5. other valid expr, find main operator. */
 	else if (p<q) {
 		int main_op=0;
 		unsigned int m_prio = -1;
