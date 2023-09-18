@@ -35,7 +35,7 @@ static struct rule {
   const char *regex;
   int token_type;
 } rules[] = {
-	{"(?<=[0-9\\)])\\*", TK_DRF},     // Dereference
+	{"(?<![0-9\\)])\\*", TK_DRF},     // Dereference
   {" +", TK_NOTYPE},          // spaces
 	{"[0-9]+", TK_NUM},					// number digit
 	{"\\(", TK_LB},
