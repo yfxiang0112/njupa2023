@@ -208,7 +208,6 @@ static word_t eval_expr(int p, int q) {
 			case TK_DIV:
 				if (r_expr!=0){ return l_expr/r_expr; }
 			default:
-				assert(0);
 				printf("Invalid operator. Please input a valid expression.");
 				return 0;
 		}
@@ -218,6 +217,7 @@ static word_t eval_expr(int p, int q) {
 	/* other cases, invalid expr. */
 	else {
 		//printf("Invalid expression. Please input a valid expression.\n");
+		assert(0);
 		printf("0");
 		return 0;
 	}
