@@ -122,6 +122,8 @@ void add_wp(char *expr) {
 	WP *newwp = new_wp(&success);
 	if (success) {
 		printf("WP No.%d\n", newwp->NO);
+		newwp->expr = expr;
+		printf("%s\n", newwp->expr);
 		return;
 	}
 	printf("the maximum watchpoint number is %d.\n", NR_WP);
