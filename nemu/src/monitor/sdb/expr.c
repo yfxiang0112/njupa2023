@@ -24,7 +24,7 @@
 #define MAX_STR_SIZE 32
 
 static bool check_parentheses(uint32_t p, uint32_t q);
-static word_t eval_expr(uint32_t p, uint32_t q);
+static word_t eval_expr(uint32_t p, uint32_t q, bool *success);
 unsigned int op_prio(int type);
 
 enum {
@@ -144,11 +144,11 @@ word_t expr(char *e, bool *success) {
     return 0;
   }
 
-  return eval_expr(0, nr_token-1);
+  return eval_expr(0, nr_token-1, success);
 }
 
 
-static word_t eval_expr(uint32_t p, uint32_t q) {
+static word_t eval_expr(uint32_t p, uint32_t q, bool *success) {
 
 	/* case1. single number */
 	if (p==q && tokens[p].type == TK_NUM) { 
@@ -158,7 +158,7 @@ static word_t eval_expr(uint32_t p, uint32_t q) {
 
 	/* case2. closed by braces */
 	else if (check_parentheses(p, q)) { 
-		return eval_expr(p+1, q-1); 
+		return eval_expr(p+1, q-1, success); 
 	}
 
 	/* case 3. other valid expr, find main operator. */
@@ -182,8 +182,8 @@ static word_t eval_expr(uint32_t p, uint32_t q) {
 		}
 
 		/*evaluate left and right expr, eval curr expr with main op. */
-		l_expr = eval_expr(p, main_op-1);
-		r_expr = eval_expr(main_op+1, q);
+		l_expr = eval_expr(p, main_op-1, success);
+		r_expr = eval_expr(main_op+1, q, success);
 		switch(tokens[main_op].type){
 			case TK_PLUS:
 				return l_expr+r_expr;
@@ -206,7 +206,7 @@ static word_t eval_expr(uint32_t p, uint32_t q) {
 
 	/* other cases, invalid expr. */
 	else {
-		//succsee = false;
+		*success = false;
 		printf("Invalid expression. Please input a valid expression.\n");
 		return 0;
 	}
