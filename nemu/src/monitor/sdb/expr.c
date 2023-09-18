@@ -112,6 +112,7 @@ static bool make_token(char *e) {
 						tokens[nr_token].type = rules[i].token_type;
 						if (substr_len<=32){
 							strncpy(tokens[nr_token].str, substr_start, substr_len);
+							printf("regstr: %s, tokenstr: %s \n", substr_start, tokens[nr_token].str);
 						} else {
 							printf("Max token length is 32. Please input a valid expression.");
 							return 0;
@@ -134,7 +135,7 @@ static bool make_token(char *e) {
 
 
 word_t expr(char *e, bool *success) {
-	printf("expr:%s\n",e);
+	printf("expr: %s\n",e);
   if (!make_token(e)) {
     *success = false;
     return 0;
