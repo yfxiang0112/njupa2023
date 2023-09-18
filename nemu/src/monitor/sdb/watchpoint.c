@@ -149,7 +149,7 @@ void display_wp() {
 	WP *curr = head;
 	if (head != NULL) {
 		while (curr!=NULL) {
-			printf("watchpoint No.%d \n", curr->NO);
+			printf("watchpoint No.%d for %s\n", curr->NO, curr->expr);
 			curr = curr->next;
 		}
 	}
