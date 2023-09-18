@@ -94,15 +94,9 @@ static bool make_token(char *e) {
 
         position += substr_len;
 
-        /* TODO: Now a new token is recognized with rules[i]. Add codes
-         * to record the token in the array `tokens'. For certain types
-         * of tokens, some extra actions should be performed.
-         */
-
-				/*TODO: handle too long expr.*/
 				if (nr_token >= MAX_TOKENS_LEN){
 					printf("Max expression length is %d. Please input a valid expression.", MAX_TOKENS_LEN);
-					return 0;
+					return false;
 				}
 
         switch (rules[i].token_type) {
@@ -119,7 +113,7 @@ static bool make_token(char *e) {
 
 						} else {
 							printf("Max token length is %d. Please input a valid expression.", MAX_STR_SIZE);
-							return 0;
+							return false;
 						}
 						nr_token ++;
         }
