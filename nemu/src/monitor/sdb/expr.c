@@ -146,7 +146,7 @@ word_t expr(char *e, bool *success) {
 static word_t eval_expr(uint32_t p, uint32_t q) {
 	/* case1. single number */
 	if (p==q && tokens[p].type == TK_NUM) { 
-		printf("%d\n",atoi(tokens[p].str));
+		printf("%s\n",tokens[p].str);
 		return atoi(tokens[p].str);
 	}
 
