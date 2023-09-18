@@ -206,6 +206,7 @@ static word_t eval_expr(uint32_t p, uint32_t q) {
 
 	/* other cases, invalid expr. */
 	else {
+		//succsee = false;
 		printf("Invalid expression. Please input a valid expression.\n");
 		return 0;
 	}
