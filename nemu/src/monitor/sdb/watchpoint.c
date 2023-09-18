@@ -42,18 +42,22 @@ void init_wp_pool() {
   free_ = wp_pool;
 }
 
-/* TODO: Implement the functionality of watchpoint */
-WP* new_wp() {
+/* ---------------------------------------- */
+/* operations to pool LLs */
 
+WP* new_wp(bool *success) {
+
+	/* remove the first node in Free */
 	WP* ret = free_;
 	if (free_ != NULL) { 
 		free_ = free_->next;
 		ret->next = NULL;
 	} else {
-		//TODO: no empty watchpoint
+		*success = false;
 		return NULL;
 	}
 	
+	/* insert new wp to using wp, by nuber sequence */
 	WP *curr = head;
 	if (head == NULL || ret->NO < head->NO) {
 		ret->next = head;
@@ -75,6 +79,8 @@ WP* new_wp() {
 }
 
 void free_wp(WP *wp) {
+
+	/* find the wp and remove it from using wps */
 	WP *curr = head;
 	if (head == wp) {
 		head = head->next;
@@ -88,6 +94,7 @@ void free_wp(WP *wp) {
 		}
 	}
 	
+	/* insert it to free wp LL by number sequence */
 	curr = free_;
 	if (free_==NULL || wp->NO < free_->NO) {
 		wp->next = free_;
@@ -107,11 +114,14 @@ void free_wp(WP *wp) {
 	return;
 }
 
-/* */
+/* ---------------------------------------- */
 
 void add_wp(char *expr) {
-	WP *newwp = new_wp();
-	printf("WP No.%d\n", newwp->NO);
+	bool success = true;
+	WP *newwp = new_wp(&success);
+	if (success) {
+		printf("WP No.%d\n", newwp->NO);
+	}
 }
 
 void rm_wp(int no) {
@@ -123,11 +133,11 @@ void rm_wp(int no) {
 			}
 			curr = curr->next;
 		}
-		//TODO: handle WP not find 
-		//
-		free_wp(curr);
+		if (curr != NULL) {
+			free_wp(curr);
+		}
 	}
-	//TODO: WP not find?
+	printf("invalid watchpoint number\n");
 }
 
 void display_wp() {
@@ -139,6 +149,7 @@ void display_wp() {
 		}
 	}
 
+	/* 
 	printf("----------\nTEMP test for free wp pool:\n");
 	curr = free_;
 	if (free_ != NULL) {
@@ -147,4 +158,5 @@ void display_wp() {
 			curr = curr->next;
 		}
 	}
+	*/
 }
