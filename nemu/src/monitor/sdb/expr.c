@@ -20,12 +20,13 @@
  */
 #include <regex.h>
 
-static bool check_parentheses(int p, int q);
+static bool check_parentheses(uint32_t p, uint32_t q);
 static word_t eval_expr(uint32_t p, uint32_t q);
 unsigned int op_prio(int type);
 
 //TODO:temp test
 uint32_t brk_cnt = 0;
+uint32_t curr_q = 0;
 
 enum {
    TK_EQ, TK_MINU, TK_PLUS, TK_DIV, TK_MUL, TK_RB, TK_LB, TK_NUM, TK_NOTYPE = 256
@@ -153,6 +154,11 @@ word_t expr(char *e, bool *success) {
 
 
 static word_t eval_expr(uint32_t p, uint32_t q) {
+	
+	//temp
+	curr_q = q;
+
+
 	/* case1. single number */
 	if (p==q && tokens[p].type == TK_NUM) { 
 		//printf("s%s\n",tokens[p].str);
@@ -240,7 +246,7 @@ static word_t eval_expr(uint32_t p, uint32_t q) {
 	}
 }
 
-static bool check_parentheses(int p, int q){
+static bool check_parentheses(uint32_t p, uint32_t q){
 	/* invalid input & unclosed braces. */
 	if (p<0 || q>=32 || p>=q){ return false; }
 	if (tokens[p].type!=TK_LB || tokens[q].type!=TK_RB){ return false; }
