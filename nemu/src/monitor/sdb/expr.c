@@ -194,6 +194,7 @@ static word_t eval_expr(uint32_t p, uint32_t q, bool *success) {
 			case TK_DIV:
 				if (r_expr!=0){ return l_expr/r_expr; }
 				else {
+					*success = false;
 					printf("Nan (Divide by 0)\n");
 					return 0;
 				}
