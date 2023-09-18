@@ -135,6 +135,7 @@ void rm_wp(int no) {
 		}
 		if (curr != NULL) {
 			free_wp(curr);
+			return;
 		}
 	}
 	printf("invalid watchpoint number\n");
