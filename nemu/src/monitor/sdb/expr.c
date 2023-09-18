@@ -108,6 +108,7 @@ static bool make_token(char *e) {
 						if ((nr_token==0) || (tokens[nr_token-1].type != TK_RB && tokens[nr_token-1].type != TK_NUM)) {
 							tokens[nr_token].type = TK_DRF;
 							printf("find deref at %d.\n", nr_token);
+							nr_token++;
 							break;
 						}
           default: 
