@@ -55,9 +55,9 @@ WP* new_wp() {
 			curr = curr->next;
 		}
 		curr->next = ret;
-		ret->next = NULL;
 	}
 
+	ret->next = NULL;
 	return ret;
 }
 
