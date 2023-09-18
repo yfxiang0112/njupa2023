@@ -14,6 +14,7 @@
 ***************************************************************************************/
 
 #include <isa.h>
+#include <memory/paddr.h>
 
 /* We use the POSIX regex functions to process regular expressions.
  * Type 'man regex' for more information about POSIX regex functions.
@@ -155,7 +156,13 @@ static word_t eval_expr(uint32_t p, uint32_t q, bool *success) {
 
 	/* case 1. dereference */
 	if (tokens[p].type == TK_DRF) {
-		return 1+eval_expr(p+1, q, success);
+		word_t addr = eval_expr(p+1, q, success);
+		if(addr-CONFIG_MBASE > CONFIG_MSIZE) {
+			printf("Invalid memory address: %x \n", addr);
+			*success = false;
+			return 0;
+		}
+		return paddr_read(addr, 4);
 	}
 
 	/* case 2. negtive number */
