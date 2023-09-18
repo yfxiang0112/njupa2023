@@ -122,7 +122,7 @@ void add_wp(char *expr) {
 	WP *newwp = new_wp(&success);
 	if (success) {
 		printf("WP No.%d\n", newwp->NO);
-		strcpy (newwp->expr, expr);
+		strcpy (expr, newwp->expr);
 		printf("%s\n", newwp->expr);
 		return;
 	}
