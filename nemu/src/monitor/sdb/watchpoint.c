@@ -81,5 +81,6 @@ void free_wp(WP *wp) {
 /* */
 
 void add_wp(char *expr) {
-	free_wp(new_wp());	
+	WP *newwp = new_wp();
+	free_wp(newwp);	
 }
