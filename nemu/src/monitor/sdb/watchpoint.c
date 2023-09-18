@@ -115,6 +115,7 @@ void free_wp(WP *wp) {
 }
 
 /* ---------------------------------------- */
+/* add, remove and show info about wp-s. */
 
 void add_wp(char *expr) {
 	bool success = true;
@@ -123,7 +124,7 @@ void add_wp(char *expr) {
 		printf("WP No.%d\n", newwp->NO);
 		return;
 	}
-	printf("the maximum watchpoint number is %d.", NR_WP);
+	printf("the maximum watchpoint number is %d.\n", NR_WP);
 }
 
 void rm_wp(int no) {
