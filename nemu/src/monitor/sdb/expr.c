@@ -145,17 +145,22 @@ word_t expr(char *e, bool *success) {
 
 static word_t eval_expr(uint32_t p, uint32_t q, bool *success) {
 
-	/* case1. single number */
-	if (p==q && tokens[p].type == TK_NUM) { 
+	/* case 1. dereference */
+	if (tokens[p].type == TK_DRF) {
+		return 1+eval_expr(p+1, q, success);
+	}
+
+	/* case 2. single number */
+	else if (p==q && tokens[p].type == TK_NUM) { 
 		return atoi(tokens[p].str);
 	}
 
-	/* case2. closed by braces */
+	/* case 3. closed by braces */
 	else if (check_parentheses(p, q)) { 
 		return eval_expr(p+1, q-1, success); 
 	}
 
-	/* case 3. other valid expr, find main operator. */
+	/* case 4. other valid expr, find main operator. */
 	else if (p<q) {
 		int main_op=0;
 		unsigned int m_prio = -1;
