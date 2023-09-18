@@ -125,7 +125,6 @@ static int cmd_p(char *args){
 	if (success) {
 		printf("%u\n", res);
 	}
-	printf("suc: %d\n", success);
 	return 0;
 }
 
