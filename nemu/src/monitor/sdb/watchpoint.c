@@ -54,17 +54,22 @@ WP* new_wp() {
 		return NULL;
 	}
 	
-	if (head == NULL) {
+	WP *curr = head;
+	if (head == NULL || ret->NO < head->NO) {
 		head = ret;
-	} else {
-		WP *curr = head;
-		while(curr->next != NULL) {
-			curr = curr->next;
-		}
-		ret->next = curr->next;
-		curr->next = ret;
+		return ret;
 	}
-
+	while(curr->next != NULL) {
+		if (curr->NO < ret->NO && curr->next->NO > ret->NO) {
+			ret->next = curr->next;
+			curr->next = ret;
+			return ret;
+		}
+		curr = curr->next;
+	}
+	
+	curr -> next = ret;
+	ret -> next = NULL;
 	return ret;
 }
 
@@ -88,8 +93,8 @@ void free_wp(WP *wp) {
 	}
 	while(curr->next != NULL) {
 		if (curr->NO < wp->NO && curr->next->NO > wp->NO) {
-			wp -> next = curr -> next;
-			curr -> next = wp;
+			wp->next = curr->next;
+			curr-> next = wp;
 			return;
 		}
 		curr = curr->next;
