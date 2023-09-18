@@ -158,6 +158,11 @@ static word_t eval_expr(uint32_t p, uint32_t q) {
 	//temp
 	curr_q = q;
 
+	printf("s_pq: ");
+	for (int i=p; i<=q; i++) {
+		printf("%s", tokens[i].str);
+	}
+	printf("\n");
 
 	/* case1. single number */
 	if (p==q && tokens[p].type == TK_NUM) { 
