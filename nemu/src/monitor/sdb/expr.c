@@ -253,7 +253,7 @@ static word_t eval_expr(uint32_t p, uint32_t q) {
 
 static bool check_parentheses(uint32_t p, uint32_t q){
 	/* invalid input & unclosed braces. */
-	if (p<0 || q>=32 || p>=q){ return false; }
+	if (p<0 || q>=nr_token || p>=q){ return false; }
 	if (tokens[p].type!=TK_LB || tokens[q].type!=TK_RB){ return false; }
 
 	/* check if braces are paired & p-q are paired. */
