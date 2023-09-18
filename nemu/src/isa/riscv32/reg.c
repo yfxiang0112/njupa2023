@@ -23,7 +23,6 @@ const char *regs[] = {
   "s8", "s9", "s10", "s11", "t3", "t4", "t5", "t6"
 };
 
-//TODO: to be tested.
 void isa_reg_display() {
 	for (int i=0; i<32; i++){
 		printf("%-*s0x%-*x\n",20,regs[i],20,cpu.gpr[i]);
@@ -32,5 +31,10 @@ void isa_reg_display() {
 }
 
 word_t isa_reg_str2val(const char *s, bool *success) {
+	for (int i=0; i<32; i++){
+		if (strcmp(s, regs[i])==0) { return cpu.gpr[i]; }
+	}
+	*success = false;
+	printf("Cannot find register %s\n", s);
   return 0;
 }

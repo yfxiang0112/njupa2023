@@ -49,7 +49,7 @@ static struct rule {
   {"!=", TK_NEQ},             // nonequal
 	{"&&", TK_AND},	  		  	  // and
 	{"\\|\\|", TK_OR},	      	 // or 
-	{"\\$[a-z|A-Z]+", TK_REG}		// register pointer
+	{"\\$[a-z|A-Z|$|0-9]+", TK_REG}		// register pointer
 };
 
 #define NR_REGEX ARRLEN(rules)
@@ -183,7 +183,7 @@ static word_t eval_expr(uint32_t p, uint32_t q, bool *success) {
 	/* case 4. single register value */
 	else if (p==q && tokens[p].type == TK_REG) {
 		printf("%s\n", tokens[p].str+1);
-		return 0;
+		return isa_reg_str2val(tokens[p].str+1, success);
 			//TODO
 	}
 
