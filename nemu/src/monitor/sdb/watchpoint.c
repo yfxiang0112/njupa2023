@@ -25,9 +25,6 @@ typedef struct watchpoint {
 
 } WP;
 
-void add(char *expr);
-void rm(int no);
-
 WP* new_wp();
 void free_wp(WP *wp);
 
@@ -79,4 +76,10 @@ void free_wp(WP *wp) {
 	curr -> next = wp;
 	wp -> next = NULL;
 	return;
+}
+
+/* */
+
+void add_wp(char *expr) {
+	free_wp(new_wp());	
 }
