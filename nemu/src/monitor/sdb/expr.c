@@ -24,6 +24,9 @@ static bool check_parentheses(int p, int q);
 static word_t eval_expr(uint32_t p, uint32_t q);
 unsigned int op_prio(int type);
 
+//TODO:temp test
+uint32_t brk_cnt = 0;
+
 enum {
    TK_EQ, TK_MINU, TK_PLUS, TK_DIV, TK_MUL, TK_RB, TK_LB, TK_NUM, TK_NOTYPE = 256
 };
@@ -153,12 +156,17 @@ static word_t eval_expr(uint32_t p, uint32_t q) {
 	/* case1. single number */
 	if (p==q && tokens[p].type == TK_NUM) { 
 		//printf("s%s\n",tokens[p].str);
+		brk_cnt=0;
 		return atoi(tokens[p].str);
 	}
 
 
 	/* case2. closed by braces */
-	else if (check_parentheses(p, q)) { return eval_expr(p+1, q-1); }
+	else if (check_parentheses(p, q)) { 
+		brk_cnt++;
+		printf("bracket count: %d\n", brk_cnt);
+		return eval_expr(p+1, q-1); 
+	}
 
 	/* case 3. other valid expr, find main operator. */
 	else if (p<q) {
