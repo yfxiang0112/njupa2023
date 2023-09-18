@@ -20,11 +20,6 @@
  */
 #include <regex.h>
 
-/*
-static const unsigned int MAX_TOKENS_LEN = 65535;
-static const unsigned int MAX_STR_SIZE = 32;
-*/
-
 #define MAX_TOKENS_LEN 65535
 #define MAX_STR_SIZE 32
 
