@@ -98,7 +98,6 @@ void free_wp(WP *wp) {
 void add_wp(char *expr) {
 	WP *newwp = new_wp();
 	printf("WP No.%d\n", newwp->NO);
-	free_wp(newwp);	
 }
 
 void rm_wp(int no) {
