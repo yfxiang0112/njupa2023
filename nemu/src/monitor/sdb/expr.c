@@ -216,7 +216,8 @@ static word_t eval_expr(int p, int q) {
 
 	/* other cases, invalid expr. */
 	else {
-		printf("Invalid expression. Please input a valid expression.");
+		//printf("Invalid expression. Please input a valid expression.\n");
+		printf("0");
 		return 0;
 	}
 }
