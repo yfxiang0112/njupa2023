@@ -48,7 +48,7 @@ static struct rule {
   {"==", TK_EQ},              // equal
   {"!=", TK_NEQ},             // nonequal
 	{"&&", TK_AND},	  		  	  // and
-	{"\\|\\|", TK_AND},	      	 // or 
+	{"\\|\\|", TK_OR},	      	 // or 
 	{"\\$[a-z|A-Z]+", TK_REG}		// register pointer
 };
 
