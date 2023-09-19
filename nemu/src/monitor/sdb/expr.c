@@ -37,7 +37,7 @@ static struct rule {
   int token_type;
 } rules[] = {
   {" +", TK_NOTYPE},          // spaces
-	{"(0x|0X)?[0-9]+", TK_NUM},					// number digit
+	{"(0x|0X)[0-9|a-f|A-F]+|[0-9]+", TK_NUM},					// number digit
 	{"\\(", TK_LB},
 	{"\\)", TK_RB},			    		// left & right braces
 	{"\\*", TK_MUL},				  	// multiple
