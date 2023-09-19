@@ -42,6 +42,7 @@ static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
   IFDEF(CONFIG_DIFFTEST, difftest_step(_this->pc, dnpc));
 
 #ifdef CONNFIG_WATCHPOINT 
+	printf("macro wp %s\n", WATCHPOINT);
 	if (WATCHPOINT == y) {
 		if (scan_wp()) {
 			nemu_state.state = NEMU_STOP;
