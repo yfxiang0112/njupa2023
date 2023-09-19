@@ -162,7 +162,7 @@ config DIFFTEST
 
 config WATCHPOINT
 	bool "Enable watchpoint debuggging"
-	default y
+	default y 
 
 choice
   prompt "Reference design"
