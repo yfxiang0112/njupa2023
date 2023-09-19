@@ -29,6 +29,7 @@ typedef struct watchpoint {
 WP* new_wp();
 void free_wp(WP *wp);
 
+bool scan_wp();
 static WP wp_pool[NR_WP] = {};
 static WP *head = NULL, *free_ = NULL;
 
