@@ -115,12 +115,14 @@ static bool make_token(char *e) {
 						if ((nr_token==0) || (tokens[nr_token-1].type != TK_RB && tokens[nr_token-1].type != TK_NUM && tokens[nr_token-1].type != TK_DRF && tokens[nr_token-1].type != TK_REG)) {
 							if (rules[i].token_type == TK_MUL) { tokens[nr_token].type = TK_DRF; }
 							else if (rules[i].token_type == TK_MINU) { tokens[nr_token].type = TK_NEG; }
-							nr_token++;
+							//nr_token++;
 							break;
 						}
           default: 
 						/* record the current token type & str. */
-						tokens[nr_token].type = rules[i].token_type;
+						if (tokens[nr_token].type != TK_DRF && tokens[nr_token].type != TK_NEG) {
+							tokens[nr_token].type = rules[i].token_type;
+						}
 						if (substr_len<=MAX_STR_SIZE){
 							strncpy(tokens[nr_token].str, substr_start, substr_len);
 							tokens[nr_token].str[substr_len] = '\0';
@@ -160,7 +162,17 @@ static word_t eval_expr(uint32_t p, uint32_t q, bool *success) {
 
 	/* case 1. dereference */
 	if (tokens[p].type == TK_DRF) {
-		word_t addr = eval_expr(p+1, p+1, success);
+		int ind = 1;
+		while (tokens[p].str[ind] == ' ') {
+			ind ++;
+		}
+
+		word_t addr;
+		if ((tokens[p].str+ind)[1]=='x'||(tokens[p].str+ind)[1]=='X') { 
+			addr =  strtol(tokens[p].str+ind+2, NULL, 16); 
+		}
+		addr =  atoi(tokens[p].str+ind);
+
 		if(addr-CONFIG_MBASE > CONFIG_MSIZE) {
 			printf("Invalid memory address: %x \n", addr);
 			*success = false;
