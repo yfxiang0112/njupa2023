@@ -160,7 +160,7 @@ static word_t eval_expr(uint32_t p, uint32_t q, bool *success) {
 
 	/* case 1. dereference */
 	if (tokens[p].type == TK_DRF) {
-		word_t addr = eval_expr(p+1, q, success);
+		word_t addr = eval_expr(p+1, p+1, success);
 		if(addr-CONFIG_MBASE > CONFIG_MSIZE) {
 			printf("Invalid memory address: %x \n", addr);
 			*success = false;
@@ -171,7 +171,7 @@ static word_t eval_expr(uint32_t p, uint32_t q, bool *success) {
 
 	/* case 2. negtive number */
 	else if (tokens[p].type == TK_NEG) {
-		return 0-eval_expr(p+1, q, success);
+		return 0-eval_expr(p+1, p+1, success);
 	}
 
 	/* case 3. single number */
