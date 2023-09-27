@@ -210,7 +210,7 @@ static word_t eval_expr(uint32_t p, uint32_t q, bool *success) {
 
 	/* case 6. other valid expr, find main operator. */
 	else if (p<q) {
-		int main_op=0;
+		int main_op=p-1;
 		unsigned int m_prio = -1;
 		word_t l_expr, r_expr;
 
@@ -229,7 +229,7 @@ static word_t eval_expr(uint32_t p, uint32_t q, bool *success) {
 		}
 
 		/* invalid expr if no main op */
-		if (main_op == 0) {
+		if (main_op == p-1 || main_op == q) {
 			printf("get 0 op\n");
 			*success = false;
 			printf("Invalid expression, cannot find main op. Please input a valid expression.\n");
