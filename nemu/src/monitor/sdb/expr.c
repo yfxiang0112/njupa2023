@@ -26,7 +26,7 @@
 
 static bool check_parentheses(uint32_t p, uint32_t q);
 static word_t eval_expr(uint32_t p, uint32_t q, bool *success);
-unsigned int op_prio(int type);
+unsigned int op_prio(int type1);
 
 enum {
    TK_NUM, TK_NEG, TK_DRF, TK_REG, TK_LB, TK_RB, TK_MUL, TK_DIV, TK_PLUS, TK_MINU, TK_EQ, TK_NEQ, TK_AND, TK_OR, TK_NOTYPE = 256
@@ -48,7 +48,7 @@ static struct rule {
   {"!=", TK_NEQ},             // nonequal
 	{"&&", TK_AND},	  		  	  // and
 	{"\\|\\|", TK_OR},	      	 // or 
-	{"\\$[a-z|A-Z|$|0-9]+", TK_REG}		// register pointer
+	{"\\$ *[a-z|A-Z|$|0-9]+", TK_REG}		// register pointer
 };
 
 #define NR_REGEX ARRLEN(rules)
@@ -112,7 +112,7 @@ static bool make_token(char *e) {
 					/* case of deference (single '*') or neg sign (single '-'). 
 					 * Modify the value of tokens[i]. */
 					case TK_MUL: case TK_MINU:
-						if ((nr_token==0) || (tokens[nr_token-1].type != TK_RB && tokens[nr_token-1].type != TK_NUM)) {
+						if ((nr_token==0) || (tokens[nr_token-1].type != TK_RB && tokens[nr_token-1].type != TK_NUM && tokens[nr_token-1].type != TK_REG)) {
 							if (rules[i].token_type == TK_MUL) { tokens[nr_token].type = TK_DRF; }
 							else if (rules[i].token_type == TK_MINU) { tokens[nr_token].type = TK_NEG; }
 							nr_token++;
@@ -120,7 +120,9 @@ static bool make_token(char *e) {
 						}
           default: 
 						/* record the current token type & str. */
-						tokens[nr_token].type = rules[i].token_type;
+						//if (tokens[nr_token].type != TK_DRF && tokens[nr_token].type != TK_NEG) {
+							tokens[nr_token].type = rules[i].token_type;
+						//}
 						if (substr_len<=MAX_STR_SIZE){
 							strncpy(tokens[nr_token].str, substr_start, substr_len);
 							tokens[nr_token].str[substr_len] = '\0';
@@ -158,24 +160,39 @@ word_t expr(char *e, bool *success) {
 
 static word_t eval_expr(uint32_t p, uint32_t q, bool *success) {
 
-	/* case 1. dereference */
-	if (tokens[p].type == TK_DRF) {
-		word_t addr = eval_expr(p+1, q, success);
-		if(addr-CONFIG_MBASE > CONFIG_MSIZE) {
-			printf("Invalid memory address: %x \n", addr);
-			*success = false;
-			return 0;
+	/* case 1&2. unary operator*/
+	if (tokens[p].type == TK_DRF || tokens[p].type == TK_NEG) {
+		word_t val = 0;
+		int idx = p;
+		while (tokens[idx].type == TK_DRF || tokens[idx].type == TK_NEG) {
+			idx ++;
 		}
-		return paddr_read(addr, 4);
-	}
 
-	/* case 2. negtive number */
-	else if (tokens[p].type == TK_NEG) {
-		return 0-eval_expr(p+1, q, success);
+		/* valid unary condition. */
+		if ( ((tokens[idx].type==TK_NUM || tokens[idx].type==TK_REG) &&idx==q) || check_parentheses(idx, q)) {
+			val = eval_expr(p+1, q, success);
+
+			/* case1. drf */
+			if (tokens[p].type == TK_DRF) {
+				if(val-CONFIG_MBASE > CONFIG_MSIZE) {
+					printf("Invalid memory address: %x \n", val);
+					*success = false;
+					return 0;
+				}
+				return paddr_read(val, 4);
+			}
+
+			/* case2. neg */
+			else if (tokens[p].type == TK_NEG) {
+				return 0-val;
+			}
+		}
+
+		/* else condition, go to case 6. */
 	}
 
 	/* case 3. single number */
-	else if (p==q && tokens[p].type == TK_NUM) { 
+	if (p==q && tokens[p].type == TK_NUM) { 
 		if (tokens[p].str[1]=='x'||tokens[p].str[1]=='X') { 
 			return strtol(tokens[p].str+2, NULL, 16); 
 		}
@@ -184,7 +201,11 @@ static word_t eval_expr(uint32_t p, uint32_t q, bool *success) {
 
 	/* case 4. single register value */
 	else if (p==q && tokens[p].type == TK_REG) {
-		return isa_reg_str2val(tokens[p].str+1, success);
+		int ind = 1;
+		while (tokens[p].str[ind] == ' ') {
+			ind ++;
+		}
+		return isa_reg_str2val(tokens[p].str+ind, success);
 	}
 
 	/* case 5. closed by braces */
@@ -193,8 +214,8 @@ static word_t eval_expr(uint32_t p, uint32_t q, bool *success) {
 	}
 
 	/* case 6. other valid expr, find main operator. */
-	else if (p<q) {
-		int main_op=0;
+	if (p<q) {
+		int main_op=p-1;
 		unsigned int m_prio = -1;
 		word_t l_expr, r_expr;
 
@@ -213,9 +234,35 @@ static word_t eval_expr(uint32_t p, uint32_t q, bool *success) {
 		}
 
 		/* invalid expr if no main op */
-		if (main_op == 0) {
+		if (main_op == p-1 || main_op == q) {
 			*success = false;
 			printf("Invalid expression, cannot find main op. Please input a valid expression.\n");
+			return 0;
+		}
+
+		/* evaluate unary expression */
+		else if (main_op == p) {
+	//		/* case 6.1 deference*/
+	//		if (tokens[main_op].type == TK_DRF) {
+	//			word_t addr= eval_expr(main_op+1, q, success);
+
+	//			/* inv addr */
+	//			if(addr-CONFIG_MBASE > CONFIG_MSIZE) {
+	//				printf("Invalid memory address: %x \n", addr);
+	//				*success = false;
+	//				return 0;
+	//			}
+	//			return paddr_read(addr, 4);
+	//		}
+
+	//		/* case 6.2: negative number */
+	//		else if (tokens[main_op].type == TK_NEG) {
+	//			return 0 - eval_expr(main_op+1, q, success);
+	//		}
+
+			/* inv unary op */
+			*success = false;
+			printf("Invalid expression. Please input a valid expression.\n");
 			return 0;
 		}
 		
@@ -281,16 +328,18 @@ static bool check_parentheses(uint32_t p, uint32_t q){
 
 unsigned int op_prio(int type) {
 	switch(type) {
-		case TK_PLUS: case TK_MINU:
-									return 1;
-		case TK_MUL: case TK_DIV:
+		case TK_OR:
+								 return 1;
+		case TK_AND:
 								 return 2;
 		case TK_EQ: case TK_NEQ:
 								 return 3;
-		case TK_AND:
-								 return 4;
-		case TK_OR:
+		case TK_PLUS: case TK_MINU:
+									return 4;
+		case TK_MUL: case TK_DIV:
 								 return 5;
+	//	case TK_DRF: case TK_NEG:
+	//							 return 6;
 		default:
 								 return 0;
 	}
