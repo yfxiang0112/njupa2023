@@ -172,8 +172,9 @@ static word_t eval_expr(uint32_t p, uint32_t q, bool *success) {
 		if ((tokens[p].str+ind)[1]=='x'||(tokens[p].str+ind)[1]=='X') { 
 			addr =  strtol(tokens[p].str+ind+2, NULL, 16); 
 			printf("%x\n", addr);
+		} else {
+			addr =  atoi(tokens[p].str+ind);
 		}
-		addr =  atoi(tokens[p].str+ind);
 
 		if(addr-CONFIG_MBASE > CONFIG_MSIZE) {
 			printf("Invalid memory address: %x \n", addr);
