@@ -162,18 +162,13 @@ static word_t eval_expr(uint32_t p, uint32_t q, bool *success) {
 
 	/* case 1. dereference */
 	if (tokens[p].type == TK_DRF) {
-		int ind = 0;
-		while (tokens[p].str[ind] == ' ') {
-			ind ++;
-		}
 
-		printf("%s, %d\n", (tokens[p].str+ind), ind);
+		/* generate address from number */
 		word_t addr;
-		if ((tokens[p].str+ind)[1]=='x'||(tokens[p].str+ind)[1]=='X') { 
-			addr =  strtol(tokens[p].str+ind+2, NULL, 16); 
-			printf("%x\n", addr);
+		if (tokens[p].str[1]=='x' || tokens[p].str[1]=='X') { 
+			addr =  strtol(tokens[p].str+2, NULL, 16); 
 		} else {
-			addr =  atoi(tokens[p].str+ind);
+			addr =  atoi(tokens[p].str);
 		}
 
 		if(addr-CONFIG_MBASE > CONFIG_MSIZE) {
