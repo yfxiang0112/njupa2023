@@ -133,7 +133,7 @@ static int cmd_px(char *args){
 	word_t res = expr(args, &success);
 	//printf("res: %d, success: %d\n", res, success);
 	if (success) {
-		printf("%x\n", res);
+		printf("0x%08x\n", res);
 	}
 	return 0;
 }
