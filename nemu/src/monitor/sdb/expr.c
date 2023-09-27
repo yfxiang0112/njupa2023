@@ -168,6 +168,7 @@ static word_t eval_expr(uint32_t p, uint32_t q, bool *success) {
 			idx ++;
 		}
 
+		printf("a%d\n", idx);
 		if (tokens[idx].type==TK_NUM || tokens[idx].type==TK_REG || check_parentheses(idx, q)) {
 			
 			val = eval_expr(p+1, q, success);
