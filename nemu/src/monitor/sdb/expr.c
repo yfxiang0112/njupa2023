@@ -26,7 +26,7 @@
 
 static bool check_parentheses(uint32_t p, uint32_t q);
 static word_t eval_expr(uint32_t p, uint32_t q, bool *success);
-unsigned int op_prio(int type);
+unsigned int op_prio(int type1);
 
 enum {
    TK_NUM, TK_NEG, TK_DRF, TK_REG, TK_LB, TK_RB, TK_MUL, TK_DIV, TK_PLUS, TK_MINU, TK_EQ, TK_NEQ, TK_AND, TK_OR, TK_NOTYPE = 256
@@ -48,7 +48,7 @@ static struct rule {
   {"!=", TK_NEQ},             // nonequal
 	{"&&", TK_AND},	  		  	  // and
 	{"\\|\\|", TK_OR},	      	 // or 
-	{"\\$ ?[a-z|A-Z|$|0-9]+", TK_REG}		// register pointer
+	{"\\$ *[a-z|A-Z|$|0-9]+", TK_REG}		// register pointer
 };
 
 #define NR_REGEX ARRLEN(rules)
