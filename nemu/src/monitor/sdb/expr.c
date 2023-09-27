@@ -221,7 +221,9 @@ static word_t eval_expr(uint32_t p, uint32_t q, bool *success) {
 			if (tokens[i].type==TK_RB) { nr_brk--; }
 
 			if (nr_brk==0) {
-				if (op_prio(tokens[i].type)>0 && op_prio(tokens[i].type)<=m_prio) {
+				if (op_prio(tokens[i].type)>0 &&  
+							(( (tokens[i].type!=TK_NEG && tokens[i].type!=TK_DRF) && op_prio(tokens[i].type)<=m_prio ) || 
+						  (  (tokens[i].type==TK_NEG && tokens[i].type==TK_DRF) && op_prio(tokens[i].type)<m_prio ) )) {
 					main_op = i;
 					m_prio = op_prio(tokens[i].type);
 				}
