@@ -167,7 +167,7 @@ static word_t eval_expr(uint32_t p, uint32_t q, bool *success) {
 			ind ++;
 		}
 
-		printf("%s\n", (tokens[p].str+ind));
+		printf("%s, %d\n", (tokens[p].str+ind), ind);
 		word_t addr;
 		if ((tokens[p].str+ind)[1]=='x'||(tokens[p].str+ind)[1]=='X') { 
 			addr =  strtol(tokens[p].str+ind+2, NULL, 16); 
