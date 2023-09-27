@@ -160,7 +160,7 @@ word_t expr(char *e, bool *success) {
 
 static word_t eval_expr(uint32_t p, uint32_t q, bool *success) {
 
-	/* case 1. unary operator*/
+	/* case 1&2. unary operator*/
 	if (tokens[p].type == TK_DRF || tokens[p].type == TK_NEG) {
 		word_t val = 0;
 		int idx = p;
@@ -168,16 +168,27 @@ static word_t eval_expr(uint32_t p, uint32_t q, bool *success) {
 			idx ++;
 		}
 
-		printf("%d\n", tokens[idx].type);
-	
+		/* valid unary condition. */
 		if (tokens[idx].type==TK_NUM || tokens[idx].type==TK_REG || check_parentheses(idx, q)) {
-			
 			val = eval_expr(p+1, q, success);
-			return val+1;
+
+			/* case1. drf */
+			if (tokens[p].type == TK_DRF) {
+				if(val-CONFIG_MBASE > CONFIG_MSIZE) {
+					printf("Invalid memory address: %x \n", val);
+					*success = false;
+					return 0;
+				}
+				return paddr_read(val, 4);
+			}
+
+			/* case2. neg */
+			else if (tokens[p].type == TK_NEG) {
+				return 0-val;
+			}
 		}
 
-		assert(0);
-
+		/* else condition, go to case 6. */
 	}
 
 
