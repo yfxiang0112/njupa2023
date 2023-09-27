@@ -160,6 +160,24 @@ word_t expr(char *e, bool *success) {
 
 static word_t eval_expr(uint32_t p, uint32_t q, bool *success) {
 
+	/* case 1. unary operator*/
+	if (tokens[p].type == TK_DRF || tokens[p].type == TK_NEG) {
+		word_t val = 0;
+		int idx = p;
+		while (tokens[idx].type == TK_DRF || tokens[idx].type == TK_NEG) {
+			idx ++;
+		}
+
+		if (tokens[idx].type==TK_NUM || tokens[idx].type==TK_REG || check_parentheses(idx, q)) {
+			
+			val = eval_expr(p+1, q, success);
+			return val+1;
+		}
+
+
+	}
+
+
 	/* case 1. dereference */
 //	if (tokens[p].type == TK_DRF) {
 //
@@ -209,7 +227,7 @@ static word_t eval_expr(uint32_t p, uint32_t q, bool *success) {
 	}
 
 	/* case 6. other valid expr, find main operator. */
-	else if (p<q) {
+	if (p<q) {
 		int main_op=p-1;
 		unsigned int m_prio = -1;
 		word_t l_expr, r_expr;
@@ -221,9 +239,7 @@ static word_t eval_expr(uint32_t p, uint32_t q, bool *success) {
 			if (tokens[i].type==TK_RB) { nr_brk--; }
 
 			if (nr_brk==0) {
-				if (op_prio(tokens[i].type)>0 &&  
-							(( (tokens[i].type!=TK_NEG && tokens[i].type!=TK_DRF) && op_prio(tokens[i].type)<=m_prio ) || 
-						  (  (tokens[i].type==TK_NEG && tokens[i].type==TK_DRF) && op_prio(tokens[i].type)<m_prio ) )) {
+				if (op_prio(tokens[i].type)>0 && op_prio(tokens[i].type)<=m_prio) {
 					main_op = i;
 					m_prio = op_prio(tokens[i].type);
 				}
