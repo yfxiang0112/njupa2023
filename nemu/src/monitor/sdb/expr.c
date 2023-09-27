@@ -230,9 +230,12 @@ static word_t eval_expr(uint32_t p, uint32_t q, bool *success) {
 
 		/* invalid expr if no main op */
 		if (main_op == p-1 || main_op == q) {
-			printf("get 0 op\n");
 			*success = false;
 			printf("Invalid expression, cannot find main op. Please input a valid expression.\n");
+			return 0;
+		}
+		else if (main_op == p) {
+			printf("get 0 op\n");
 			return 0;
 		}
 		
