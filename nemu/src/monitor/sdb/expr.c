@@ -255,7 +255,7 @@ static word_t eval_expr(uint32_t p, uint32_t q, bool *success) {
 
 			/* inv unary op */
 			*success = false;
-			printf("Invalid expression, cannot find main op. Please input a valid expression.\n");
+			printf("Invalid expression. Please input a valid expression.\n");
 			return 0;
 		}
 		
