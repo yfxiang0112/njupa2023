@@ -169,7 +169,7 @@ static word_t eval_expr(uint32_t p, uint32_t q, bool *success) {
 		}
 
 		/* valid unary condition. */
-		if (tokens[idx].type==TK_NUM || tokens[idx].type==TK_REG || check_parentheses(idx, q)) {
+		if ( ((tokens[idx].type==TK_NUM || tokens[idx].type==TK_REG) &&q-p==1) || check_parentheses(idx, q)) {
 			val = eval_expr(p+1, q, success);
 
 			/* case1. drf */
