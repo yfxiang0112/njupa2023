@@ -115,14 +115,14 @@ static bool make_token(char *e) {
 						if ((nr_token==0) || (tokens[nr_token-1].type != TK_RB && tokens[nr_token-1].type != TK_NUM && tokens[nr_token-1].type != TK_DRF && tokens[nr_token-1].type != TK_REG)) {
 							if (rules[i].token_type == TK_MUL) { tokens[nr_token].type = TK_DRF; }
 							else if (rules[i].token_type == TK_MINU) { tokens[nr_token].type = TK_NEG; }
-							//nr_token++;
+							nr_token++;
 							break;
 						}
           default: 
 						/* record the current token type & str. */
-						if (tokens[nr_token].type != TK_DRF && tokens[nr_token].type != TK_NEG) {
+						//if (tokens[nr_token].type != TK_DRF && tokens[nr_token].type != TK_NEG) {
 							tokens[nr_token].type = rules[i].token_type;
-						}
+						//}
 						if (substr_len<=MAX_STR_SIZE){
 							strncpy(tokens[nr_token].str, substr_start, substr_len);
 							tokens[nr_token].str[substr_len] = '\0';
@@ -164,12 +164,14 @@ static word_t eval_expr(uint32_t p, uint32_t q, bool *success) {
 	if (tokens[p].type == TK_DRF) {
 
 		/* generate address from number */
-		word_t addr;
+		word_t addr=0;
+		/* 
 		if (tokens[p].str[1]=='x' || tokens[p].str[1]=='X') { 
 			addr =  strtol(tokens[p].str+2, NULL, 16); 
 		} else {
 			addr =  atoi(tokens[p].str);
 		}
+		*/
 
 		if(addr-CONFIG_MBASE > CONFIG_MSIZE) {
 			printf("Invalid memory address: %x \n", addr);
@@ -228,6 +230,7 @@ static word_t eval_expr(uint32_t p, uint32_t q, bool *success) {
 
 		/* invalid expr if no main op */
 		if (main_op == 0) {
+			printf("get 0 op\n");
 			*success = false;
 			printf("Invalid expression, cannot find main op. Please input a valid expression.\n");
 			return 0;
