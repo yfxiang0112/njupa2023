@@ -191,33 +191,6 @@ static word_t eval_expr(uint32_t p, uint32_t q, bool *success) {
 		/* else condition, go to case 6. */
 	}
 
-
-	/* case 1. dereference */
-//	if (tokens[p].type == TK_DRF) {
-//
-//		/* generate address from number */
-//		word_t addr=0;
-//		/* 
-//		if (tokens[p].str[1]=='x' || tokens[p].str[1]=='X') { 
-//			addr =  strtol(tokens[p].str+2, NULL, 16); 
-//		} else {
-//			addr =  atoi(tokens[p].str);
-//		}
-//		*/
-//
-//		if(addr-CONFIG_MBASE > CONFIG_MSIZE) {
-//			printf("Invalid memory address: %x \n", addr);
-//			*success = false;
-//			return 0;
-//		}
-//		return paddr_read(addr, 4);
-//	}
-
-	/* case 2. negtive number */
-//	if (tokens[p].type == TK_NEG) {
-//		return 0-eval_expr(p+1, p+1, success);
-//	}
-
 	/* case 3. single number */
 	if (p==q && tokens[p].type == TK_NUM) { 
 		if (tokens[p].str[1]=='x'||tokens[p].str[1]=='X') { 
