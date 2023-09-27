@@ -128,6 +128,15 @@ static int cmd_p(char *args){
 	return 0;
 }
 
+static int cmd_px(char *args){
+	bool success = true;
+	word_t res = expr(args, &success);
+	//printf("res: %d, success: %d\n", res, success);
+	if (success) {
+		printf("%x\n", res);
+	}
+	return 0;
+}
 /* add watchpoint */
 static int cmd_w(char *args){
 	add_wp(args);
@@ -153,7 +162,8 @@ static struct {
 	{ "si", "Run single instruction", cmd_si },
 	{ "info", "Print info of reg or watchpoint", cmd_info },
   { "x", "Scan memory", cmd_x },
-  { "p", "Print expression", cmd_p },
+  { "p", "Print expression with decimal", cmd_p },
+	{ "px", "Print expression with hexdecimal", cmd_px},
   { "w", "Set a watchpoint", cmd_w },
   { "d", "Delete a watchpoint", cmd_d },
 
