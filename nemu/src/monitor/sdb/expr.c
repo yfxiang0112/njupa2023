@@ -170,6 +170,7 @@ static word_t eval_expr(uint32_t p, uint32_t q, bool *success) {
 		word_t addr;
 		if ((tokens[p].str+ind)[1]=='x'||(tokens[p].str+ind)[1]=='X') { 
 			addr =  strtol(tokens[p].str+ind+2, NULL, 16); 
+			printf("%d\n", addr);
 		}
 		addr =  atoi(tokens[p].str+ind);
 
