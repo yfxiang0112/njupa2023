@@ -175,6 +175,7 @@ static word_t eval_expr(uint32_t p, uint32_t q, bool *success) {
 			return val+1;
 		}
 
+		assert(0);
 
 	}
 
