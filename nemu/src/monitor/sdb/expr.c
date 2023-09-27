@@ -48,7 +48,7 @@ static struct rule {
   {"!=", TK_NEQ},             // nonequal
 	{"&&", TK_AND},	  		  	  // and
 	{"\\|\\|", TK_OR},	      	 // or 
-	{"\\$[a-z|A-Z|$|0-9]+", TK_REG}		// register pointer
+	{"\\$ ?[a-z|A-Z|$|0-9]+", TK_REG}		// register pointer
 };
 
 #define NR_REGEX ARRLEN(rules)
