@@ -168,7 +168,7 @@ static word_t eval_expr(uint32_t p, uint32_t q, bool *success) {
 			idx ++;
 		}
 
-		printf("a%d\n", idx);
+		printf("%d\n", idx);
 		if (tokens[idx].type==TK_NUM || tokens[idx].type==TK_REG || check_parentheses(idx, q)) {
 			
 			val = eval_expr(p+1, q, success);
@@ -256,23 +256,23 @@ static word_t eval_expr(uint32_t p, uint32_t q, bool *success) {
 
 		/* evaluate unary expression */
 		else if (main_op == p) {
-			/* case 6.1 deference*/
-			if (tokens[main_op].type == TK_DRF) {
-				word_t addr= eval_expr(main_op+1, q, success);
+	//		/* case 6.1 deference*/
+	//		if (tokens[main_op].type == TK_DRF) {
+	//			word_t addr= eval_expr(main_op+1, q, success);
 
-				/* inv addr */
-				if(addr-CONFIG_MBASE > CONFIG_MSIZE) {
-					printf("Invalid memory address: %x \n", addr);
-					*success = false;
-					return 0;
-				}
-				return paddr_read(addr, 4);
-			}
+	//			/* inv addr */
+	//			if(addr-CONFIG_MBASE > CONFIG_MSIZE) {
+	//				printf("Invalid memory address: %x \n", addr);
+	//				*success = false;
+	//				return 0;
+	//			}
+	//			return paddr_read(addr, 4);
+	//		}
 
-			/* case 6.2: negative number */
-			else if (tokens[main_op].type == TK_NEG) {
-				return 0 - eval_expr(main_op+1, q, success);
-			}
+	//		/* case 6.2: negative number */
+	//		else if (tokens[main_op].type == TK_NEG) {
+	//			return 0 - eval_expr(main_op+1, q, success);
+	//		}
 
 			/* inv unary op */
 			*success = false;
@@ -352,8 +352,8 @@ unsigned int op_prio(int type) {
 									return 4;
 		case TK_MUL: case TK_DIV:
 								 return 5;
-		case TK_DRF: case TK_NEG:
-								 return 6;
+	//	case TK_DRF: case TK_NEG:
+	//							 return 6;
 		default:
 								 return 0;
 	}
