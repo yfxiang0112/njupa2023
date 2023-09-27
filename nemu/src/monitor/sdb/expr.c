@@ -112,7 +112,7 @@ static bool make_token(char *e) {
 					/* case of deference (single '*') or neg sign (single '-'). 
 					 * Modify the value of tokens[i]. */
 					case TK_MUL: case TK_MINU:
-						if ((nr_token==0) || (tokens[nr_token-1].type != TK_RB && tokens[nr_token-1].type != TK_NUM)) {
+						if ((nr_token==0) || (tokens[nr_token-1].type != TK_RB && tokens[nr_token-1].type != TK_NUM && tokens[nr_token-1].type != TK_DRF && tokens[nr_token-1].type != TK_REG)) {
 							if (rules[i].token_type == TK_MUL) { tokens[nr_token].type = TK_DRF; }
 							else if (rules[i].token_type == TK_MINU) { tokens[nr_token].type = TK_NEG; }
 							nr_token++;
