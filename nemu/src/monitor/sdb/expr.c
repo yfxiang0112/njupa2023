@@ -321,16 +321,18 @@ static bool check_parentheses(uint32_t p, uint32_t q){
 
 unsigned int op_prio(int type) {
 	switch(type) {
-		case TK_PLUS: case TK_MINU:
-									return 1;
-		case TK_MUL: case TK_DIV:
-								 return 2;
 		case TK_EQ: case TK_NEQ:
-								 return 3;
-		case TK_AND:
-								 return 4;
+								 return 1;
 		case TK_OR:
+								 return 2;
+		case TK_AND:
+								 return 3;
+		case TK_PLUS: case TK_MINU:
+									return 4;
+		case TK_MUL: case TK_DIV:
 								 return 5;
+		case TK_DRF: case TK_NEG:
+								 return 6;
 		default:
 								 return 0;
 	}
