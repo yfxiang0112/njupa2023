@@ -162,7 +162,7 @@ static word_t eval_expr(uint32_t p, uint32_t q, bool *success) {
 
 	/* case 1. dereference */
 	if (tokens[p].type == TK_DRF) {
-		int ind = 1;
+		int ind = 0;
 		while (tokens[p].str[ind] == ' ') {
 			ind ++;
 		}
