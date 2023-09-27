@@ -161,28 +161,28 @@ word_t expr(char *e, bool *success) {
 static word_t eval_expr(uint32_t p, uint32_t q, bool *success) {
 
 	/* case 1. dereference */
-	if (tokens[p].type == TK_DRF) {
-
-		/* generate address from number */
-		word_t addr=0;
-		/* 
-		if (tokens[p].str[1]=='x' || tokens[p].str[1]=='X') { 
-			addr =  strtol(tokens[p].str+2, NULL, 16); 
-		} else {
-			addr =  atoi(tokens[p].str);
-		}
-		*/
-
-		if(addr-CONFIG_MBASE > CONFIG_MSIZE) {
-			printf("Invalid memory address: %x \n", addr);
-			*success = false;
-			return 0;
-		}
-		return paddr_read(addr, 4);
-	}
+//	if (tokens[p].type == TK_DRF) {
+//
+//		/* generate address from number */
+//		word_t addr=0;
+//		/* 
+//		if (tokens[p].str[1]=='x' || tokens[p].str[1]=='X') { 
+//			addr =  strtol(tokens[p].str+2, NULL, 16); 
+//		} else {
+//			addr =  atoi(tokens[p].str);
+//		}
+//		*/
+//
+//		if(addr-CONFIG_MBASE > CONFIG_MSIZE) {
+//			printf("Invalid memory address: %x \n", addr);
+//			*success = false;
+//			return 0;
+//		}
+//		return paddr_read(addr, 4);
+//	}
 
 	/* case 2. negtive number */
-	else if (tokens[p].type == TK_NEG) {
+	if (tokens[p].type == TK_NEG) {
 		return 0-eval_expr(p+1, p+1, success);
 	}
 
@@ -234,8 +234,28 @@ static word_t eval_expr(uint32_t p, uint32_t q, bool *success) {
 			printf("Invalid expression, cannot find main op. Please input a valid expression.\n");
 			return 0;
 		}
+
+		/* evaluate unary expression */
 		else if (main_op == p) {
 			printf("get 0 op\n");
+
+			/* case 6.1 deference*/
+			if (tokens[main_op].type == TK_DRF) {
+				word_t addr= eval_expr(main_op+1, q, success);
+
+				/* inv addr */
+				if(addr-CONFIG_MBASE > CONFIG_MSIZE) {
+					printf("Invalid memory address: %x \n", addr);
+					*success = false;
+					return 0;
+				}
+				return paddr_read(addr, 4);
+			}
+
+
+			/* inv unary op */
+			*success = false;
+			printf("Invalid expression, cannot find main op. Please input a valid expression.\n");
 			return 0;
 		}
 		
