@@ -182,12 +182,12 @@ static word_t eval_expr(uint32_t p, uint32_t q, bool *success) {
 //	}
 
 	/* case 2. negtive number */
-	if (tokens[p].type == TK_NEG) {
-		return 0-eval_expr(p+1, p+1, success);
-	}
+//	if (tokens[p].type == TK_NEG) {
+//		return 0-eval_expr(p+1, p+1, success);
+//	}
 
 	/* case 3. single number */
-	else if (p==q && tokens[p].type == TK_NUM) { 
+	if (p==q && tokens[p].type == TK_NUM) { 
 		if (tokens[p].str[1]=='x'||tokens[p].str[1]=='X') { 
 			return strtol(tokens[p].str+2, NULL, 16); 
 		}
@@ -237,8 +237,6 @@ static word_t eval_expr(uint32_t p, uint32_t q, bool *success) {
 
 		/* evaluate unary expression */
 		else if (main_op == p) {
-			printf("get 0 op\n");
-
 			/* case 6.1 deference*/
 			if (tokens[main_op].type == TK_DRF) {
 				word_t addr= eval_expr(main_op+1, q, success);
@@ -252,6 +250,10 @@ static word_t eval_expr(uint32_t p, uint32_t q, bool *success) {
 				return paddr_read(addr, 4);
 			}
 
+			/* case 6.2: negative number */
+			else if (tokens[main_op].type == TK_NEG) {
+				return 0 - eval_expr(main_op+1, q, success);
+			}
 
 			/* inv unary op */
 			*success = false;
