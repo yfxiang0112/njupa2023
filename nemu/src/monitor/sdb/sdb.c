@@ -103,6 +103,7 @@ static int cmd_x(char *args){
 	if (strlen(addr_str)==0) {
 		addr = strtol(len_str, &endptr, 16);
 		len = 1;
+		printf("%x", addr);
 	}
 	else {
 		len = atoi(len_str);
