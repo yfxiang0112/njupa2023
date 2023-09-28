@@ -100,6 +100,7 @@ static int cmd_x(char *args){
 	char *addr_str = strtok(NULL, " ");
 
 	/* turn into int. */
+	printf("%s\n", len_str);
 	if (strlen(addr_str)==0) {
 		addr = strtol(len_str, &endptr, 16);
 		len = 1;
