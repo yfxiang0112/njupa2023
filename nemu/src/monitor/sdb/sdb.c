@@ -101,6 +101,7 @@ static int cmd_x(char *args){
 
 	/* turn into int. */
 	printf("%s\n", len_str);
+	printf("-len2 %s", addr_str);
 	if (strlen(addr_str)==0) {
 		addr = strtol(len_str, &endptr, 16);
 		len = 1;
