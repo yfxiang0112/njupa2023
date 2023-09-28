@@ -100,9 +100,15 @@ static int cmd_x(char *args){
 	char *addr_str = strtok(NULL, " ");
 
 	/* turn into int. */
-	len = atoi(len_str);
-	if (len<=0) { return 0; }
-	addr = strtol(addr_str, &endptr, 16);
+	if (strlen(addr_str)==0) {
+		addr = strtol(len_str, &endptr, 16);
+		len = 1;
+	}
+	else {
+		len = atoi(len_str);
+		if (len<=0) { return 0; }
+		addr = strtol(addr_str, &endptr, 16);
+	}
 	
 	/* evaluate & increse pmem address. */
 	for (int i=0; i<len; i++){
