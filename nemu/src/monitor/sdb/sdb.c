@@ -90,8 +90,10 @@ static int cmd_info(char *args){
 
 /* scan emory. */
 static int cmd_x(char *args){
+	bool success = true;
+
 	//char *expr = args;
-	char *endptr;
+	//char *endptr;
 	uint32_t addr;
 	int32_t len;
 
@@ -101,13 +103,15 @@ static int cmd_x(char *args){
 
 	/* turn into int. */
 	if (addr_str==NULL) {
-		addr = strtol(len_str, &endptr, 16);
+		//addr = strtol(len_str, &endptr, 16);
+		addr = expr(len_str, &success);
 		len = 1;
 	}
 	else {
 		len = atoi(len_str);
 		if (len<=0) { return 0; }
-		addr = strtol(addr_str, &endptr, 16);
+		//addr = strtol(addr_str, &endptr, 16);
+		addr = expr(addr_str, &success);
 	}
 	
 	/* evaluate & increse pmem address. */
