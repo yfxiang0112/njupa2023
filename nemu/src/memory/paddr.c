@@ -57,13 +57,20 @@ void init_mem() {
 }
 
 word_t paddr_read(paddr_t addr, int len) {
+	word_t res;
+
 #ifdef CONFIG_MTRACE 
 	if (CONFIG_MTRACE) {
-		printf("read memory at %x with length %d\n", addr, len);
+		printf("m-trace: read  at %x (%d)\n", addr, len);
 	}
 #endif
 
-  if (likely(in_pmem(addr))) return pmem_read(addr, len);
+  if (likely(in_pmem(addr))) {
+		res = pmem_read(addr, len);
+		IFDEF(CONFIG_MTRACE, if (CONFIG_MTRACE) printf("=%x\n",res);)
+		return res;
+	}
+
   IFDEF(CONFIG_DEVICE, return mmio_read(addr, len));
   out_of_bound(addr);
   return 0;
