@@ -61,13 +61,13 @@ word_t paddr_read(paddr_t addr, int len) {
 
 #ifdef CONFIG_MTRACE 
 	if (CONFIG_MTRACE) {
-		printf("m-trace: read  at %x(%d)  ", addr, len);
+		printf("m-trace: read  at %x(%d) ", addr, len);
 	}
 #endif
 
   if (likely(in_pmem(addr))) {
 		res = pmem_read(addr, len);
-		IFDEF(CONFIG_MTRACE, if (CONFIG_MTRACE) printf("=%x\n",res);)
+		IFDEF(CONFIG_MTRACE, if (CONFIG_MTRACE) printf("= %x\n",res);)
 		return res;
 	}
 
