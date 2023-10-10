@@ -101,10 +101,13 @@ static void execute(uint64_t n) {
 			if (ITRACE_COND) {
 				if (nemu_state.halt_ret != 0) {
 					log_write("IRINGBUF:\n");
+					printf("IRINGBUF:\n");
 					for (uint32_t i=0; i<16; i++) {
 						log_write("%s\n",s.iringbuf[i]);
+						printf("%s\n",s.iringbuf[i]);
 					}
 					log_write("curr ring:%ld\n", s.ring_curr);
+					printf("curr ring:%ld\n", s.ring_curr);
 				}
 			}
 #endif
