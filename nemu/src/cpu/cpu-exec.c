@@ -66,22 +66,20 @@ static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
 void quit_trace() {
 #ifdef CONFIG_ITRACE_COND
 			if (ITRACE_COND) {
-				if (nemu_state.halt_ret != 0 || nemu_state.state == NEMU_ABORT || nemu_state.state == NEMU_QUIT || nemu_state.state==NEMU_STOP) {
-					log_write("HIT BAD TRAP.\nlast instructions be executed:\n");
-					printf(ANSI_FMT("last instructions be executed:\n", ANSI_FG_RED));
+				log_write("HIT BAD TRAP.\nlast instructions be executed:\n");
+				printf(ANSI_FMT("last instructions be executed:\n", ANSI_FG_RED));
 
-					for (int i=ringidx+1; i<I_TRACE_BUF_LEN; i++) {
-						log_write("%s\n",iringbuf[i]);
-						printf("%s\n", iringbuf[i]);
-					}
-					for (int i=0; i<ringidx-1; i++) {
-						log_write("%s\n",iringbuf[i]);
-						printf("%s\n", iringbuf[i]);
-					}
-
-					printf(ANSI_FMT("%s\n", ANSI_FG_RED), iringbuf[ringidx-1]);
-					log_write("%s\n", iringbuf[ringidx-1]);
+				for (int i=ringidx+1; i<I_TRACE_BUF_LEN; i++) {
+					log_write("%s\n",iringbuf[i]);
+					printf("%s\n", iringbuf[i]);
 				}
+				for (int i=0; i<ringidx-1; i++) {
+					log_write("%s\n",iringbuf[i]);
+					printf("%s\n", iringbuf[i]);
+				}
+
+				printf(ANSI_FMT("%s\n", ANSI_FG_RED), iringbuf[ringidx-1]);
+				log_write("%s\n", iringbuf[ringidx-1]);
 			}
 #endif
 }
@@ -173,10 +171,12 @@ void cpu_exec(uint64_t n) {
            (nemu_state.halt_ret == 0 ? ANSI_FMT("HIT GOOD TRAP", ANSI_FG_GREEN) :
             ANSI_FMT("HIT BAD TRAP", ANSI_FG_RED))),
           nemu_state.halt_pc);
+			if (nemu_state.halt_ret != 0) {
+				quit_trace();
+			}
 
       // fall through
     case NEMU_QUIT: 
-			quit_trace();
 			statistic();
   }
 }
