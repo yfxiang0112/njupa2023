@@ -24,6 +24,7 @@
  * You can modify this value as you want.
  */
 #define MAX_INST_TO_PRINT 30
+#define I_TRACE_BUF_LEN  16
 
 CPU_state cpu = {};
 uint64_t g_nr_guest_inst = 0;
@@ -32,16 +33,26 @@ static bool g_print_step = false;
 
 void device_update();
 
+#ifdef CONFIG_WATCHPOINT
 bool scan_wp();
+#endif
+
+#ifdef CONFIG_ITRACE_QUIT
+char iringbuf[16][128];
+int ringidx = 0;
+#endif
 
 static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
 #ifdef CONFIG_ITRACE_COND
   if (ITRACE_COND) { log_write("%s\n", _this->logbuf); }
+#endif
+#ifdef CONFIG_ITRACE_QUIT
 	if (ITRACE_COND) {
-		strncpy(_this->iringbuf[_this->ring_curr], _this->logbuf, 127);
-		_this->ring_curr = (_this->ring_curr +1) %16;
+		strncpy(iringbuf[ringidx], _this->logbuf, 127);
+		ringidx = (ringidx +1) % I_TRACE_BUF_LEN;
 	}
 #endif
+
   if (g_print_step) { IFDEF(CONFIG_ITRACE, puts(_this->logbuf)); }
   IFDEF(CONFIG_DIFFTEST, difftest_step(_this->pc, dnpc));
 
@@ -51,6 +62,24 @@ static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
 	}
 #endif
 }
+
+void quit_trace() {
+#ifdef CONFIG_ITRACE_COND
+			if (ITRACE_COND) {
+				if (nemu_state.halt_ret != 0) {
+					log_write("IRINGBUF:\n");
+					printf("IRINGBUF:\n");
+					for (int i=0; i<I_TRACE_BUF_LEN; i++) {
+						log_write("%s\n",iringbuf[i]);
+						printf("%2d: %s\n", i+1, iringbuf[i]);
+					}
+					log_write("curr ring:%d\n", ringidx);
+					printf("curr ring:%d\n", ringidx);
+				}
+			}
+#endif
+}
+
 
 static void exec_once(Decode *s, vaddr_t pc) {
   s->pc = pc;
@@ -86,9 +115,6 @@ static void exec_once(Decode *s, vaddr_t pc) {
 static void execute(uint64_t n) {
   Decode s;
 	
-#ifdef CONFIG_ITRACE_COND
-	if (ITRACE_COND) { s.ring_curr = 0; }
-#endif
   for (;n > 0; n --) {
     exec_once(&s, cpu.pc);
     g_nr_guest_inst ++;
@@ -96,22 +122,6 @@ static void execute(uint64_t n) {
     if (nemu_state.state != NEMU_RUNNING) break;
     IFDEF(CONFIG_DEVICE, device_update());
   }
-
-	//TODO: optimize UI, TODO: function enclosure
-#ifdef CONFIG_ITRACE_COND
-			if (ITRACE_COND) {
-				if (nemu_state.halt_ret != 0) {
-					log_write("IRINGBUF:\n");
-					printf("IRINGBUF:\n");
-					for (uint32_t i=0; i<16; i++) {
-						log_write("%s\n",s.iringbuf[i]);
-						printf("%2d: %s\n", i+1, s.iringbuf[i]);
-					}
-					log_write("curr ring:%ld\n", s.ring_curr);
-					printf("curr ring:%ld\n", s.ring_curr);
-				}
-			}
-#endif
 
 }
 

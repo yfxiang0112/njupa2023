@@ -25,8 +25,6 @@ typedef struct Decode {
   ISADecodeInfo isa;
 #ifdef CONFIG_ITRACE
 	char logbuf[128];
-	char iringbuf[16][128];
-	size_t ring_curr;
 #endif
 } Decode;
 
