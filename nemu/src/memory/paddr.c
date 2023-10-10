@@ -61,7 +61,7 @@ word_t paddr_read(paddr_t addr, int len) {
 
 #ifdef CONFIG_MTRACE 
 	if (CONFIG_MTRACE) {
-		printf("m-trace: read  at %x (%d)\n", addr, len);
+		printf("m-trace: read  at %x (%d)", addr, len);
 	}
 #endif
 
