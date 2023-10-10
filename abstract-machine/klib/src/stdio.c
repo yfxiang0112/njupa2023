@@ -31,7 +31,6 @@ char* itoa(int num, char* buf, size_t base) {
 	while (arr[i] == 0) {
 		i++;
 	}
-	
 	for (; i<64; i++) {
 		*buf = arr[i] + '0';
 		buf ++;
