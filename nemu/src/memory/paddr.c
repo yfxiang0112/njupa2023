@@ -63,7 +63,7 @@ word_t paddr_read(paddr_t addr, int len) {
 
   if (likely(in_pmem(addr))) {
 		res = pmem_read(addr, len);
-		IFDEF(CONFIG_MTRACE, if (CONFIG_MTRACE) printf("= %x\n",res);)
+		IFDEF(CONFIG_MTRACE, if (CONFIG_MTRACE) printf("= 0x%x\n",res);)
 		return res;
 	}
 
@@ -74,7 +74,7 @@ word_t paddr_read(paddr_t addr, int len) {
 
 void paddr_write(paddr_t addr, int len, word_t data) {
 
-	IFDEF(CONFIG_MTRACE, if (CONFIG_MTRACE) printf("MTRACE: write at %x(%d) = %x", addr, len, data);)
+	IFDEF(CONFIG_MTRACE, if (CONFIG_MTRACE) printf("MTRACE: write at %x(%d) = 0x%x\n", addr, len, data);)
 	
   if (likely(in_pmem(addr))) { pmem_write(addr, len, data); return; }
   IFDEF(CONFIG_DEVICE, mmio_write(addr, len, data); return);
