@@ -96,6 +96,19 @@ static void execute(uint64_t n) {
     if (nemu_state.state != NEMU_RUNNING) break;
     IFDEF(CONFIG_DEVICE, device_update());
   }
+
+#ifdef CONFIG_ITRACE_COND
+			if (ITRACE_COND) {
+				if (nemu_state.halt_ret != 0) {
+					log_write("IRINGBUF:\n");
+					for (uint32_t i=0; i<16; i++) {
+						log_write("%s\n",s.iringbuf[i]);
+
+					}
+				}
+			}
+#endif
+
 }
 
 static void statistic() {
@@ -133,11 +146,13 @@ void cpu_exec(uint64_t n) {
     case NEMU_RUNNING: nemu_state.state = NEMU_STOP; break;
 
     case NEMU_END: case NEMU_ABORT:
+
       Log("nemu: %s at pc = " FMT_WORD,
           (nemu_state.state == NEMU_ABORT ? ANSI_FMT("ABORT", ANSI_FG_RED) :
            (nemu_state.halt_ret == 0 ? ANSI_FMT("HIT GOOD TRAP", ANSI_FG_GREEN) :
             ANSI_FMT("HIT BAD TRAP", ANSI_FG_RED))),
           nemu_state.halt_pc);
+
       // fall through
     case NEMU_QUIT: statistic();
   }
