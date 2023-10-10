@@ -18,7 +18,7 @@ char* itoa(int num, char* buf, size_t base) {
 		num = -num;
 	}
 
-	while (num >0) {
+	while (num != 0) {
 		*buf = num%base + '0';
 		buf ++;
 		num /= base;
