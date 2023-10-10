@@ -66,7 +66,7 @@ static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
 void quit_trace() {
 #ifdef CONFIG_ITRACE_COND
 			if (ITRACE_COND) {
-				if (nemu_state.halt_ret != 0) {
+				if (nemu_state.halt_ret != 0 || nemu_state.state == NEMU_ABORT || nemu_state.state == NEMU_QUIT) {
 					log_write("HIT BAD TRAP.\nlast instructions be executed:\n");
 					printf(ANSI_FMT("last instructions be executed:\n", ANSI_FG_RED));
 
@@ -173,9 +173,10 @@ void cpu_exec(uint64_t n) {
            (nemu_state.halt_ret == 0 ? ANSI_FMT("HIT GOOD TRAP", ANSI_FG_GREEN) :
             ANSI_FMT("HIT BAD TRAP", ANSI_FG_RED))),
           nemu_state.halt_pc);
-			quit_trace();
 
       // fall through
-    case NEMU_QUIT: statistic();
+    case NEMU_QUIT: 
+			quit_trace();
+			statistic();
   }
 }
