@@ -103,8 +103,8 @@ static void execute(uint64_t n) {
 					log_write("IRINGBUF:\n");
 					for (uint32_t i=0; i<16; i++) {
 						log_write("%s\n",s.iringbuf[i]);
-
 					}
+					log_write("curr ring:%ld\n", s.ring_curr);
 				}
 			}
 #endif
