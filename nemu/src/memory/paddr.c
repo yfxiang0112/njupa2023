@@ -59,11 +59,7 @@ void init_mem() {
 word_t paddr_read(paddr_t addr, int len) {
 	word_t res;
 
-#ifdef CONFIG_MTRACE 
-	if (CONFIG_MTRACE) {
-		printf("m-trace: read  at %x(%d) ", addr, len);
-	}
-#endif
+	IFDEF(CONFIG_MTRACE, if (CONFIG_MTRACE) printf("MTRACE: read  at %x(%d) ", addr, len);;)
 
   if (likely(in_pmem(addr))) {
 		res = pmem_read(addr, len);
