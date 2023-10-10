@@ -74,10 +74,12 @@ void quit_trace() {
 						log_write("%s\n",iringbuf[i]);
 						printf("%s\n", iringbuf[i]);
 					}
-					for (int i=0; i<ringidx; i++) {
+					for (int i=0; i<ringidx-1; i++) {
 						log_write("%s\n",iringbuf[i]);
 						printf("%s\n", iringbuf[i]);
 					}
+
+					printf("%s\n", ANSI_FMT("HIT GOOD TRAP", ANSI_FG_RED));
 				}
 			}
 #endif
