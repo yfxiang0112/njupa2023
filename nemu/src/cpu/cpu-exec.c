@@ -67,14 +67,11 @@ void quit_trace() {
 #ifdef CONFIG_ITRACE_COND
 			if (ITRACE_COND) {
 				if (nemu_state.halt_ret != 0) {
-					log_write("IRINGBUF:\n");
-					printf("IRINGBUF:\n");
+					Log("IRINGBUF:\n");
 					for (int i=0; i<I_TRACE_BUF_LEN; i++) {
-						log_write("%s\n",iringbuf[i]);
-						printf("%2d: %s\n", i+1, iringbuf[i]);
+						Log("%s\n",iringbuf[i]);
 					}
-					log_write("curr ring:%d\n", ringidx);
-					printf("curr ring:%d\n", ringidx);
+					Log("curr ring:%d\n", ringidx);
 				}
 			}
 #endif
