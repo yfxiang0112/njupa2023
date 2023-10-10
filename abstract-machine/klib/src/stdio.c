@@ -6,6 +6,9 @@
 #if !defined(__ISA_NATIVE__) || defined(__NATIVE_USE_KLIB__)
 
 char* itoa(int num, char* buf, size_t base) {
+	size_t arr[64] = {0};
+	size_t i = 63;
+
 	if (num==0) {
 		*buf = 0;
 		*(buf+1) = '\0';
@@ -18,10 +21,20 @@ char* itoa(int num, char* buf, size_t base) {
 		num = -num;
 	}
 
-	while (num != 0) {
-		*buf = num%base + '0';
-		buf ++;
+	while (num>0 && i>=0) {
+		arr[i] = num % base;
 		num /= base;
+		i--;
+	}
+
+	i = 0;
+	while (arr[i] == 0) {
+		i++;
+	}
+	
+	for (; i<64; i++) {
+		*buf = arr[i] + '0';
+		buf ++;
 	}
 	*buf = '\0';
 
