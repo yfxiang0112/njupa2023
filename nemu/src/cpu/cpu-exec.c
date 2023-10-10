@@ -97,6 +97,7 @@ static void execute(uint64_t n) {
     IFDEF(CONFIG_DEVICE, device_update());
   }
 
+	//TODO: optimize UI, TODO: function enclosure
 #ifdef CONFIG_ITRACE_COND
 			if (ITRACE_COND) {
 				if (nemu_state.halt_ret != 0) {
