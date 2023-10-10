@@ -79,7 +79,7 @@ void quit_trace() {
 						printf("%s\n", iringbuf[i]);
 					}
 
-					printf("%s\n", ANSI_FMT("HIT GOOD TRAP", ANSI_FG_RED));
+					printf(ANSI_FMT("%s\n", ANSI_FG_RED), iringbuf[ringidx]);
 				}
 			}
 #endif
