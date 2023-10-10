@@ -66,8 +66,8 @@ static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
 void quit_trace() {
 #ifdef CONFIG_ITRACE_COND
 			if (ITRACE_COND) {
-				log_write("HIT BAD TRAP.\nlast instructions be executed:\n");
-				printf(ANSI_FMT("last instructions be executed:\n", ANSI_FG_RED));
+				log_write("\nlast instructions be executed:\n");
+				printf(ANSI_FMT("\nlast instructions be executed:\n", ANSI_FG_RED));
 
 				for (int i=ringidx+1; i<I_TRACE_BUF_LEN; i++) {
 					log_write("%s\n",iringbuf[i]);
