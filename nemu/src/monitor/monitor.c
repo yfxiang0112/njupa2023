@@ -15,11 +15,13 @@
 
 #include <isa.h>
 #include <memory/paddr.h>
+#include <elf.h>
 
 void init_rand();
 void init_log(const char *log_file);
 void init_mem();
 void init_difftest(char *ref_so_file, long img_size, int port);
+void init_ftrace(const char *elf_file);
 void init_device();
 void init_sdb();
 void init_disasm(const char *triple);
@@ -130,6 +132,9 @@ void init_monitor(int argc, char *argv[]) {
   /* Initialize the simple debugger. */
   init_sdb();
 
+	/* Initialize the function call trace file and read elf file. */
+	IFDEF(CONFIG_FTRACE, init_ftrace(ftrace_elf_file));
+
 #ifndef CONFIG_ISA_loongarch32r
   IFDEF(CONFIG_ITRACE, init_disasm(
     MUXDEF(CONFIG_ISA_x86,     "i686",
@@ -158,7 +163,17 @@ void am_init_monitor() {
   init_mem();
   init_isa();
   load_img();
+	IFDEF(CONFIG_FTRACE, init_ftrace(ftrace_elf_file));
   IFDEF(CONFIG_DEVICE, init_device());
   welcome();
 }
 #endif
+
+void init_ftrace(const char* elf_file) {
+
+	FILE *fp;
+	fp = fopen(elf_file, "r");
+	if (fp == NULL) { panic("elf file not found"); }
+
+
+}
