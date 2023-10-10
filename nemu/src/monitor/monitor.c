@@ -34,6 +34,7 @@ static void welcome() {
   Log("Build time: %s, %s", __TIME__, __DATE__);
   printf("Welcome to %s-NEMU!\n", ANSI_FMT(str(__GUEST_ISA__), ANSI_FG_YELLOW ANSI_BG_RED));
   printf("For help, type \"help\"\n");
+	printf(ANSI_FMT("always coding with PRIDE", ANSI_FG_RED));
 }
 
 #ifndef CONFIG_TARGET_AM
