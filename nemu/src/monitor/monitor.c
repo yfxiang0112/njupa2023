@@ -172,8 +172,11 @@ void am_init_monitor() {
 void init_ftrace(const char* elf_file) {
 
 	FILE *fp;
+	int a;
 	fp = fopen(elf_file, "r");
 	if (fp == NULL) { panic("elf file not found"); }
 
-
+	Elf64_Ehdr elf_head;
+	a = fread(&elf_head, sizeof(Elf64_Ehdr), 1, fp);
+	if (a==0) { panic("fail to read head"); }
 }
