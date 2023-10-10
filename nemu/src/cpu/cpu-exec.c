@@ -79,8 +79,8 @@ void quit_trace() {
 						printf("%s\n", iringbuf[i]);
 					}
 
-					printf(ANSI_FMT("%s\n", ANSI_FG_RED), iringbuf[ringidx]);
-					log_write("%s\n", iringbuf[ringidx]);
+					printf(ANSI_FMT("%s\n", ANSI_FG_RED), iringbuf[ringidx-1]);
+					log_write("%s\n", iringbuf[ringidx-1]);
 				}
 			}
 #endif
