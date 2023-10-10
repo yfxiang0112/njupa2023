@@ -68,7 +68,7 @@ void quit_trace() {
 			if (ITRACE_COND) {
 				if (nemu_state.halt_ret != 0) {
 					log_write("HIT BAD TRAP.\nlast instructions be executed:\n");
-					printf("HIT BAD TRAP.\nlast instructions be executed:\n");
+					printf(ANSI_FMT("HIT BAD TRAP.\nlast instructions be executed:\n", ANSI_FG_RED));
 
 					for (int i=ringidx+1; i<I_TRACE_BUF_LEN; i++) {
 						log_write("%s\n",iringbuf[i]);
@@ -80,6 +80,7 @@ void quit_trace() {
 					}
 
 					printf(ANSI_FMT("%s\n", ANSI_FG_RED), iringbuf[ringidx]);
+					log_write("%s\n", iringbuf[ringidx]);
 				}
 			}
 #endif
