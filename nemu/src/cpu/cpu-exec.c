@@ -63,6 +63,13 @@ static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
 #endif
 }
 
+void add_ftrace() {
+	for (int i=0; i<128; i++) {
+		printf("funct%d: %s, %x, %d\n", i, (*funct_tab)[i].name, (*funct_tab)[i].addr, (*funct_tab)[i].size);
+	}
+
+}
+
 void quit_trace() {
 #ifdef CONFIG_ITRACE_COND
 			if (ITRACE_COND) {

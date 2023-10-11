@@ -54,7 +54,6 @@ static char *ftrace_elf_file = NULL;
 static char *img_file = NULL;
 static int difftest_port = 1234;
 
-static Funct funct_tab[128];
 
 static long load_img() {
   if (img_file == NULL) {
@@ -229,16 +228,22 @@ void init_ftrace(const char* elf_file) {
 	if (!succ){ panic("fail to read sections"); }
 
 	/* filter function symbols from symtab */
+	int cnt = 0;
 	for (int i=0; i<st_num; i++) {
 		if (ELF32_ST_TYPE(symtab[i].st_info) == STT_FUNC) {
-			printf("symtab[%d], name=%d, addr=%x, size=%d\n",i,symtab[i].st_name, symtab[i].st_value, symtab[i].st_size);
-			
-			printf("%s\n", name_str + symtab[i].st_name);
+			cnt ++;
+		}
+	}
+	Funct temp[cnt];
+	*funct_tab = temp;
 
-			funct_tab[i].addr = symtab[i].st_value;
-			funct_tab[i].size = symtab[i].st_size;
-			strncpy(funct_tab[i].name, name_str+symtab[i].st_name, 64);
-
+	int idx = 0;
+	for (int i=0; i<st_num; i++) {
+		if (ELF32_ST_TYPE(symtab[i].st_info) == STT_FUNC) {
+			(*funct_tab)[idx].addr = symtab[i].st_value;
+			(*funct_tab)[idx].size = symtab[i].st_size;
+			strncpy((*funct_tab)[idx].name, name_str+symtab[i].st_name, 64);
+			idx ++;
 		}
 	}
 	

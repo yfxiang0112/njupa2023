@@ -78,6 +78,7 @@ typedef struct Funct {
 	word_t size;
 	char name[65];
 } Funct;
+Funct **funct_tab;
 
 
 #endif
