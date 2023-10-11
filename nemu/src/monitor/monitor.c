@@ -203,7 +203,8 @@ void init_ftrace(const char* elf_file) {
 	for (int i=0; i<header.e_shnum; i++) {
 		if (sections[i].sh_type == SHT_SYMTAB) {
 			printf("offset=%x\n", sections[i].sh_offset);
-			printf("offsize=%x\n", sections[i].sh_size);
+			printf("size=%x\n", sections[i].sh_size);
+			printf("symnum=%d\n", sections[i].sh_size/sections[i].sh_entsize);
 			symtab = (Elf32_Sym*)malloc(sections[i].sh_size);
 			rewind(fp);
 			succ = fseek(fp, sections[i].sh_offset, SEEK_SET);
