@@ -223,7 +223,7 @@ void init_ftrace(const char* elf_file) {
 	rewind(fp);
 	succ = fseek(fp, sections[sst_idx].sh_offset, SEEK_SET);
 	if (succ){ panic("fail to find sections"); }
-	succ = fread(name_str, 65, 1, fp);
+	succ = fread(name_str, sections[sst_idx].sh_size, 1, fp);
 	if (!succ){ panic("fail to read sections"); }
 
 	for (int i=0; i<st_num; i++) {
