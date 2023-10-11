@@ -189,7 +189,7 @@ void init_ftrace(const char* elf_file) {
 	if (a==0) { panic("fail to read head"); }
 	if (header.e_ident[0]!=0x7f||header.e_ident[1]!='E'||header.e_ident[2]!='L'||header.e_ident[3]!='F') { panic("not an elf file. "); }
 
-	sections = (Elf32_Shdr *)((char*)&header + header.e_shoff);
+	sections = (Elf32_Shdr *)(&header + header.e_shoff);
 
 	printf("sections check %d\n", sections==NULL);
 	printf("shnum=%d\n", header.e_shnum);
