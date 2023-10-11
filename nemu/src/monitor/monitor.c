@@ -228,7 +228,7 @@ void init_ftrace(const char* elf_file) {
 
 	for (int i=0; i<st_num; i++) {
 		if (ELF32_ST_TYPE(symtab[i].st_info) == STT_FUNC) {
-			printf("symtab[%d], name=%x, addr=%x, size=%x\n",i,symtab[i].st_name, symtab[i].st_value, symtab[i].st_size);
+			printf("symtab[%d], name=%d, addr=%x, size=%d\n",i,symtab[i].st_name, symtab[i].st_value, symtab[i].st_size);
 
 			
 			printf("%s\n", name_str + symtab[i].st_name);
