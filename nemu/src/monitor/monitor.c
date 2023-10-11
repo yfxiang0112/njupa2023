@@ -229,6 +229,8 @@ void init_ftrace(const char* elf_file) {
 			if (succ){ panic("fail to find sections"); }
 			succ = fread(name_str, 65, 1, fp);
 			if (!succ){ panic("fail to read sections"); }
+			
+			printf("%s\n", name_str);
 
 		}
 	}
