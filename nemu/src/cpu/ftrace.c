@@ -103,12 +103,12 @@ void rec_ftrace(vaddr_t addr, vaddr_t pc, uint32_t inst_val) {
 
 	for (int i=0; i<func_num; i++) {
 		if (addr == funct_tab[i].addr) {
-			call_node new_call;
+			call_node *new_call = malloc(sizeof(call_node));
 			printf("0x%x%*scall [%s @0x%x]\n", pc, call_cnt, " ", funct_tab[i].name, addr);
 			call_cnt ++;
-			new_call.func_ind = i;
-			new_call.next = call_stack->next;
-			call_stack = &new_call;
+			new_call->func_ind = i;
+			new_call->next = call_stack->next;
+			call_stack = new_call;
 			return;
 		}
 	}
