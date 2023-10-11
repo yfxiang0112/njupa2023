@@ -3,6 +3,8 @@
 Funct funct_tab[512];
 int func_num = 0;
 
+int call_cnt = 0;
+
 void init_ftrace(const char* elf_file) {
 
 	/* load elf file */
@@ -77,12 +79,18 @@ void rec_ftrace(vaddr_t addr, vaddr_t pc, uint32_t inst_val) {
 	if (!CONFIG_FTRACE) { return; }
 
 	if (inst_val == 0x00008067) {
+		for (int j=0; j<call_cnt; j++) { printf(" "); }
 		printf("ret\n");
-	} else {
-		for (int i=0; i<func_num; i++) {
-			if (addr == funct_tab[i].addr) {
-				printf("call [%s @0x%d]\n", funct_tab[i].name, addr);
-			}
+		call_cnt --;
+		return;
+	}
+
+	for (int i=0; i<func_num; i++) {
+		if (addr == funct_tab[i].addr) {
+			for (int j=0; j<call_cnt; j++) { printf(" "); }
+			printf("call [%s @0x%d]\n", funct_tab[i].name, addr);
+			call_cnt ++;
+			return;
 		}
 	}
 }
