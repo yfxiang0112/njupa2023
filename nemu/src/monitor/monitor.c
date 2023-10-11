@@ -181,21 +181,21 @@ void init_ftrace(const char* elf_file) {
 	fp = fopen(elf_file, "r");
 	if (fp == NULL) { panic("elf file not found"); }
 
-	Elf64_Ehdr *header = NULL;
+	Elf64_Ehdr header;
 	Elf64_Shdr *sections;
 	Elf64_Sym *symtab = NULL;
-	a = fread(header, sizeof(Elf64_Ehdr), 1, fp);
-	if (a==0 || header==NULL) { panic("fail to read head"); }
+	a = fread(&header, sizeof(Elf64_Ehdr), 1, fp);
+	if (a==0) { panic("fail to read head"); }
 
-	printf("read header= %d\n", NULL==header);
+//	printf("read header= %d\n", header);
 
-	sections = (Elf64_Shdr *)((char*)header + header->e_shoff);
+	sections = (Elf64_Shdr *)((char*)&header + header.e_shoff);
 
-	printf("read sections= %d\n", NULL==sections);
-	for (int i=0; i<header->e_shnum; i++) {
+//	printf("read sections= %d\n", sections);
+	for (int i=0; i<header.e_shnum; i++) {
 		if (sections[i].sh_type == SHT_SYMTAB) {
 			printf("find\n");
-			symtab = (Elf64_Sym*)((char*)header + sections[i].sh_offset);
+			symtab = (Elf64_Sym*)((char*)&header + sections[i].sh_offset);
 			break;
 		}
 	}
