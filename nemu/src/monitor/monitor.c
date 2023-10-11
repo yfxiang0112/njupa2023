@@ -187,11 +187,8 @@ void init_ftrace(const char* elf_file) {
 	a = fread(&header, sizeof(Elf64_Ehdr), 1, fp);
 	if (a==0) { panic("fail to read head"); }
 
-//	printf("read header= %d\n", header);
-
 	sections = (Elf64_Shdr *)((char*)&header + header.e_shoff);
 
-//	printf("read sections= %d\n", sections);
 	for (int i=0; i<header.e_shnum; i++) {
 		if (sections[i].sh_type == SHT_SYMTAB) {
 			printf("find\n");
@@ -200,5 +197,6 @@ void init_ftrace(const char* elf_file) {
 		}
 	}
 	
+	printf("%d\n", symtab==NULL);
 	assert(symtab != NULL);
 }
