@@ -9,7 +9,8 @@ typedef struct call_node {
 	int func_ind;
 	struct call_node* next;
 } call_node;
-call_node *call_stack = NULL;
+
+call_node *call_stack;
 
 void init_ftrace(const char* elf_file) {
 
@@ -77,7 +78,8 @@ void init_ftrace(const char* elf_file) {
 			idx ++;
 		}
 	}
-	
+
+	call_stack = (call_node*)malloc(sizeof(call_node));
 }
 
 void rec_ftrace(vaddr_t addr, vaddr_t pc, uint32_t inst_val) {
@@ -103,7 +105,7 @@ void rec_ftrace(vaddr_t addr, vaddr_t pc, uint32_t inst_val) {
 
 	for (int i=0; i<func_num; i++) {
 		if (addr == funct_tab[i].addr) {
-			call_node *new_call = malloc(sizeof(call_node));
+			call_node *new_call = (call_node*)malloc(sizeof(call_node));
 			printf("0x%x%*scall [%s @0x%x]\n", pc, call_cnt, " ", funct_tab[i].name, addr);
 			call_cnt ++;
 			new_call->func_ind = i;
