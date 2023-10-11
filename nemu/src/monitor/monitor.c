@@ -200,12 +200,12 @@ void init_ftrace(const char* elf_file) {
 
 	/* search symtab from sections */
 	int st_idx = 0;
-	int sst_idx = 0;
+	int sst_idx;
 	for (int i=0; i<header.e_shnum; i++) {
 		if (sections[i].sh_type == SHT_SYMTAB) { st_idx = i; }
-		if (sections[i].sh_type == SHT_STRTAB) { sst_idx = i; }
 	}
-	if (st_idx==0 || sst_idx==0) { panic("Symbo table not found"); }
+	if (st_idx==0) { panic("Symbo table not found"); }
+	sst_idx = sections[st_idx].sh_link;
 
 	/* read entries of symbol table from elf file */
 	int st_num = sections[st_idx].sh_size/sections[st_idx].sh_entsize;
@@ -222,7 +222,7 @@ void init_ftrace(const char* elf_file) {
 	char* name_str = (char*)malloc(sections[sst_idx].sh_size);
 	rewind(fp);
 	//succ = fseek(fp, sections[sst_idx].sh_offset, SEEK_SET);
-	succ = fseek(fp, sections[sections[st_idx].sh_link].sh_offset, SEEK_SET);
+	succ = fseek(fp, sections[sst_idx].sh_offset, SEEK_SET);
 	if (succ){ panic("fail to find sections"); }
 	succ = fread(name_str, sections[sst_idx].sh_size, 1, fp);
 	if (!succ){ panic("fail to read sections"); }
