@@ -12,6 +12,6 @@ typedef struct Funct {
 
 
 void init_ftrace(const char *elf_file);
-void recr_ftrace();
+void rec_ftrace();
 
 #endif

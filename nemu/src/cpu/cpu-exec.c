@@ -16,6 +16,7 @@
 #include <cpu/cpu.h>
 #include <cpu/decode.h>
 #include <cpu/difftest.h>
+#include <cpu/trace.h>
 #include <locale.h>
 
 /* The assembly code of instructions executed is only output to the screen
@@ -37,21 +38,13 @@ void device_update();
 bool scan_wp();
 #endif
 
-#ifdef CONFIG_ITRACE_QUIT
-char iringbuf[16][128];
-int ringidx = 0;
-#endif
 
 static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
 #ifdef CONFIG_ITRACE_COND
   if (ITRACE_COND) { log_write("%s\n", _this->logbuf); }
 #endif
-#ifdef CONFIG_ITRACE_QUIT
-	if (ITRACE_COND) {
-		strncpy(iringbuf[ringidx], _this->logbuf, 127);
-		ringidx = (ringidx +1) % I_TRACE_BUF_LEN;
-	}
-#endif
+
+	rec_itrace(_this);
 
   if (g_print_step) { IFDEF(CONFIG_ITRACE, puts(_this->logbuf)); }
   IFDEF(CONFIG_DIFFTEST, difftest_step(_this->pc, dnpc));
@@ -60,28 +53,6 @@ static void trace_and_difftest(Decode *_this, vaddr_t dnpc) {
 	if (scan_wp() && nemu_state.state == NEMU_RUNNING) {
 		nemu_state.state = NEMU_STOP;
 	}
-#endif
-}
-
-
-void quit_trace() {
-#ifdef CONFIG_ITRACE_COND
-			if (ITRACE_COND) {
-				log_write("\nlast instructions be executed:\n");
-				printf(ANSI_FMT("\nlast instructions be executed:\n", ANSI_FG_RED));
-
-				for (int i=ringidx+1; i<I_TRACE_BUF_LEN; i++) {
-					log_write("%s\n",iringbuf[i]);
-					printf("%s\n", iringbuf[i]);
-				}
-				for (int i=0; i<ringidx-1; i++) {
-					log_write("%s\n",iringbuf[i]);
-					printf("%s\n", iringbuf[i]);
-				}
-
-				printf(ANSI_FMT("%s\n", ANSI_FG_RED), iringbuf[ringidx-1]);
-				log_write("%s\n", iringbuf[ringidx-1]);
-			}
 #endif
 }
 
@@ -141,7 +112,7 @@ static void statistic() {
 
 void assert_fail_msg() {
   isa_reg_display();
-	quit_trace();
+	quit_itrace();
   statistic();
 }
 
@@ -173,7 +144,7 @@ void cpu_exec(uint64_t n) {
             ANSI_FMT("HIT BAD TRAP", ANSI_FG_RED))),
           nemu_state.halt_pc);
 			if (nemu_state.halt_ret != 0) {
-				quit_trace();
+				quit_itrace();
 			}
 
       // fall through
