@@ -76,6 +76,7 @@ void init_ftrace(const char* elf_file) {
 
 void rec_ftrace() {
 #ifdef CONFIG_FTRACE
+	if (!CONFIG_FTRACE) { return; }
 	for (int i=0; i<128; i++) {
 		printf("funct%d: %s, %x, %d\n", i, funct_tab[i].name, funct_tab[i].addr, funct_tab[i].size);
 	}
