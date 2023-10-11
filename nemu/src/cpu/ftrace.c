@@ -112,7 +112,7 @@ void rec_ftrace(vaddr_t addr, vaddr_t pc, uint32_t inst_val) {
 
 			call_node *new_call = (call_node*)malloc(sizeof(call_node));
 			new_call->func_ind = i;
-			new_call->next = call_stack->next;
+			new_call->next = call_stack;
 			call_stack = new_call;
 
 			return;
