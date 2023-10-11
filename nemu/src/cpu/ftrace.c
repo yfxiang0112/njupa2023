@@ -72,14 +72,15 @@ void init_ftrace(const char* elf_file) {
 	
 }
 
-void rec_ftrace(vaddr_t addr, vaddr_t pc) {
+void rec_ftrace_call(vaddr_t addr, vaddr_t pc) {
 #ifdef CONFIG_FTRACE
 	if (!CONFIG_FTRACE) { return; }
 	for (int i=0; i<func_num; i++) {
-		//printf("funct%d: %s, %x, %d\n", i, funct_tab[i].name, funct_tab[i].addr, funct_tab[i].size);
-		if (addr == funct_tab[i].addr) {
-			printf("funct j %s @%x to %x\n", funct_tab[i].name, pc, addr);
+			printf("call [%s @0x%d]", funct_tab[i].name, addr);
 		}
 	}
 #endif
+
+void rec_ftrace_ret() {
+
 }
