@@ -207,7 +207,7 @@ void init_ftrace(const char* elf_file) {
 			symtab = (Elf32_Sym*)malloc(sections[i].sh_size);
 			succ = fseek(fp, sections[i].sh_offset, SEEK_SET);
 			if (succ){ panic("fail to find sections"); }
-			succ = fread(sections, sizeof(Elf32_Shdr)*header.e_shnum, 1, fp);
+			succ = fread(symtab, sections[i].sh_size, 1, fp);
 			if (!succ){ panic("fail to read sections"); }
 	//		symtab = (Elf32_Sym*)((char*)&header + sections[i].sh_offset);
 			break;
