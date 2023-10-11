@@ -12,11 +12,13 @@
 *
 * See the Mulan PSL v2 for more details.
 ***************************************************************************************/
+#include <elf.h>
 
 #include <isa.h>
 #include <memory/paddr.h>
-#include <elf.h>
+#include <cpu/ftrace.h>
 
+Funct **funct_tab;
 void init_rand();
 void init_log(const char *log_file);
 void init_mem();

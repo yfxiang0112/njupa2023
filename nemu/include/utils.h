@@ -73,12 +73,6 @@ uint64_t get_time();
     log_write(__VA_ARGS__); \
   } while (0)
 
-typedef struct Funct {
-	vaddr_t addr;
-	word_t size;
-	char name[65];
-} Funct;
-Funct **funct_tab;
 
 
 #endif
