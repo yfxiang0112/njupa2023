@@ -87,12 +87,12 @@ void rec_ftrace(vaddr_t addr, vaddr_t pc, uint32_t inst_val) {
 
 	for (int i=0; i<func_num; i++) {
 		if (addr == funct_tab[i].addr) {
-			for (int j=0; j<call_cnt; j++) { printf(" "); }
-			printf("call [%s @0x%d]\n", funct_tab[i].name, addr);
+//			for (int j=0; j<call_cnt; j++) { printf(" "); }
+			printf("call [%s %*s @0x%d]\n", funct_tab[i].name, call_cnt, " ", addr);
 			call_cnt ++;
 			return;
 		}
 	}
-}
 #endif
+}
 
