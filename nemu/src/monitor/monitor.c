@@ -199,7 +199,6 @@ void init_ftrace(const char* elf_file) {
 	if (!succ){ panic("fail to read sections"); }
 
 	/* search symtab from sections */
-	Elf32_Sym *symtab = NULL;
 	int st_idx = 0;
 	for (int i=0; i<header.e_shnum; i++) {
 		if (sections[i].sh_type == SHT_SYMTAB) {
@@ -214,13 +213,14 @@ void init_ftrace(const char* elf_file) {
 	printf("size=%x\n", sections[st_idx].sh_size);
 	printf("symnum=%d\n", st_num);
 
-	symtab = (Elf32_Sym*)malloc(sections[st_idx].sh_entsize);
+	Elf32_Sym* symtab[st_num]; 
 	for (int i=0; i<st_num; i++) {
+		symtab[i] = (Elf32_Sym*)malloc(sections[st_idx].sh_entsize);
 
 		succ = fseek(fp, sections[st_idx].sh_offset, SEEK_SET);
 		if (succ){ panic("fail to find sections"); }
 		succ = fread(symtab, sections[i].sh_size, 1, fp);
-		printf("symtab size=%d\n", symtab->st_size);
+		printf("symtab size=%d\n", symtab[i]->st_size);
 	}
 	rewind(fp);
 	if (!succ){ panic("fail to read sections"); }
