@@ -203,7 +203,13 @@ void init_ftrace(const char* elf_file) {
 	for (int i=0; i<header.e_shnum; i++) {
 		if (sections[i].sh_type == SHT_SYMTAB) {
 			printf("offset=%x\n", sections[i].sh_offset);
-			symtab = (Elf32_Sym*)((char*)&header + sections[i].sh_offset);
+			printf("offsize=%x\n", sections[i].sh_size);
+			symtab = (Elf32_Sym*)malloc(sections[i].sh_size);
+			succ = fseek(fp, sections[i].sh_offset, SEEK_SET);
+			if (succ){ panic("fail to find sections"); }
+			succ = fread(sections, sizeof(Elf32_Shdr)*header.e_shnum, 1, fp);
+			if (!succ){ panic("fail to read sections"); }
+	//		symtab = (Elf32_Sym*)((char*)&header + sections[i].sh_offset);
 			break;
 		}
 	}
