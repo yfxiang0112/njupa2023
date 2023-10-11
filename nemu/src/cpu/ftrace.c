@@ -94,7 +94,7 @@ void rec_ftrace(vaddr_t addr, vaddr_t pc, uint32_t inst_val) {
 				call_node *st_top_call = call_stack;
 				while (st_top_call->func_ind != i) {
 					call_cnt--;
-					printf("0x%x%*sret  [%s @0x%x]\n", pc, call_cnt, " ", funct_tab[call_stack->next->func_ind].name, addr);
+					printf("0x%x%*sret  [%s @0x%x]\n", pc, call_cnt, " ", funct_tab[st_top_call->func_ind].name, addr);
 					st_top_call = st_top_call->next;
 				}
 				call_stack = st_top_call -> next;
