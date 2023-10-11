@@ -219,18 +219,19 @@ void init_ftrace(const char* elf_file) {
 	}
 
 	/* filter function symbols from symtab */
-	char name_str[65];
+	char* name_str = NULL;
+	rewind(fp);
+	succ = fseek(fp, sections[sst_idx].sh_offset, SEEK_SET);
+	if (succ){ panic("fail to find sections"); }
+	succ = fread(name_str, 65, 1, fp);
+	if (!succ){ panic("fail to read sections"); }
+
 	for (int i=0; i<st_num; i++) {
 		if (ELF32_ST_TYPE(symtab[i].st_info) == STT_FUNC) {
 			printf("symtab[%d], name=%x, addr=%x, size=%x\n",i,symtab[i].st_name, symtab[i].st_value, symtab[i].st_size);
 
-			rewind(fp);
-			succ = fseek(fp, sections[sst_idx].sh_offset + symtab[i].st_name, SEEK_SET);
-			if (succ){ panic("fail to find sections"); }
-			succ = fread(name_str, 65, 1, fp);
-			if (!succ){ panic("fail to read sections"); }
 			
-			printf("%s\n", name_str);
+			printf("%s\n", name_str + symtab[i].st_name);
 
 		}
 	}
