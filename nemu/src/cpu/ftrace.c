@@ -3,13 +3,12 @@
 Funct funct_tab[512];
 int func_num = 0;
 
+/* struct to record call stack (usint linked lst) */
 int call_cnt = 0;
-
 typedef struct call_node {
 	int func_ind;
 	struct call_node* next;
 } call_node;
-
 call_node *call_stack;
 
 void init_ftrace(const char* elf_file) {
@@ -86,30 +85,35 @@ void rec_ftrace(vaddr_t addr, vaddr_t pc, uint32_t inst_val) {
 #ifdef CONFIG_FTRACE
 	if (!CONFIG_FTRACE) { return; }
 
+	/* case: return */
 	if (inst_val == 0x00008067) {
 		for (int i=0; i<func_num; i++) {
 			if (pc >= funct_tab[i].addr && pc <= funct_tab[i].addr+funct_tab[i].size) {
 
-				call_cnt --;
+				/* using stack, pop function returns that are not recorded */
 				call_node *st_top_call = call_stack;
 				while (st_top_call->func_ind != i) {
 					call_cnt--;
-					printf("0x%x%*sret  [%s @0x%x]\n", pc, call_cnt, " ", funct_tab[st_top_call->func_ind].name, addr);
+					printf("0x%x%*s%s  [%s]\n", pc, call_cnt, " ", ANSI_FMT("ret", ANSI_FG_YELLOW), funct_tab[st_top_call->func_ind].name);
 					st_top_call = st_top_call->next;
 				}
 				call_stack = st_top_call -> next;
-				printf("0x%x%*sret  [%s @0x%x]\n", pc, call_cnt, " ", funct_tab[i].name, addr);
+				
+				/* current return */
+				call_cnt --;
+				printf("0x%x%*sret  [%s]\n", pc, call_cnt, " ", funct_tab[i].name);
 				return;
-
 			}
 		}
 	}
 
+	/* case: call */
 	for (int i=0; i<func_num; i++) {
 		if (addr == funct_tab[i].addr) {
 			printf("0x%x%*scall [%s @0x%x]\n", pc, call_cnt, " ", funct_tab[i].name, addr);
 			call_cnt ++;
 
+			/* use stack, record all function calls */
 			call_node *new_call = (call_node*)malloc(sizeof(call_node));
 			new_call->func_ind = i;
 			new_call->next = call_stack;
@@ -118,6 +122,7 @@ void rec_ftrace(vaddr_t addr, vaddr_t pc, uint32_t inst_val) {
 			return;
 		}
 	}
+
 #endif
 }
 
