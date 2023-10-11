@@ -4,6 +4,5 @@ typedef struct Funct {
 	char name[65];
 } Funct;
 
-Funct **funct_tab;
 
 void recr_ftrace();
