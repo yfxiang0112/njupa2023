@@ -219,7 +219,7 @@ void init_ftrace(const char* elf_file) {
 	}
 
 	/* filter function symbols from symtab */
-	char* name_str = NULL;
+	char* name_str = (char*)malloc(sections[sst_idx].sh_size);
 	rewind(fp);
 	succ = fseek(fp, sections[sst_idx].sh_offset, SEEK_SET);
 	if (succ){ panic("fail to find sections"); }
