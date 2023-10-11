@@ -182,28 +182,27 @@ void init_ftrace(const char* elf_file) {
 	printf("elf=%s\n", elf_file);
 	if (fp == NULL) { panic("elf file not found"); }
 
-	Elf64_Ehdr header;
-	Elf64_Shdr *sections;
-	Elf64_Sym *symtab = NULL;
-	a = fread(&header, sizeof(Elf64_Ehdr), 1, fp);
+	Elf32_Ehdr header;
+	Elf32_Shdr *sections;
+	Elf32_Sym *symtab = NULL;
+	a = fread(&header, sizeof(Elf32_Ehdr), 1, fp);
 	if (a==0) { panic("fail to read head"); }
 	if (header.e_ident[0]!=0x7f||header.e_ident[1]!='E'||header.e_ident[2]!='L'||header.e_ident[3]!='F') { panic("not an elf file. "); }
 
-	sections = (Elf64_Shdr *)((char*)&header + header.e_shoff);
+	sections = (Elf32_Shdr *)((char*)&header + header.e_shoff);
 
 	printf("sections check %d\n", sections==NULL);
 	printf("shnum=%d\n", header.e_shnum);
 	printf("shentsize=%d\n", header.e_shentsize);
-	printf("shoff=%ld\n", header.e_shoff);
+	printf("shoff=%x\n", header.e_shoff);
 	printf("phnum=%d\n", header.e_phnum);
 	printf("SYMTAB=%d\n", SHT_SYMTAB);
 
-	printf("sh type 0 = %d\n", sections[0].sh_type);
 	for (int i=0; i<header.e_shnum; i++) {
 		printf("sh type %d = %d\n", i, sections[i].sh_type);
 		if (sections[i].sh_type == SHT_SYMTAB) {
 			printf("find\n");
-			symtab = (Elf64_Sym*)((char*)&header + sections[i].sh_offset);
+			symtab = (Elf32_Sym*)((char*)&header + sections[i].sh_offset);
 			break;
 		}
 	}
