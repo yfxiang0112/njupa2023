@@ -189,6 +189,8 @@ void init_ftrace(const char* elf_file) {
 
 	sections = (Elf64_Shdr *)((char*)&header + header.e_shoff);
 
+	printf("sections check %d\n", sections==NULL);
+
 	for (int i=0; i<header.e_shnum; i++) {
 		if (sections[i].sh_type == SHT_SYMTAB) {
 			printf("find\n");
@@ -197,6 +199,5 @@ void init_ftrace(const char* elf_file) {
 		}
 	}
 	
-	printf("%d\n", symtab==NULL);
 	assert(symtab != NULL);
 }
