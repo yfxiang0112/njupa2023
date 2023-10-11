@@ -200,21 +200,30 @@ void init_ftrace(const char* elf_file) {
 
 	/* search symtab from sections */
 	Elf32_Sym *symtab = NULL;
+	int st_idx = 0;
 	for (int i=0; i<header.e_shnum; i++) {
 		if (sections[i].sh_type == SHT_SYMTAB) {
-			printf("offset=%x\n", sections[i].sh_offset);
-			printf("size=%x\n", sections[i].sh_size);
-			printf("symnum=%d\n", sections[i].sh_size/sections[i].sh_entsize);
-			symtab = (Elf32_Sym*)malloc(sections[i].sh_size);
-			rewind(fp);
-			succ = fseek(fp, sections[i].sh_offset, SEEK_SET);
-			if (succ){ panic("fail to find sections"); }
-			succ = fread(symtab, sections[i].sh_size, 1, fp);
-			if (!succ){ panic("fail to read sections"); }
-	//		symtab = (Elf32_Sym*)((char*)&header + sections[i].sh_offset);
+			st_idx = i;
 			break;
 		}
 	}
+	if (st_idx == 0) { panic("Symbo table not found"); }
+
+	int st_num = sections[st_idx].sh_size/sections[st_idx].sh_entsize;
+	printf("offset=%x\n", sections[st_idx].sh_offset);
+	printf("size=%x\n", sections[st_idx].sh_size);
+	printf("symnum=%d\n", st_num);
+
+	for (int i=0; i<st_num; i++) {
+
+		symtab = (Elf32_Sym*)malloc(sections[st_idx].sh_size);
+		succ = fseek(fp, sections[st_idx].sh_offset, SEEK_SET);
+		if (succ){ panic("fail to find sections"); }
+		succ = fread(symtab, sections[i].sh_size, 1, fp);
+		printf("symtab size=%d\n", symtab->st_size);
+	}
+	rewind(fp);
+	if (!succ){ panic("fail to read sections"); }
+	//		symtab = (Elf32_Sym*)((char*)&header + sections[i].sh_offset);
 	
-	printf("symtab size=%d\n", symtab->st_size);
 }
