@@ -191,8 +191,14 @@ void init_ftrace(const char* elf_file) {
 
 	sections = (Elf32_Shdr *)((char*)&header + header.e_shoff);
 
+	printf("sections check %d\n", sections==NULL);
+	printf("shnum=%d\n", header.e_shnum);
+	printf("shentsize=%d\n", header.e_shentsize);
+	printf("shoff=%x\n", header.e_shoff);
+	printf("phnum=%d\n", header.e_phnum);
+	printf("SYMTAB=%d\n", SHT_SYMTAB);
+
 	for (int i=0; i<header.e_shnum; i++) {
-		printf("sh name %d = %d\n", i, sections[i].sh_name);
 		printf("sh type %d = %d\n", i, sections[i].sh_type);
 		if (sections[i].sh_type == SHT_SYMTAB) {
 			printf("find\n");
