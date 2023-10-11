@@ -193,6 +193,7 @@ void init_ftrace(const char* elf_file) {
 
 	printf("sections check %d\n", sections==NULL);
 	printf("shnum=%d\n", header.e_shnum);
+	printf("shentsize=%d\n", header.e_shentsize);
 	printf("shoff=%ld\n", header.e_shoff);
 	printf("phnum=%d\n", header.e_phnum);
 	printf("SYMTAB=%d\n", SHT_SYMTAB);
