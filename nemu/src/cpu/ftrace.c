@@ -1,7 +1,4 @@
-#include <common.h>
 #include <cpu/ftrace.h>
-
-Funct **funct_tab;
 
 void recr_ftrace() {
 	for (int i=0; i<128; i++) {
