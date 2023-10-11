@@ -198,7 +198,7 @@ void init_ftrace(const char* elf_file) {
 	printf("phnum=%d\n", header.e_phnum);
 	printf("SYMTAB=%d\n", SHT_SYMTAB);
 
-	printf("sh type 2 = %d\n", sections[2].sh_type);
+	printf("sh type 0 = %d\n", sections[0].sh_type);
 	for (int i=0; i<header.e_shnum; i++) {
 		printf("sh type %d = %d\n", i, sections[i].sh_type);
 		if (sections[i].sh_type == SHT_SYMTAB) {
