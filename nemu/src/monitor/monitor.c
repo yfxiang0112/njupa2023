@@ -221,7 +221,8 @@ void init_ftrace(const char* elf_file) {
 	/* filter function symbols from symtab */
 	char* name_str = (char*)malloc(sections[sst_idx].sh_size);
 	rewind(fp);
-	succ = fseek(fp, sections[sst_idx].sh_offset, SEEK_SET);
+	//succ = fseek(fp, sections[sst_idx].sh_offset, SEEK_SET);
+	succ = fseek(fp, sections[sections[st_idx].sh_link].sh_offset, SEEK_SET);
 	if (succ){ panic("fail to find sections"); }
 	succ = fread(name_str, sections[sst_idx].sh_size, 1, fp);
 	if (!succ){ panic("fail to read sections"); }
