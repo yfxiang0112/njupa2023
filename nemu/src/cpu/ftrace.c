@@ -81,8 +81,8 @@ void rec_ftrace(vaddr_t addr, vaddr_t pc, uint32_t inst_val) {
 	if (inst_val == 0x00008067) {
 		for (int i=0; i<func_num; i++) {
 			if (pc >= funct_tab[i].addr && pc <= funct_tab[i].addr+funct_tab[i].size) {
-				printf("0x%x%*sret  [%s]\n", pc, call_cnt, " ", funct_tab[i].name);
 				call_cnt --;
+				printf("0x%x%*sret  [%s]\n", pc, call_cnt, " ", funct_tab[i].name);
 				return;
 			}
 		}
