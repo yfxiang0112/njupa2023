@@ -1,6 +1,6 @@
 #include <cpu/ftrace.h>
 
-Funct **funct_tab;
+Funct funct_tab[128];
 
 void init_ftrace(const char* elf_file) {
 
@@ -59,15 +59,15 @@ void init_ftrace(const char* elf_file) {
 			cnt ++;
 		}
 	}
-	Funct temp[cnt];
-	*funct_tab = temp;
+	//Funct temp[cnt];
+	//*funct_tab = temp;
 
 	int idx = 0;
 	for (int i=0; i<st_num; i++) {
 		if (ELF32_ST_TYPE(symtab[i].st_info) == STT_FUNC) {
-			(*funct_tab)[idx].addr = symtab[i].st_value;
-			(*funct_tab)[idx].size = symtab[i].st_size;
-			strncpy((*funct_tab)[idx].name, name_str+symtab[i].st_name, 64);
+			funct_tab[idx].addr = symtab[i].st_value;
+			funct_tab[idx].size = symtab[i].st_size;
+			strncpy(funct_tab[idx].name, name_str+symtab[i].st_name, 64);
 			idx ++;
 		}
 	}
@@ -76,6 +76,6 @@ void init_ftrace(const char* elf_file) {
 
 void recr_ftrace() {
 	for (int i=0; i<128; i++) {
-		printf("funct%d: %s, %x, %d\n", i, (*funct_tab)[i].name, (*funct_tab)[i].addr, (*funct_tab)[i].size);
+		printf("funct%d: %s, %x, %d\n", i, funct_tab[i].name, funct_tab[i].addr, funct_tab[i].size);
 	}
 }
