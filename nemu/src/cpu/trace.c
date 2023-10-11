@@ -18,7 +18,6 @@ void rec_itrace(Decode *_this) {
 #endif
 }
 
-
 void quit_itrace() {
 #ifdef CONFIG_ITRACE_COND
 			if (ITRACE_COND) {
@@ -38,4 +37,12 @@ void quit_itrace() {
 				log_write("%s\n", iringbuf[ringidx-1]);
 			}
 #endif
+}
+
+void mtrace_r(paddr_t addr, int len, word_t data) {
+	IFDEF(CONFIG_MTRACE, if (CONFIG_MTRACE) printf("MTRACE: read  at %x(%d) = 0x%x\n", addr, len, data);)
+}
+
+void mtrace_w(paddr_t addr, int len, word_t data) {
+	IFDEF(CONFIG_MTRACE, if (CONFIG_MTRACE) printf("MTRACE: write at %x(%d) = 0x%x\n", addr, len, data);)
 }

@@ -16,6 +16,7 @@
 #include <memory/host.h>
 #include <memory/paddr.h>
 #include <device/mmio.h>
+#include <cpu/trace.h>
 #include <isa.h>
 
 #if   defined(CONFIG_PMEM_MALLOC)
@@ -57,13 +58,9 @@ void init_mem() {
 }
 
 word_t paddr_read(paddr_t addr, int len) {
-	word_t res;
-
-	IFDEF(CONFIG_MTRACE, if (CONFIG_MTRACE) printf("MTRACE: read  at %x(%d) ", addr, len);)
-
   if (likely(in_pmem(addr))) {
-		res = pmem_read(addr, len);
-		IFDEF(CONFIG_MTRACE, if (CONFIG_MTRACE) printf("= 0x%x\n",res);)
+		word_t res = pmem_read(addr, len);
+		mtrace_r(addr, len, res);
 		return res;
 	}
 
@@ -74,8 +71,7 @@ word_t paddr_read(paddr_t addr, int len) {
 
 void paddr_write(paddr_t addr, int len, word_t data) {
 
-	IFDEF(CONFIG_MTRACE, if (CONFIG_MTRACE) printf("MTRACE: write at %x(%d) = 0x%x\n", addr, len, data);)
-	
+	mtrace_w(addr, len, data);	
   if (likely(in_pmem(addr))) { pmem_write(addr, len, data); return; }
   IFDEF(CONFIG_DEVICE, mmio_write(addr, len, data); return);
   out_of_bound(addr);

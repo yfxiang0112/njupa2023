@@ -6,7 +6,7 @@
 void rec_itrace(Decode *_this);
 void quit_itrace();
 
-void mtrace_r();
-void mtrace_w();
+void mtrace_r(paddr_t addr, int len, word_t data);
+void mtrace_w(paddr_t addr, int len, word_t data);
 
 #endif
