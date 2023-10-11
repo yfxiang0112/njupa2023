@@ -181,7 +181,19 @@ void init_ftrace(const char* elf_file) {
 	fp = fopen(elf_file, "r");
 	if (fp == NULL) { panic("elf file not found"); }
 
-	Elf64_Ehdr elf_head;
-	a = fread(&elf_head, sizeof(Elf64_Ehdr), 1, fp);
-	if (a==0) { panic("fail to read head"); }
+	Elf64_Ehdr *header = NULL;
+	Elf64_Shdr *sections;
+	Elf64_Sym *symtab = NULL;
+	a = fread(header, sizeof(Elf64_Ehdr), 1, fp);
+	if (a==0 || header==NULL) { panic("fail to read head"); }
+
+	sections = (Elf64_Shdr *)((char*)header + header->e_shoff);
+	for (int i=0; i<header->e_shnum; i++) {
+		if (sections[i].sh_type == SHT_SYMTAB) {
+			symtab = (Elf64_Sym*)((char*)header + sections[i].sh_offset);
+			break;
+		}
+	}
+	
+	assert(symtab != NULL);
 }
