@@ -208,11 +208,8 @@ void init_ftrace(const char* elf_file) {
 	}
 	if (st_idx == 0) { panic("Symbo table not found"); }
 
+	/* read entries of symbol table from elf file */
 	int st_num = sections[st_idx].sh_size/sections[st_idx].sh_entsize;
-	printf("offset=%x\n", sections[st_idx].sh_offset);
-	printf("size=%x\n", sections[st_idx].sh_size);
-	printf("symnum=%d\n", st_num);
-
 	Elf32_Sym symtab[st_num];
 	for (int i=0; i<st_num; i++) {
 		rewind(fp);
@@ -220,7 +217,14 @@ void init_ftrace(const char* elf_file) {
 		if (succ){ panic("fail to find sections"); }
 		succ = fread(&symtab[i], sizeof(Elf32_Sym), 1, fp);
 		if (!succ){ panic("fail to read sections"); }
-		printf("symtab size=%d\n", symtab[i].st_size);
+	}
+
+	/* filter function symbols from symtab */
+	for (int i=0; i<st_num; i++) {
+		if (ELF32_ST_TYPE(symtab[i].st_info) == STT_FUNC) {
+			printf("symtab[%d], name=%x, addr=%x, size=%x\n",i,symtab[i].st_name, symtab[i].st_value, symtab[i].st_size);
+		}
+
 	}
 	
 }
