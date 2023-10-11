@@ -202,7 +202,8 @@ void init_ftrace(const char* elf_file) {
 	Elf32_Sym *symtab = NULL;
 	for (int i=0; i<header.e_shnum; i++) {
 		if (sections[i].sh_type == SHT_SYMTAB) {
-			symtab = (Elf32_Sym*)(&header + sections[i].sh_offset);
+			printf("offset=%x\n", sections[i].sh_offset);
+			symtab = (Elf32_Sym*)((char*)&header + sections[i].sh_offset);
 			break;
 		}
 	}
