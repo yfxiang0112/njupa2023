@@ -232,4 +232,8 @@ config RT_CHECK
   bool "Enable runtime checking"
   default y
 
+config PRLOGO
+	bool "nemu start page displlay"
+	default n
+
 endmenu

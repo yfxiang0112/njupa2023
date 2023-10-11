@@ -33,9 +33,11 @@ static void welcome() {
         "If it is not necessary, you can disable it in menuconfig"));
   Log("Build time: %s, %s", __TIME__, __DATE__);
 
+#ifdef CONFIG_PRLOGO
 	printf(ANSI_FMT(" ===", ANSI_FG_RED)ANSI_FMT("===", ANSI_FG_YELLOW)ANSI_FMT("===", ANSI_FG_GREEN)ANSI_FMT("===", ANSI_FG_BLUE)ANSI_FMT("===", ANSI_FG_CYAN)ANSI_FMT("===\n", ANSI_FG_MAGENTA));
 	printf(" coding with "ANSI_FMT("P", ANSI_FG_RED)ANSI_FMT("R", ANSI_FG_YELLOW)ANSI_FMT("I", ANSI_FG_GREEN)ANSI_FMT("D", ANSI_FG_BLUE)ANSI_FMT("E", ANSI_FG_CYAN)ANSI_FMT("!\n", ANSI_FG_MAGENTA));
 	printf(ANSI_FMT(" ===", ANSI_FG_RED)ANSI_FMT("===", ANSI_FG_YELLOW)ANSI_FMT("===", ANSI_FG_GREEN)ANSI_FMT("===", ANSI_FG_BLUE)ANSI_FMT("===", ANSI_FG_CYAN)ANSI_FMT("===\n", ANSI_FG_MAGENTA));
+#endif
 	
   printf("Welcome to %s-NEMU!\n", ANSI_FMT(str(__GUEST_ISA__), ANSI_FG_YELLOW ANSI_BG_RED));
   printf("For help, type \"help\"\n");
