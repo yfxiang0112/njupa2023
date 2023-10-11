@@ -111,7 +111,7 @@ static void statistic() {
 
 void assert_fail_msg() {
   isa_reg_display();
-	quit_itrace();
+	ring_itrace();
   statistic();
 }
 
@@ -143,7 +143,7 @@ void cpu_exec(uint64_t n) {
             ANSI_FMT("HIT BAD TRAP", ANSI_FG_RED))),
           nemu_state.halt_pc);
 			if (nemu_state.halt_ret != 0) {
-				quit_itrace();
+				ring_itrace();
 			}
 
       // fall through

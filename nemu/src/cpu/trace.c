@@ -18,7 +18,7 @@ void rec_itrace(Decode *_this) {
 #endif
 }
 
-void quit_itrace() {
+void ring_itrace() {
 #ifdef CONFIG_ITRACE_COND
 			if (ITRACE_COND) {
 				log_write("\nlast instructions be executed:\n");

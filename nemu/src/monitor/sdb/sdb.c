@@ -18,6 +18,7 @@
 #include <memory/paddr.h>
 #include <readline/readline.h>
 #include <readline/history.h>
+#include <cpu/trace.h>
 #include "sdb.h"
 
 static int is_batch_mode = false;
@@ -160,6 +161,12 @@ static int cmd_d(char *args) {
 	return 0;
 }
 
+/* display itrace */
+static int cmd_itr(char *args) {
+	ring_itrace();
+	return 0;
+}
+
 static int cmd_help(char *args);
 
 static struct {
@@ -177,8 +184,7 @@ static struct {
 	{ "px", "Print expression with hexdecimal", cmd_px},
   { "w", "Set a watchpoint", cmd_w },
   { "d", "Delete a watchpoint", cmd_d },
-
-  /* TODO: Add more commands */
+  { "itr", "display recent itrace", cmd_itr },
 
 };
 
