@@ -1,6 +1,7 @@
 #include <cpu/ftrace.h>
 
-Funct funct_tab[128];
+Funct funct_tab[512];
+int func_num = 0;
 
 void init_ftrace(const char* elf_file) {
 
@@ -53,14 +54,11 @@ void init_ftrace(const char* elf_file) {
 	if (!succ){ panic("fail to read sections"); }
 
 	/* filter function symbols from symtab */
-	int cnt = 0;
 	for (int i=0; i<st_num; i++) {
 		if (ELF32_ST_TYPE(symtab[i].st_info) == STT_FUNC) {
-			cnt ++;
+			func_num ++;
 		}
 	}
-	//Funct temp[cnt];
-	//*funct_tab = temp;
 
 	int idx = 0;
 	for (int i=0; i<st_num; i++) {
@@ -77,7 +75,7 @@ void init_ftrace(const char* elf_file) {
 void rec_ftrace() {
 #ifdef CONFIG_FTRACE
 	if (!CONFIG_FTRACE) { return; }
-	for (int i=0; i<128; i++) {
+	for (int i=0; i<func_num; i++) {
 		printf("funct%d: %s, %x, %d\n", i, funct_tab[i].name, funct_tab[i].addr, funct_tab[i].size);
 	}
 #endif
