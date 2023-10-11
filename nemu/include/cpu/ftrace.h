@@ -2,6 +2,7 @@
 #define __CPU_FTRACE_H__
 
 #include <common.h>
+#include <elf.h>
 
 typedef struct Funct {
 	vaddr_t addr;
@@ -9,8 +10,8 @@ typedef struct Funct {
 	char name[65];
 } Funct;
 
-extern Funct **funct_tab;
 
+void init_ftrace(const char *elf_file);
 void recr_ftrace();
 
 #endif
