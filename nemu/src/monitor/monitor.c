@@ -177,26 +177,22 @@ void am_init_monitor() {
 void init_ftrace(const char* elf_file) {
 
 	FILE *fp;
-	int a;
+	int succ;
 	fp = fopen(elf_file, "r");
 	printf("elf=%s\n", elf_file);
 	if (fp == NULL) { panic("elf file not found"); }
 
 	Elf32_Ehdr header;
-	Elf32_Shdr *sections;
+	Elf32_Shdr *sections = NULL;
 	Elf32_Sym *symtab = NULL;
-	a = fread(&header, sizeof(Elf32_Ehdr), 1, fp);
-	if (a==0) { panic("fail to read head"); }
+
+	succ = fread(&header, sizeof(Elf32_Ehdr), 1, fp);
+	if (!succ) { panic("fail to read head"); }
 	if (header.e_ident[0]!=0x7f||header.e_ident[1]!='E'||header.e_ident[2]!='L'||header.e_ident[3]!='F') { panic("not an elf file. "); }
 
-	sections = (Elf32_Shdr *)(&header + header.e_shoff);
-
-	printf("sections check %d\n", sections==NULL);
-	printf("shnum=%d\n", header.e_shnum);
-	printf("shentsize=%d\n", header.e_shentsize);
-	printf("shoff=%x\n", header.e_shoff);
-	printf("phnum=%d\n", header.e_phnum);
-	printf("SYMTAB=%d\n", SHT_SYMTAB);
+	succ = fread(sections, sizeof(Elf32_Shdr)*header.e_shnum, 1, fp);
+	if (!succ){ panic("fail to read sections"); }
+	//sections = (Elf32_Shdr *)((char*)&header + header.e_shoff);
 
 	for (int i=0; i<header.e_shnum; i++) {
 		printf("sh type %d = %d\n", i, sections[i].sh_type);
