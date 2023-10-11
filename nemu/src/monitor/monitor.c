@@ -17,7 +17,6 @@
 #include <memory/paddr.h>
 #include <cpu/ftrace.h>
 
-Funct **funct_tab;
 void init_rand();
 void init_log(const char *log_file);
 void init_mem();
