@@ -214,9 +214,9 @@ void init_ftrace(const char* elf_file) {
 	printf("size=%x\n", sections[st_idx].sh_size);
 	printf("symnum=%d\n", st_num);
 
+	symtab = (Elf32_Sym*)malloc(sections[st_idx].sh_entsize);
 	for (int i=0; i<st_num; i++) {
 
-		symtab = (Elf32_Sym*)malloc(sections[st_idx].sh_entsize);
 		succ = fseek(fp, sections[st_idx].sh_offset, SEEK_SET);
 		if (succ){ panic("fail to find sections"); }
 		succ = fread(symtab, sections[i].sh_size, 1, fp);
