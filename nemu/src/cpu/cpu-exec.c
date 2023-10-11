@@ -25,7 +25,6 @@
  * You can modify this value as you want.
  */
 #define MAX_INST_TO_PRINT 30
-#define I_TRACE_BUF_LEN  16
 
 CPU_state cpu = {};
 uint64_t g_nr_guest_inst = 0;
