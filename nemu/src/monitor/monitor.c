@@ -213,14 +213,13 @@ void init_ftrace(const char* elf_file) {
 	printf("size=%x\n", sections[st_idx].sh_size);
 	printf("symnum=%d\n", st_num);
 
-	Elf32_Sym symtab[st_num];
+	Elf32_Sym symtab;
 	for (int i=0; i<st_num; i++) {
-
 		rewind(fp);
 		succ = fseek(fp, sections[st_idx].sh_offset + i*sizeof(Elf32_Sym), SEEK_SET);
 		if (succ){ panic("fail to find sections"); }
-		succ = fread(&symtab[i], sizeof(Elf32_Sym), 1, fp);
-		printf("symtab size=%d\n", symtab[i].st_size);
+		succ = fread(&symtab, sizeof(Elf32_Sym), 1, fp);
+		printf("symtab size=%d\n", symtab.st_size);
 	}
 	if (!succ){ panic("fail to read sections"); }
 	//		symtab = (Elf32_Sym*)((char*)&header + sections[i].sh_offset);
