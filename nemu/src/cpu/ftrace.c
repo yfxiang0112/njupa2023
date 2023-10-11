@@ -79,15 +79,13 @@ void rec_ftrace(vaddr_t addr, vaddr_t pc, uint32_t inst_val) {
 	if (!CONFIG_FTRACE) { return; }
 
 	if (inst_val == 0x00008067) {
-		for (int j=0; j<call_cnt; j++) { printf(" "); }
-		printf("ret\n");
+		printf("0x%x%*sret\n", pc, call_cnt, " ");
 		call_cnt --;
 		return;
 	}
 
 	for (int i=0; i<func_num; i++) {
 		if (addr == funct_tab[i].addr) {
-//			for (int j=0; j<call_cnt; j++) { printf(" "); }
 			printf("call%*s[%s @0x%d]\n", call_cnt, " ", funct_tab[i].name, addr);
 			call_cnt ++;
 			return;
