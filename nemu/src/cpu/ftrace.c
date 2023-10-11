@@ -90,13 +90,14 @@ void rec_ftrace(vaddr_t addr, vaddr_t pc, uint32_t inst_val) {
 		for (int i=0; i<func_num; i++) {
 			if (pc >= funct_tab[i].addr && pc <= funct_tab[i].addr+funct_tab[i].size) {
 				call_cnt --;
-				call_node curr_call;
-				curr_call = *(call_stack->next);
-				while (curr_call.func_ind != i) {
+				call_node *st_top_call;
+				st_top_call = call_stack;
+				while (st_top_call->func_ind != i) {
 					call_cnt--;
 					printf("0x%x%*sret  [%s @0x%x]\n", pc, call_cnt, " ", funct_tab[call_stack->next->func_ind].name, addr);
-					call_stack = curr_call.next;
+					st_top_call = st_top_call->next;
 				}
+				call_stack = st_top_call;
 				printf("0x%x%*sret  [%s @0x%x]\n", pc, call_cnt, " ", funct_tab[i].name, addr);
 				return;
 			}
@@ -105,12 +106,14 @@ void rec_ftrace(vaddr_t addr, vaddr_t pc, uint32_t inst_val) {
 
 	for (int i=0; i<func_num; i++) {
 		if (addr == funct_tab[i].addr) {
-			call_node *new_call = (call_node*)malloc(sizeof(call_node));
 			printf("0x%x%*scall [%s @0x%x]\n", pc, call_cnt, " ", funct_tab[i].name, addr);
 			call_cnt ++;
+
+			call_node *new_call = (call_node*)malloc(sizeof(call_node));
 			new_call->func_ind = i;
 			new_call->next = call_stack->next;
 			call_stack = new_call;
+
 			return;
 		}
 	}
