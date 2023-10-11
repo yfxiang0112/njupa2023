@@ -179,6 +179,7 @@ void init_ftrace(const char* elf_file) {
 	FILE *fp;
 	int a;
 	fp = fopen(elf_file, "r");
+	printf("elf=%s\n", elf_file);
 	if (fp == NULL) { panic("elf file not found"); }
 
 	Elf64_Ehdr header;
@@ -186,6 +187,7 @@ void init_ftrace(const char* elf_file) {
 	Elf64_Sym *symtab = NULL;
 	a = fread(&header, sizeof(Elf64_Ehdr), 1, fp);
 	if (a==0) { panic("fail to read head"); }
+	if (header.e_ident[0]!=0x7f||header.e_ident[1]!='E'||header.e_ident[2]!='L'||header.e_ident[3]!='F') { panic("not an elf file. "); }
 
 	sections = (Elf64_Shdr *)((char*)&header + header.e_shoff);
 
