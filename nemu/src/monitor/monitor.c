@@ -200,13 +200,12 @@ void init_ftrace(const char* elf_file) {
 
 	/* search symtab from sections */
 	int st_idx = 0;
+	int sst_idx = 0;
 	for (int i=0; i<header.e_shnum; i++) {
-		if (sections[i].sh_type == SHT_SYMTAB) {
-			st_idx = i;
-			break;
-		}
+		if (sections[i].sh_type == SHT_SYMTAB) { st_idx = i; }
+		if (sections[i].sh_type == SHT_STRTAB) { sst_idx = i; }
 	}
-	if (st_idx == 0) { panic("Symbo table not found"); }
+	if (st_idx==0 || sst_idx==0) { panic("Symbo table not found"); }
 
 	/* read entries of symbol table from elf file */
 	int st_num = sections[st_idx].sh_size/sections[st_idx].sh_entsize;
@@ -220,11 +219,18 @@ void init_ftrace(const char* elf_file) {
 	}
 
 	/* filter function symbols from symtab */
+	char name_str[65];
 	for (int i=0; i<st_num; i++) {
 		if (ELF32_ST_TYPE(symtab[i].st_info) == STT_FUNC) {
 			printf("symtab[%d], name=%x, addr=%x, size=%x\n",i,symtab[i].st_name, symtab[i].st_value, symtab[i].st_size);
-		}
 
+			rewind(fp);
+			succ = fseek(fp, sections[sst_idx].sh_offset + symtab[i].st_name, SEEK_SET);
+			if (succ){ panic("fail to find sections"); }
+			succ = fread(name_str, 65, 1, fp);
+			if (!succ){ panic("fail to read sections"); }
+
+		}
 	}
 	
 }
