@@ -9,7 +9,7 @@ typedef struct call_node {
 	int func_ind;
 	struct call_node* next;
 } call_node;
-call_node *call_stack;
+call_node *call_stack = NULL;
 
 void init_ftrace(const char* elf_file) {
 
