@@ -189,6 +189,8 @@ void init_ftrace(const char* elf_file) {
 	if (header.e_ident[0]!=0x7f||header.e_ident[1]!='E'||header.e_ident[2]!='L'||header.e_ident[3]!='F') { panic("not an elf file. "); }
 
 	Elf32_Shdr *sections = (Elf32_Shdr*)malloc(sizeof(Elf32_Shdr)*header.e_shnum);
+	succ = fseek(fp, header.e_shoff, SEEK_SET);
+	if (succ){ panic("fail to find sections"); }
 	succ = fread(sections, sizeof(Elf32_Shdr)*header.e_shnum, 1, fp);
 	if (!succ){ panic("fail to read sections"); }
 	//sections = (Elf32_Shdr *)((char*)&header + header.e_shoff);
