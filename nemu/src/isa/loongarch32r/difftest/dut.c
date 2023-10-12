@@ -18,6 +18,7 @@
 #include "../local-include/reg.h"
 
 bool isa_difftest_checkregs(CPU_state *ref_r, vaddr_t pc) {
+	printf("checkregs\n")
 	if (pc != cpu.pc) {
 		printf("pc: ref=%x, dut=%x\n", pc, cpu.pc)
 		return false;
