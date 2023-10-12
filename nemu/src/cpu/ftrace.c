@@ -17,7 +17,6 @@ void init_ftrace(const char* elf_file) {
 	FILE *fp;
 	int succ;
 	fp = fopen(elf_file, "r");
-	printf("elf=%s\n", elf_file);
 	if (fp == NULL) { panic("elf file not found"); }
 
 	/* read elf header infomation from elf file */
