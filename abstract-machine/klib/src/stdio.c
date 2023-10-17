@@ -52,7 +52,7 @@ char* parse_fmt(const char* fmt, va_list ap, int *cnt) {
 
 		switch (*fmt) {
 			case 'd':
-				d = (int)ap;
+				d = va_arg(ap, int);
         *cnt = *cnt+1;
 				return itoa(d, buf, 10);
 
