@@ -6,6 +6,7 @@
 #if !defined(__ISA_NATIVE__) || defined(__NATIVE_USE_KLIB__)
 
 char singlech[2];
+char fmt_buf[65];
 
 char* itoa(int num, char* buf, size_t base) {
 	size_t arr[64] = {0};
@@ -44,7 +45,6 @@ char* itoa(int num, char* buf, size_t base) {
 
 char* parse_fmt(const char* fmt, va_list ap, int *cnt) {
 
-	char buf[65];
   int d;
 
 	if (*fmt == '%') {
@@ -54,7 +54,8 @@ char* parse_fmt(const char* fmt, va_list ap, int *cnt) {
 			case 'd':
 				d = va_arg(ap, int);
         *cnt = *cnt+1;
-				return itoa(d, buf, 10);
+				itoa(d, fmt_buf, 10);
+        return fmt_buf;
 
 			case 's':
         *cnt = *cnt+1;
