@@ -5,6 +5,8 @@
 
 #if !defined(__ISA_NATIVE__) || defined(__NATIVE_USE_KLIB__)
 
+char singlech[2];
+
 char* itoa(int num, char* buf, size_t base) {
 	size_t arr[64] = {0};
 	size_t i = 63;
@@ -22,7 +24,7 @@ char* itoa(int num, char* buf, size_t base) {
 	}
 
 	while (num>0 && i>=0) {
-		arr[i] = num % base;
+		arr[i] = (unsigned int)num % base;
 		num /= base;
 		i--;
 	}
@@ -40,6 +42,38 @@ char* itoa(int num, char* buf, size_t base) {
 	return buf;
 }
 
+char* parse_fmt(const char* fmt, va_list ap, int *cnt) {
+
+	char buf[65];
+  int d;
+
+	if (*fmt == '%') {
+		fmt++;
+
+		switch (*fmt) {
+			case 'd':
+				d = (int)ap;
+        *cnt = *cnt+1;
+				return itoa(d, buf, 10);
+
+			case 's':
+        *cnt = *cnt+1;
+				return va_arg(ap, char*);
+
+			default:
+				break;
+		}
+
+	}
+
+  singlech[0] = *fmt;
+  singlech[1] = '\0';
+  return singlech;
+
+}
+
+/////////////////////////////////////////
+
 int printf(const char *fmt, ...) {
   panic("Not implemented");
 }
@@ -50,47 +84,18 @@ int vsprintf(char *out, const char *fmt, va_list ap) {
 
 int sprintf(char *out, const char *fmt, ...) {
 	va_list ap;
-	int d;
 	char *s;
 
-	char buf[65];
 	int cnt = 0;
 
 	va_start(ap, fmt);
 	while (*fmt != '\0') {
 
-		if (*fmt == '%') {
-			fmt++;
 
-			switch (*fmt) {
-				case 'd':
-					d = va_arg(ap, int);
+    s = parse_fmt(fmt, ap, &cnt );
+    memcpy(out, s, strlen(s));
 
-					itoa(d, buf, 10);
-					memcpy(out, buf, strlen(buf));
-					out += strlen(buf);
-					cnt += strlen(buf);
-					break;
-
-				case 's':
-					s = va_arg(ap, char*);
-					memcpy(out, s, strlen(s));
-					out += strlen(s);
-					cnt += strlen(s);
-					break;
-
-				default:
-					break;
-			}
-
-		}
-
-		else {
-			*out = *fmt;
-			out ++;
-			cnt ++;
-		}
-
+    out += strlen(s);
 		fmt ++;
 	}
 	
