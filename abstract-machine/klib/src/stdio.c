@@ -88,7 +88,7 @@ char* ftoa(double num, char* buf) {
 char* parse_fmt(const char** fmt, va_list ap, int *cnt) {
 
   int d;
-  double f;
+  //double f;
 
 	if (**fmt == '%') {
 		*fmt = *fmt+1;
@@ -103,11 +103,13 @@ char* parse_fmt(const char** fmt, va_list ap, int *cnt) {
 				itoa(d, fmt_buf, 10);
         return fmt_buf;
 
+        /*
 			case 'f':
 				f = va_arg(ap, double);
         *cnt = *cnt+1;
 				ftoa(f, fmt_buf);
         return fmt_buf;
+        */
 
 			case 's':
         *cnt = *cnt+1;
