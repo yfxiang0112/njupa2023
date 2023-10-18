@@ -40,7 +40,8 @@ char* itoa(uint64_t num, char* buf, uint32_t base, uint32_t len) {
 		i++;
 	}
 	for (; i<64; i++) {
-		*buf = arr[i] + '0';
+		if(arr[i]<10) {*buf = arr[i] + '0'; }
+    else {*buf = arr[i] + 'a'; }
 		buf ++;
 	}
 	*buf = '\0';
