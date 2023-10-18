@@ -23,7 +23,7 @@ char* itoa(uint64_t num, char* buf, uint32_t base, uint32_t len) {
 		*buf = '-';
 		buf ++;
     if (len == 32) {
-      num = 0 - (uint32_t)num;
+      num = (uint32_t)0 - (uint32_t)num;
     } else {
 		  num = 0-num;
     }
