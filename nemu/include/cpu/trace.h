@@ -8,4 +8,6 @@ void ring_itrace();
 
 void mtrace(paddr_t addr, int len, word_t data, char* type);
 
+void dtrace(paddr_t addr, int len, word_t data, const char* name, char* type);
+
 #endif
