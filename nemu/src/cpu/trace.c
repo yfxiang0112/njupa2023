@@ -47,6 +47,6 @@ void mtrace(paddr_t addr, int len, word_t data, char* type, bool is_gst) {
 void dtrace(paddr_t addr, int len, word_t data, const char* name, char* type, bool is_gst) {
 #ifdef CONFIG_DTRACE
   if (is_gst) { printf("DTRACE: %5s %s at %x(%d) = 0x%x\n", type, name, addr, len, data); }
-  else { IFDEF(CONFIG_ALL_DTRACE, printf("[NEMU]:  %5s %s at %x(%d) = 0x%x\n", type, name, addr, len, data)); }
+  else { IFDEF(CONFIG_DTRACE_ALL, printf("[NEMU]:  %5s %s at %x(%d) = 0x%x\n", type, name, addr, len, data)); }
 #endif
 }
