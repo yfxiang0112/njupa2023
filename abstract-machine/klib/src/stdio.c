@@ -22,7 +22,11 @@ char* itoa(uint64_t num, char* buf, uint32_t base, uint32_t len) {
 	if (base==10 && ((num>0x7fffffff && len==32) || (num>0x7fffffffffffffff && len==64))) {
 		*buf = '-';
 		buf ++;
-		num = 0-num;
+    if (len == 32) {
+      num = 0 - (uint32_t)num;
+    } else {
+		  num = 0-num;
+    }
 	}
 
 	while (num>0 && i>=0) {
