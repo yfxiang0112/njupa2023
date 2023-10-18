@@ -18,7 +18,7 @@ char* itoa(uint32_t num, char* buf, uint32_t base) {
 		return buf;
 	}
 
-	if (num>0x7fffffff) {
+	if (num>2147483647) {
 		*buf = '-';
 		buf ++;
 		num = 0-num;
