@@ -7,8 +7,8 @@ void __am_timer_init() {
 }
 
 void __am_timer_uptime(AM_TIMER_UPTIME_T *uptime) {
-  uint64_t timer = (uint64_t)inl(RTC_ADDR);
-  //printf("%ld", timer);
+  uint64_t timer = (uint64_t)inl(SERIAL_PORT);
+  printf("%ld", timer);
   uptime->us = timer;
   //uptime->us = ((uint64_t)inl(RTC_ADDR)<<32) | (inl(RTC_ADDR+32));
   //uptime->us = 0;
