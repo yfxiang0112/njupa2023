@@ -12,6 +12,8 @@ char* itoa(int num, char* buf, size_t base) {
 	size_t arr[64] = {0};
 	size_t i = 63;
 
+  unsigned int val;
+
 	if (num==0) {
 		*buf = 0;
 		*(buf+1) = '\0';
@@ -21,12 +23,12 @@ char* itoa(int num, char* buf, size_t base) {
 	if (num<0) {
 		*buf = '-';
 		buf ++;
-		num = -num;
-	}
+		val = -num;
+	} else { val = num; }
 
 	while (num>0 && i>=0) {
-		arr[i] = (unsigned int)num % base;
-		num /= base;
+		arr[i] = val % base;
+		val /= base;
 		i--;
 	}
 
