@@ -47,7 +47,7 @@ void mtrace(paddr_t addr, int len, word_t data, char* type) {
 void dtrace(paddr_t addr, int len, word_t data, const char* name, char* type) {
   
 //#ifdef CONFIG_DTRACE
-  printf("DTRACE: %5s to %s at %x(%d) = 0x%x\n", type, name, addr, len, data);
+  printf("\nDTRACE: %5s to %s at %x(%d) = 0x%x\n", type, name, addr, len, data);
 
 	IFDEF(CONFIG_MTRACE, if (CONFIG_MTRACE) printf("MTRACE: write at %x(%d) = 0x%x\n", addr, len, data);)
 }
