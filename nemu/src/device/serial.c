@@ -26,6 +26,7 @@ static uint8_t *serial_base = NULL;
 
 static void serial_putc(char ch) {
   MUXDEF(CONFIG_TARGET_AM, putch(ch), putc(ch, stderr));
+  IFDEF(CONFIG_DTRACE, MUXDEF(CONFIG_TARGET_AM, putch('\n'), putc('\n', stderr)));
 }
 
 static void serial_io_handler(uint32_t offset, int len, bool is_write) {
