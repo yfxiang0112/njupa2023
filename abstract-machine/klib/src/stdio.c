@@ -103,7 +103,7 @@ char* parse_fmt(const char** fmt, va_list *ap, int *cnt) {
 			case 'd':
 				d = va_arg(*ap, uint32_t);
         if ((uint32_t)-1==(uint32_t)0x7fffffff) { putch('1'); }
-        if (d==-1) { putch('0'); }
+        if ((uint32_t)-1==(uint32_t)2147483647) { putch('0'); }
         *cnt = *cnt+1;
 				itoa(d, fmt_buf, 10);
         return fmt_buf;
