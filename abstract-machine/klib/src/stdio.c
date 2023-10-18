@@ -19,7 +19,7 @@ char* itoa(uint64_t num, char* buf, uint32_t base, uint32_t len) {
 	}
 
   //TODO: when input num = 2147483647, output=-1
-	if ((num>0x7fffffff && len==32) || (num>0x7fffffffffffffff && len==64)) {
+	if (base==10 && ((num>0x7fffffff && len==32) || (num>0x7fffffffffffffff && len==64))) {
 		*buf = '-';
 		buf ++;
 		num = 0-num;
@@ -103,6 +103,12 @@ char* parse_fmt(const char** fmt, va_list *ap, int *cnt) {
 				d = va_arg(*ap, uint32_t);
         *cnt = *cnt+1;
 				itoa(d, fmt_buf, 10, 32);
+        return fmt_buf;
+
+			case 'u':
+				d = va_arg(*ap, uint32_t);
+        *cnt = *cnt+1;
+				itoa(d, fmt_buf, 16, 32);
         return fmt_buf;
 
 			case 'l':
