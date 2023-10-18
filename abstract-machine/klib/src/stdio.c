@@ -21,7 +21,7 @@ char* itoa(uint32_t num, char* buf, uint32_t base) {
 	if (num>0x7fffffff) {
 		*buf = '-';
 		buf ++;
-		num = 0xffffffff-num;
+		num = 0-num;
 	}
 
 	while (num>0 && i>=0) {
