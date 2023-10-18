@@ -40,14 +40,13 @@ void ring_itrace() {
 #endif
 }
 
-void mtrace(paddr_t addr, int len, word_t data, char* type) {
+void mtrace(paddr_t addr, int len, word_t data, char* type, bool is_gst) {
 	IFDEF(CONFIG_MTRACE, if (CONFIG_MTRACE) printf("MTRACE: %5s at %x(%d) = 0x%x\n", type, addr, len, data);)
 }
 
-void dtrace(paddr_t addr, int len, word_t data, const char* name, char* type) {
-  
-//#ifdef CONFIG_DTRACE
-  printf("\nDTRACE: %5s to %s at %x(%d) = 0x%x\n", type, name, addr, len, data);
-
-	IFDEF(CONFIG_MTRACE, if (CONFIG_MTRACE) printf("MTRACE: write at %x(%d) = 0x%x\n", addr, len, data);)
+void dtrace(paddr_t addr, int len, word_t data, const char* name, char* type, bool is_gst) {
+#ifdef CONFIG_DTRACE
+  if (is_gst) { printf("DTRACE: %5s %s at %x(%d) = 0x%x\n", type, name, addr, len, data); }
+  else { IFDEF(CONFIG_ALL_DTRACE, printf("[NEMU]:  %5s %s at %x(%d) = 0x%x\n", type, name, addr, len, data)); }
+#endif
 }

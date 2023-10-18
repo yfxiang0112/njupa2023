@@ -60,11 +60,11 @@ void init_mem() {
 word_t paddr_read(paddr_t addr, int len, bool is_gst) {
   if (likely(in_pmem(addr))) {
 		word_t res = pmem_read(addr, len);
-		mtrace(addr, len, res, "read");
+		mtrace(addr, len, res, "read", is_gst);
 		return res;
 	}
 
-  IFDEF(CONFIG_DEVICE, return mmio_read(addr, len));
+  IFDEF(CONFIG_DEVICE, return mmio_read(addr, len, is_gst));
   out_of_bound(addr);
   return 0;
 }
@@ -73,9 +73,9 @@ void paddr_write(paddr_t addr, int len, word_t data, bool is_gst) {
 
   if (likely(in_pmem(addr))) { 
     pmem_write(addr, len, data);
-		mtrace(addr, len, data, "write");
+		mtrace(addr, len, data, "write", is_gst);
     return;
   }
-  IFDEF(CONFIG_DEVICE, mmio_write(addr, len, data); return);
+  IFDEF(CONFIG_DEVICE, mmio_write(addr, len, data, is_gst); return);
   out_of_bound(addr);
 }

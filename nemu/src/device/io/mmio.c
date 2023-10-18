@@ -55,15 +55,15 @@ void add_mmio_map(const char *name, paddr_t addr, void *space, uint32_t len, io_
 }
 
 /* bus interface */
-word_t mmio_read(paddr_t addr, int len) {
+word_t mmio_read(paddr_t addr, int len, bool is_gst) {
   IOMap *currMap = fetch_mmio_map(addr);
   word_t res = map_read(addr, len, currMap);
-  dtrace(addr, len, res, currMap->name, "read");
+  dtrace(addr, len, res, currMap->name, "read", is_gst);
   return res;
 }
 
-void mmio_write(paddr_t addr, int len, word_t data) {
+void mmio_write(paddr_t addr, int len, word_t data, bool is_gst) {
   IOMap *currMap = fetch_mmio_map(addr);
   map_write(addr, len, data, currMap);
-  dtrace(addr, len, data, currMap->name, "read");
+  dtrace(addr, len, data, currMap->name, "read", is_gst);
 }
