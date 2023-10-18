@@ -85,7 +85,7 @@ char* ftoa(double num, char* buf) {
 	return buf;
 }
 
-char* parse_fmt(const char** fmt, va_list ap, int *cnt) {
+char* parse_fmt(const char** fmt, va_list *ap, int *cnt) {
 
   uint32_t d;
   //double f;
@@ -98,7 +98,7 @@ char* parse_fmt(const char** fmt, va_list ap, int *cnt) {
         break;
 
 			case 'd':
-				d = va_arg(ap, uint32_t);
+				d = va_arg(*ap, uint32_t);
         *cnt = *cnt+1;
 				itoa(d, fmt_buf, 10);
         return fmt_buf;
@@ -113,7 +113,7 @@ char* parse_fmt(const char** fmt, va_list ap, int *cnt) {
 
 			case 's':
         *cnt = *cnt+1;
-				return va_arg(ap, char*);
+				return va_arg(*ap, char*);
 
 			default:
 				break;
@@ -138,7 +138,7 @@ int printf(const char *fmt, ...) {
 	va_start(ap, fmt);
 	while (*fmt != '\0') {
 
-    s = parse_fmt(&fmt, ap, &cnt);
+    s = parse_fmt(&fmt, &ap, &cnt);
     putstr(s);
 
 		fmt ++;
@@ -162,7 +162,7 @@ int sprintf(char *out, const char *fmt, ...) {
 	va_start(ap, fmt);
 	while (*fmt != '\0') {
 
-    s = parse_fmt(&fmt, ap, &cnt);
+    s = parse_fmt(&fmt, &ap, &cnt);
     memcpy(out, s, strlen(s));
 
     out += strlen(s);
