@@ -41,7 +41,10 @@ void ring_itrace() {
 }
 
 void mtrace(paddr_t addr, int len, word_t data, char* type, bool is_gst) {
-	IFDEF(CONFIG_MTRACE, if (CONFIG_MTRACE) printf("MTRACE: %5s at %x(%d) = 0x%x\n", type, addr, len, data);)
+#ifdef CONFIG_MTRACE
+  if (is_gst) { printf("MTRACE: %5s at %x(%d) = 0x%x\n", type, addr, len, data); }
+  else { IFDEF(CONFIG_MTRACE_ALL, printf("[NEMU]: %5s at %x(%d) = 0x%x\n", type, addr, len, data)); }
+#endif
 }
 
 void dtrace(paddr_t addr, int len, word_t data, const char* name, char* type, bool is_gst) {

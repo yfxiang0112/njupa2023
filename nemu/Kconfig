@@ -161,6 +161,11 @@ config MTRACE
 	bool "Enable memory read and write trace"
 	default n
 
+config MTRACE_ALL
+	depends on MTRACE
+	bool "Print M-trace info inside nemu"
+	default n
+
 config DTRACE
 	depends on TRACE
 	bool "Enable device read and write trace"
