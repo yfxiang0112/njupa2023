@@ -105,6 +105,12 @@ char* parse_fmt(const char** fmt, va_list *ap, int *cnt) {
         strcpy(arg_buf, va_arg(*ap, char*));
         break;
 
+			case 'c':
+        *cnt = *cnt+1;
+        arg_buf[0] = va_arg(*ap, uint32_t);
+        arg_buf[1] = '\0';
+        break;
+
 			default:
 				break;
 		}
