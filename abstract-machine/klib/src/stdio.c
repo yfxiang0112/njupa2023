@@ -8,11 +8,11 @@
 char singlech[2];
 char fmt_buf[65];
 
-char* itoa(int num, char* buf, unsigned int base) {
+char* itoa(size_t num, char* buf, size_t base) {
 	size_t arr[64] = {0};
 	size_t i = 63;
 
-  unsigned int val;
+  size_t val;
 
 	if (num==0) {
 		*buf = 0;
@@ -20,7 +20,7 @@ char* itoa(int num, char* buf, unsigned int base) {
 		return buf;
 	}
 
-	if (num<0) {
+	if ((int)num<0) {
 		*buf = '-';
 		buf ++;
 		val = -num;
