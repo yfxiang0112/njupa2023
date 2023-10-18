@@ -68,7 +68,7 @@ char* parse_fmt(const char** fmt, va_list *ap, int *cnt) {
       for(int i=0; i<129; i++) { fmt_buf[i] = ' '; }
     }
 
-    while (**fmt >= '0' && **fmt < '9') {
+    while (**fmt >= '0' && **fmt <= '9') {
       wid *= 10;
       wid += (**fmt - '0');
       *fmt = *fmt + 1;
@@ -109,6 +109,7 @@ char* parse_fmt(const char** fmt, va_list *ap, int *cnt) {
 				break;
 		}
 
+    if (wid==0) {putch('a');}
     if (wid > strlen(arg_buf)) { wid -= strlen(arg_buf); }
     else { wid = 0; }
     memcpy(fmt_buf+wid, arg_buf, strlen(arg_buf));
