@@ -112,8 +112,8 @@ char* parse_fmt(const char** fmt, va_list *ap, int *cnt) {
     if (wid > strlen(arg_buf)) { wid -= strlen(arg_buf); }
     else { wid = 0; }
     strcpy(fmt_buf+wid, arg_buf);
-    return fmt_buf;
 
+    return fmt_buf;
 	}
 
   singlech[0] = **fmt;
