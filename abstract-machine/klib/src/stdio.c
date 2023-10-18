@@ -99,14 +99,6 @@ char* parse_fmt(const char** fmt, va_list *ap, int *cnt) {
       case '%':
         break;
 
-			case 'l':
-		    *fmt = *fmt+1;
-        if (**fmt != 'd') { break; }
-			  ld = va_arg(*ap, uint64_t);
-        *cnt = *cnt+1;
-			  itoa(ld, fmt_buf, 10, 64);
-        return fmt_buf;
-
 			case 'd':
 				d = va_arg(*ap, uint32_t);
         *cnt = *cnt+1;
@@ -118,6 +110,16 @@ char* parse_fmt(const char** fmt, va_list *ap, int *cnt) {
         *cnt = *cnt+1;
 				itoa(d, fmt_buf, 16, 32);
         return fmt_buf;
+
+			case 'l':
+		    *fmt = *fmt+1;
+        if (**fmt == 'd') { 
+			    ld = va_arg(*ap, uint32_t);
+          *cnt = *cnt+1;
+			    itoa(ld, fmt_buf, 10, 64);
+          return fmt_buf;
+        }
+        break;
 
 			case 's':
         *cnt = *cnt+1;
