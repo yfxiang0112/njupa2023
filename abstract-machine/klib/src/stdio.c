@@ -8,11 +8,9 @@
 char singlech[2];
 char fmt_buf[65];
 
-char* itoa(size_t num, char* buf, size_t base) {
-	size_t arr[64] = {0};
-	size_t i = 63;
-
-  size_t val;
+char* itoa(uint32_t num, char* buf, uint32_t base) {
+	uint32_t arr[64] = {0};
+	uint32_t i = 63;
 
 	if (num==0) {
 		*buf = 0;
@@ -20,15 +18,15 @@ char* itoa(size_t num, char* buf, size_t base) {
 		return buf;
 	}
 
-	if ((int)num<0) {
+	if ((int32_t)num<0) {
 		*buf = '-';
 		buf ++;
-		val = -num;
-	} else { val = num; }
+		num = -num;
+	}
 
-	while (val>0 && i>=0) {
-		arr[i] = val % base;
-		val /= base;
+	while (num>0 && i>=0) {
+		arr[i] = num % base;
+		num /= base;
 		i--;
 	}
 
