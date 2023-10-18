@@ -18,9 +18,7 @@ char* itoa(uint32_t num, char* buf, uint32_t base) {
 		return buf;
 	}
 
-  if (num == 0x7fffffff) {
-    putch('a');
-  }
+  //TODO: when input num = 2147483647, output=-1
 	if (num>0x7fffffff) {
 		*buf = '-';
 		buf ++;
@@ -102,10 +100,6 @@ char* parse_fmt(const char** fmt, va_list *ap, int *cnt) {
 
 			case 'd':
 				d = va_arg(*ap, uint32_t);
-        if ((uint32_t)-1==(uint32_t)0x7fffffff) { putch('1'); }
-        if ((uint32_t)-1==(uint32_t)2147483647) { putch('0'); }
-        if ((uint32_t)-1==(uint32_t)((int)2147483647)) { putch('0'); }
-        if (0-d==1 ) { putch('2');}
         *cnt = *cnt+1;
 				itoa(d, fmt_buf, 10);
         return fmt_buf;
