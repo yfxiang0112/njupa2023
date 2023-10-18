@@ -19,7 +19,6 @@ char* itoa(uint32_t num, char* buf, uint32_t base) {
 	}
 
 	if (num>0x7fffffff) {
-    putch('a');
 		*buf = '-';
 		buf ++;
 		num = 0-num;
