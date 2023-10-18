@@ -26,7 +26,7 @@ char* itoa(int num, char* buf, size_t base) {
 		val = -num;
 	} else { val = num; }
 
-	while (num>0 && i>=0) {
+	while (val>0 && i>=0) {
 		arr[i] = val % base;
 		val /= base;
 		i--;
