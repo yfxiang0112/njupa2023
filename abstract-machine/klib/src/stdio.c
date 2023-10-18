@@ -18,7 +18,7 @@ char* itoa(uint32_t num, char* buf, uint32_t base) {
 		return buf;
 	}
 
-	if ((int32_t)num<0) {
+	if (num>0x7fffffff) {
 		*buf = '-';
 		buf ++;
 		num = -num;
