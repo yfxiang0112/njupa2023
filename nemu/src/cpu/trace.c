@@ -12,7 +12,7 @@ int ringidx = 0;
 void rec_itrace(Decode *_this) {
 #ifdef CONFIG_ITRACE_QUIT
 	if (ITRACE_COND) {
-		strncpy(iringbuf[ringidx], _this->logbuf, 127);
+		strncpy(iringbuf[ringidx], _this->logbuf, 128);
 		ringidx = (ringidx +1) % I_TRACE_BUF_LEN;
 	}
 #endif
