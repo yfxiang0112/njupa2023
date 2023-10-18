@@ -112,7 +112,8 @@ char* parse_fmt(const char** fmt, va_list *ap, int *cnt) {
         return fmt_buf;
 
 			case 'l':
-        if (*((*fmt)++)=='d') {
+		    *fmt = *fmt+1;
+        if (**fmt == 'd') {
 				  ld = va_arg(*ap, uint64_t);
           *cnt = *cnt+1;
 				  itoa(ld, fmt_buf, 10, 64);
