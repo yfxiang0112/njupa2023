@@ -179,7 +179,7 @@ static word_t eval_expr(uint32_t p, uint32_t q, bool *success) {
 					*success = false;
 					return 0;
 				}
-				return paddr_read(val, 4);
+				return paddr_read(val, 4, false);
 			}
 
 			/* case2. neg */

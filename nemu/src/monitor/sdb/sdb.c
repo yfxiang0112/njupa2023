@@ -121,7 +121,7 @@ static int cmd_x(char *args){
 			printf("Error: Invalid memory address.\n");
 			return 0;
 		}
-		uint32_t res = paddr_read(addr, 4);
+		uint32_t res = paddr_read(addr, 4, false);
 		printf("0x%0*x\n",8,res);
 		addr+=4;
 	}	

@@ -6,7 +6,6 @@
 void rec_itrace(Decode *_this);
 void ring_itrace();
 
-void mtrace_r(paddr_t addr, int len, word_t data);
-void mtrace_w(paddr_t addr, int len, word_t data);
+void mtrace(paddr_t addr, int len, word_t data, char* type);
 
 #endif

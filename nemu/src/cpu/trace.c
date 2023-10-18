@@ -39,8 +39,8 @@ void ring_itrace() {
 #endif
 }
 
-void mtrace_r(paddr_t addr, int len, word_t data) {
-	IFDEF(CONFIG_MTRACE, if (CONFIG_MTRACE) printf("MTRACE: read  at %x(%d) = 0x%x\n", addr, len, data);)
+void mtrace(paddr_t addr, int len, word_t data, char* type) {
+	IFDEF(CONFIG_MTRACE, if (CONFIG_MTRACE) printf("MTRACE: %5s at %x(%d) = 0x%x\n", type, addr, len, data);)
 }
 
 void mtrace_w(paddr_t addr, int len, word_t data) {

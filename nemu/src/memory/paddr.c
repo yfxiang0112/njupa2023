@@ -57,10 +57,10 @@ void init_mem() {
   Log("physical memory area [" FMT_PADDR ", " FMT_PADDR "]", PMEM_LEFT, PMEM_RIGHT);
 }
 
-word_t paddr_read(paddr_t addr, int len) {
+word_t paddr_read(paddr_t addr, int len, bool is_gst) {
   if (likely(in_pmem(addr))) {
 		word_t res = pmem_read(addr, len);
-		mtrace_r(addr, len, res);
+		mtrace(addr, len, res, "read");
 		return res;
 	}
 
@@ -69,10 +69,13 @@ word_t paddr_read(paddr_t addr, int len) {
   return 0;
 }
 
-void paddr_write(paddr_t addr, int len, word_t data) {
+void paddr_write(paddr_t addr, int len, word_t data, bool is_gst) {
 
-	mtrace_w(addr, len, data);	
-  if (likely(in_pmem(addr))) { pmem_write(addr, len, data); return; }
+  if (likely(in_pmem(addr))) { 
+    pmem_write(addr, len, data);
+		mtrace(addr, len, data, "write");
+    return;
+  }
   IFDEF(CONFIG_DEVICE, mmio_write(addr, len, data); return);
   out_of_bound(addr);
 }
