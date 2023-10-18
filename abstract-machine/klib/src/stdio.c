@@ -49,7 +49,7 @@ char* ftoa(double num, char* buf) {
 	size_t i = 0, len = 0;
 
 	if (num==0) {
-		*buf = 0;
+		*buf = '0';
 		*(buf+1) = '\0';
 		return buf;
 	}
@@ -105,7 +105,7 @@ char* parse_fmt(const char** fmt, va_list *ap, int *cnt) {
 				itoa(d, fmt_buf, 10, 32);
         return fmt_buf;
 
-			case 'u':
+			case 'x':
 				d = va_arg(*ap, uint32_t);
         *cnt = *cnt+1;
 				itoa(d, fmt_buf, 16, 32);
