@@ -13,7 +13,7 @@ char* itoa(uint64_t num, char* buf, uint32_t base, uint32_t len) {
 	uint32_t i = 63;
 
 	if (num==0) {
-		*buf = 0;
+		*buf = '0';
 		*(buf+1) = '\0';
 		return buf;
 	}
