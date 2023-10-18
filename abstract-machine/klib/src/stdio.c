@@ -8,7 +8,7 @@
 char singlech[2];
 char fmt_buf[65];
 
-char* itoa(uint32_t num, char* buf, uint32_t base) {
+char* itoa(uint64_t num, char* buf, uint32_t base, uint32_t len) {
 	uint32_t arr[64] = {0};
 	uint32_t i = 63;
 
@@ -19,7 +19,7 @@ char* itoa(uint32_t num, char* buf, uint32_t base) {
 	}
 
   //TODO: when input num = 2147483647, output=-1
-	if (num>0x7fffffff) {
+	if ((num>0x7fffffff && len==32) || (num>0x7fffffffffffffff && len==64)) {
 		*buf = '-';
 		buf ++;
 		num = 0-num;
@@ -63,7 +63,7 @@ char* ftoa(double num, char* buf) {
   int dec = (int) num;
   num = num - (double) dec;
 
-  itoa(dec, buf, 10);
+  itoa(dec, buf, 10, 32);
 
   buf += strlen(buf);
   *buf = '.';
@@ -89,6 +89,7 @@ char* ftoa(double num, char* buf) {
 char* parse_fmt(const char** fmt, va_list *ap, int *cnt) {
 
   uint32_t d;
+  uint64_t ld;
   //double f;
 
 	if (**fmt == '%') {
@@ -101,8 +102,16 @@ char* parse_fmt(const char** fmt, va_list *ap, int *cnt) {
 			case 'd':
 				d = va_arg(*ap, uint32_t);
         *cnt = *cnt+1;
-				itoa(d, fmt_buf, 10);
+				itoa(d, fmt_buf, 10, 32);
         return fmt_buf;
+
+			case 'l':
+        if (*((*fmt)++)=='d') {
+				  ld = va_arg(*ap, uint64_t);
+          *cnt = *cnt+1;
+				  itoa(ld, fmt_buf, 10, 64);
+          return fmt_buf;
+        }
 
         /*
 			case 'f':
