@@ -6,7 +6,7 @@
 #if !defined(__ISA_NATIVE__) || defined(__NATIVE_USE_KLIB__)
 
 char singlech[2];
-char fmt_buf[65];
+char fmt_buf[129];
 
 char* itoa(uint64_t num, char* buf, uint32_t base, uint32_t len) {
 	uint32_t arr[64] = {0};
@@ -54,15 +54,24 @@ char* parse_fmt(const char** fmt, va_list *ap, int *cnt) {
 
   uint32_t d;
   uint64_t ld;
-  //double f;
+  uint32_t wid=0;
+
+  char arg_buf[65] = {'\0'};
 
 	if (**fmt == '%') {
 		*fmt = *fmt+1;
 
     if (**fmt == '0') {
+      for(int i=0; i<129; i++) { fmt_buf[i] = '0'; }
+      *fmt = *fmt+1;
+    } else {
+      for(int i=0; i<129; i++) { fmt_buf[i] = ' '; }
+    }
 
-    } else if (**fmt > '0' && **fmt < '9') {
-
+    while (**fmt >= '0' && **fmt < '9') {
+      wid *= 10;
+      wid += (**fmt - '0');
+      *fmt = *fmt + 1;
     }
 
 		switch (**fmt) {
@@ -72,13 +81,13 @@ char* parse_fmt(const char** fmt, va_list *ap, int *cnt) {
 			case 'd':
 				d = va_arg(*ap, uint32_t);
         *cnt = *cnt+1;
-				itoa(d, fmt_buf, 10, 32);
+				itoa(d, arg_buf, 10, 32);
         break;
 
 			case 'x':
 				d = va_arg(*ap, uint32_t);
         *cnt = *cnt+1;
-				itoa(d, fmt_buf, 16, 32);
+				itoa(d, arg_buf, 16, 32);
         break;
 
 			case 'l':
@@ -86,20 +95,23 @@ char* parse_fmt(const char** fmt, va_list *ap, int *cnt) {
         if (**fmt == 'd') { 
 			    ld = va_arg(*ap, uint64_t);
           *cnt = *cnt+1;
-			    itoa(ld, fmt_buf, 10, 64);
+			    itoa(ld, arg_buf, 10, 64);
           break;
         }
         break;
 
 			case 's':
         *cnt = *cnt+1;
-        strcpy(fmt_buf, va_arg(*ap, char*));
+        strcpy(arg_buf, va_arg(*ap, char*));
         break;
 
 			default:
 				break;
 		}
 
+    if (wid > strlen(arg_buf)) { wid -= strlen(arg_buf); }
+    else { wid = 0; }
+    memcpy(fmt_buf+wid, arg_buf, strlen(arg_buf));
     return fmt_buf;
 
 	}
