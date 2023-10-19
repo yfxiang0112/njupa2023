@@ -101,7 +101,6 @@ void rec_ftrace(vaddr_t addr, vaddr_t pc, uint32_t inst_val) {
 				}
         temp = call_stack;
 				call_stack = st_top_call -> next;
-        free(temp);
 				
 				/* current return */
 				call_cnt --;
