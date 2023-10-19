@@ -91,13 +91,13 @@ void rec_ftrace(vaddr_t addr, vaddr_t pc, uint32_t inst_val) {
 
 				/* using stack, pop function returns that are not recorded */
 				call_node *st_top_call = call_stack;
-        call_node *temp;
+        //call_node *temp;
 				while (st_top_call->func_ind != i) {
 					call_cnt--;
 					printf("0x%x%*s%s [%s]\n", pc, call_cnt, " ", ANSI_FMT("ret ", ANSI_FG_YELLOW), funct_tab[st_top_call->func_ind].name);
-          temp = st_top_call;
+          //temp = st_top_call;
 					st_top_call = st_top_call->next;
-          free(temp);
+          //free(temp);
 				}
 				call_stack = st_top_call -> next;
         //free(st_top_call);
