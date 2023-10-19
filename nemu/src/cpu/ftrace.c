@@ -1,6 +1,6 @@
 #include <cpu/ftrace.h>
 
-Funct funct_tab[512];
+Funct funct_tab[10000];
 int func_num = 0;
 
 /* struct to record call stack (usint linked lst) */
