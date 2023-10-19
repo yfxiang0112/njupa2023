@@ -5,8 +5,6 @@
 
 void __am_input_keybrd(AM_INPUT_KEYBRD_T *kbd) {
   uint32_t currkey = inl(KBD_ADDR);
-  printf("%d\n", currkey);
   kbd->keydown = (currkey!=AM_KEY_NONE);
-  printf("%d\n", kbd->keydown);
   kbd->keycode = currkey;
 }
