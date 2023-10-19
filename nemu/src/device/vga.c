@@ -74,6 +74,16 @@ static inline void update_screen() {
 void vga_update_screen() {
   // TODO: call `update_screen()` when the sync register is non-zero,
   // then zero out the sync register
+  
+  printf("%x\n", vgactl_port_base[1]);
+  /*
+  for (uint32_t x=0; x<screen_width(); x++) {
+    for (uint32_t y=0; y<screen_height(); y++) {
+      uint32_t offset = (x*screen_height() + y) * sizeof(uint32_t);
+      uint32_t pix = io_read(AM_GPU_FBDRAW + offset);
+    }
+  }
+  */
 }
 
 void init_vga() {
