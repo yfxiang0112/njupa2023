@@ -16,7 +16,6 @@ void __am_gpu_config(AM_GPU_CONFIG_T *cfg) {
 }
 
 void __am_gpu_fbdraw(AM_GPU_FBDRAW_T *ctl) {
-  /*
   uint32_t screen_w = inl(VGACTL_ADDR) >> 16; 
   
   for (int y=0; y<ctl->h; y++) {
@@ -30,7 +29,6 @@ void __am_gpu_fbdraw(AM_GPU_FBDRAW_T *ctl) {
   if (ctl->sync) {
     outl(SYNC_ADDR, 1);
   }
-  */
 
 }
 
