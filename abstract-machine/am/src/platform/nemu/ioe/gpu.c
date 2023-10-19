@@ -24,15 +24,13 @@ void __am_gpu_config(AM_GPU_CONFIG_T *cfg) {
 }
 
 void __am_gpu_fbdraw(AM_GPU_FBDRAW_T *ctl) {
-  //uint32_t *fb = (uint32_t*)(uintptr_t)FB_ADDR;
   uint32_t screen_w = inl(VGACTL_ADDR) >> 16; 
   uint32_t start_off = (ctl->y*screen_w + ctl->x) * sizeof(uint32_t);
 
   for (int y=0; y<ctl->h; y++) {
     for (int x=0; x<ctl->w; x++) {
       uint32_t offset = ((y*screen_w)+x) * sizeof(uint32_t);
-      outl(FB_ADDR+offset+start_off, ((uint32_t*)ctl->pixels)[offset]);
-      //fb[offset] = ((uint32_t*)ctl->pixels)[offset];
+      outl(FB_ADDR+offset+start_off, ((uint32_t*)(uintptr_t)ctl->pixels)[offset]);
 
     }
   }
