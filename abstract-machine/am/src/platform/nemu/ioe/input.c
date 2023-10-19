@@ -5,6 +5,6 @@
 
 void __am_input_keybrd(AM_INPUT_KEYBRD_T *kbd) {
   uint16_t curr_key = inw(KBD_ADDR);
-  kbd->keycode = curr_key % 0x8000;
+  kbd->keycode = curr_key & 0x0000ffff;
   kbd->keydown = curr_key>>15;
 }
