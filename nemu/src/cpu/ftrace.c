@@ -1,6 +1,6 @@
 #include <cpu/ftrace.h>
 
-Funct funct_tab[10000];
+Funct funct_tab[512];
 int func_num = 0;
 
 /* struct to record call stack (usint linked lst) */
@@ -100,7 +100,7 @@ void rec_ftrace(vaddr_t addr, vaddr_t pc, uint32_t inst_val) {
           free(temp);
 				}
 				call_stack = st_top_call -> next;
-        free(st_top_call);
+        //free(st_top_call);
 				
 				/* current return */
 				call_cnt --;
