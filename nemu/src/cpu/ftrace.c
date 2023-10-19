@@ -99,8 +99,8 @@ void rec_ftrace(vaddr_t addr, vaddr_t pc, uint32_t inst_val) {
 					st_top_call = st_top_call->next;
           if(temp!=NULL) {free(temp); temp=NULL;}
 				}
-        temp = call_stack;
 				call_stack = st_top_call -> next;
+        free(st_top_call);
 				
 				/* current return */
 				call_cnt --;
