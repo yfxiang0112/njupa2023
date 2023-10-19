@@ -30,7 +30,7 @@ void __am_gpu_fbdraw(AM_GPU_FBDRAW_T *ctl) {
     for (int x=0; x<ctl->w; x++) {
       uint32_t off_p = ((y * ctl->w) + x) * sizeof(uint32_t);
       uint32_t off_s = (((y+ctl->y) * screen_w) + (x+ctl->x)) * sizeof(uint32_t);
-      outl(FB_ADDR+off_s, ((uint32_t*)(uintptr_t)ctl->pixels)[off_p]);
+      outl(FB_ADDR+off_s, ((uint32_t*)ctl->pixels)[off_p]);
 
     }
   }
