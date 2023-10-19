@@ -8,11 +8,9 @@ void __am_gpu_init() {
 
 void __am_gpu_config(AM_GPU_CONFIG_T *cfg) {
   uint32_t gpuconfig = inl(VGACTL_ADDR);
-  printf("0x%x\n", gpuconfig);
-  printf("%d, %d\n", gpuconfig>>16, gpuconfig&0x0000ffff);
   *cfg = (AM_GPU_CONFIG_T) {
     .present = true, .has_accel = false,
-    .width = 0, .height = 0,
+    .width = gpuconfig>>16, .height = gpuconfig&0x0000ffff,
     .vmemsz = 0
   };
 }
