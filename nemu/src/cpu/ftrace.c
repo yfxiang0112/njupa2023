@@ -97,7 +97,7 @@ void rec_ftrace(vaddr_t addr, vaddr_t pc, uint32_t inst_val) {
 					printf("0x%x%*s%s [%s]\n", pc, call_cnt, " ", ANSI_FMT("ret ", ANSI_FG_YELLOW), funct_tab[st_top_call->func_ind].name);
           temp = st_top_call;
 					st_top_call = st_top_call->next;
-          if(temp!=NULL) {free(temp); temp=NULL;}
+          free(temp);
 				}
 				call_stack = st_top_call -> next;
         free(st_top_call);
