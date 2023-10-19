@@ -25,8 +25,8 @@ void __am_gpu_config(AM_GPU_CONFIG_T *cfg) {
 
 void __am_gpu_fbdraw(AM_GPU_FBDRAW_T *ctl) {
   uint32_t *fb = (uint32_t*)(uintptr_t)FB_ADDR;
-  for (int x=ctl->x; x<ctl->w; x++) {
-    for (int y=ctl->y; y<ctl->h; y++) {
+  for (int x=ctl->x; x<ctl->x+ctl->w; x++) {
+    for (int y=ctl->y; y<ctl->y+ctl->h; y++) {
       uint32_t offset = ((x*ctl->w)+y) * sizeof(uint32_t);
 //      outl(FB_ADDR+offset, ((uint32_t*)ctl->pixels)[offset]);
       fb[offset] = ((uint32_t*)ctl->pixels)[offset];
