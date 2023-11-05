@@ -36,7 +36,7 @@ static inline const char* reg_name(int idx) {
 // CSR ///////////////////////
 
 #define SR_MTVEC   0x305
-#define SR_MEPC    0x305
+#define SR_MEPC    0x341
 #define SR_MSTATUS 0x305
 #define SR_MCAUSE  0x342
 
