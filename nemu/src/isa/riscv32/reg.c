@@ -29,12 +29,12 @@ const char *csrs[] = {
 
 void isa_reg_display() {
 	for (int i=0; i<32; i++){
-		printf("%-*s0x%-*x",20,regs[i],20,cpu.gpr[i]);
-    if (i%2==1) {printf("\n");}
+		printf("%-*s0x%-*x",10,regs[i],5,cpu.gpr[i]);
+    if (i%4==1) {printf("\n");}
 	}
 	printf("%-*s0x%-*x\n",20,"pc",20,cpu.pc);
   for (int i=0; i<4; i++) {
-    printf("%-*s0x%-*x", 10, csrs[i], 20, cpu.csr[i]);
+    printf("%-*s0x%-*x", 10, csrs[i], 5, cpu.csr[i]);
   }
 }
 
