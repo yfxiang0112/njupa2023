@@ -3,7 +3,7 @@ cmd_/home/yfxiang/njupa/ics2023/nemu/build/obj-riscv32-nemu-interpreter/src/isa/
 source_/home/yfxiang/njupa/ics2023/nemu/build/obj-riscv32-nemu-interpreter/src/isa/riscv32/system/intr.o := src/isa/riscv32/system/intr.c
 
 deps_/home/yfxiang/njupa/ics2023/nemu/build/obj-riscv32-nemu-interpreter/src/isa/riscv32/system/intr.o := \
-    $(wildcard include/config/mtrace.h) \
+    $(wildcard include/config/etrace.h) \
   /home/yfxiang/njupa/ics2023/nemu/include/isa.h \
   /home/yfxiang/njupa/ics2023/nemu/src/isa/riscv32/include/isa-def.h \
     $(wildcard include/config/rve.h) \
