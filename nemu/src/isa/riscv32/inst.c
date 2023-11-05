@@ -118,8 +118,7 @@ static int decode_exec(Decode *s) {
   INSTPAT("??????? ????? ????? 001 ????? 11100 11", csrrw  , I, 
           uint32_t temp=src1; if(rd!=0){R(rd)=CSR(imm);} CSR(imm)=temp);
 
-  INSTPAT("0000000 00000 00000 000 00000 11100 11", ecall  , N, 
-          uint32_t epc = s->pc; s->pc = isa_raise_intr(0,epc)); 
+  INSTPAT("0000000 00000 00000 000 00000 11100 11", ecall  , N, s->dnpc = isa_raise_intr(0, s->snpc)); 
   INSTPAT("0000000 00001 00000 000 00000 11100 11", ebreak , N, NEMUTRAP(s->pc, R(10))); // R(10) is $a0
   INSTPAT("??????? ????? ????? ??? ????? ????? ??", inv    , N, INV(s->pc));
   INSTPAT_END();
