@@ -32,9 +32,9 @@ void isa_reg_display() {
 		printf("%-*s0x%-*x",5,regs[i],10,cpu.gpr[i]);
     if (i%4==3) {printf("\n");}
 	}
-	printf("%-*s0x%-*x\n",20,"pc",20,cpu.pc);
+	printf("%-*s0x%-*x\n", 5,"pc",10,cpu.pc);
   for (int i=0; i<4; i++) {
-    printf("%-*s0x%-*x", 7, csrs[i], 10, cpu.csr[i]);
+    printf("%-*s0x%-*x", 10, csrs[i], 10, cpu.csr[i]);
   }
   printf("\n");
 }
