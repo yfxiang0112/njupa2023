@@ -16,6 +16,8 @@ deps_/home/yfxiang/njupa/ics2023/nemu/build/obj-riscv32-nemu-interpreter/src/isa
   /home/yfxiang/njupa/ics2023/nemu/include/debug.h \
   /home/yfxiang/njupa/ics2023/nemu/include/utils.h \
     $(wildcard include/config/target/native/elf.h) \
+  src/isa/riscv32/system/../local-include/reg.h \
+    $(wildcard include/config/rt/check.h) \
 
 /home/yfxiang/njupa/ics2023/nemu/build/obj-riscv32-nemu-interpreter/src/isa/riscv32/system/intr.o: $(deps_/home/yfxiang/njupa/ics2023/nemu/build/obj-riscv32-nemu-interpreter/src/isa/riscv32/system/intr.o)
 
