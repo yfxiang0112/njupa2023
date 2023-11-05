@@ -20,8 +20,7 @@ void hello_intr() {
   io_read(AM_INPUT_CONFIG);
   iset(1);
   while (1) {
-    //printf("loop\n");
-    //for (volatile int i = 0; i < 10000000; i++) ;
+    for (volatile int i = 0; i < 100; i++) ;
     yield();
   }
 }
