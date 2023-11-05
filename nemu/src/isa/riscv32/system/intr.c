@@ -23,7 +23,7 @@ word_t isa_raise_intr(word_t NO, vaddr_t epc) {
 
   csr(SR_MEPC) = epc;
   csr(SR_MCAUSE) = NO;
-  cpu.pc = csr(SR_MTVEC);
+  //cpu.pc = csr(SR_MTVEC);
 
   return csr(SR_MTVEC);
 }
