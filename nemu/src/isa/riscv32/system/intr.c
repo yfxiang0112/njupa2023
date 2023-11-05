@@ -17,13 +17,12 @@
 #include "../local-include/reg.h"
 
 word_t isa_raise_intr(word_t NO, vaddr_t epc) {
-  /* TODO: Trigger an interrupt/exception with ``NO''.
-   * Then return the address of the interrupt/exception vector.
-   */
+#ifdef CONFIG_MTRACE
+  printf("ETRACE: type %3d at addr 0x%08x, jump to 0x%08x\n", NO, epc, csr(SR_MEVEC));
+#endif
 
   csr(SR_MEPC) = epc;
   csr(SR_MCAUSE) = NO;
-  //cpu.pc = csr(SR_MTVEC);
 
   return csr(SR_MTVEC);
 }

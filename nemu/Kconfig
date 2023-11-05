@@ -148,38 +148,43 @@ config ITRACE
 
 config ITRACE_COND
   depends on ITRACE
-  string "Only trace instructions when the condition is true"
+  string "[itrace] Trace instructions exxecuted"
   default "true"
 
 config ITRACE_QUIT
 	depends on ITRACE
-	bool "Print instruction trace when nemu quits abnormally"
+	bool "[itrace] Print last instructions when NEMU crush down"
 	default y
 
 config MTRACE
 	depends on TRACE
-	bool "Enable memory read and write trace"
+	bool "[mtrace] Print memory read and write info"
 	default n
 
 config MTRACE_ALL
 	depends on MTRACE
-	bool "Print M-trace info inside nemu"
+	bool "[mtrace] Show NEMU M-trace info"
 	default n
 
 config DTRACE
 	depends on TRACE
-	bool "Enable device read and write trace"
+	bool "[dtrace] Print device read and write info"
 	default n
 
 config DTRACE_ALL
 	depends on DTRACE
-	bool "Print D-trace info inside nemu"
+	bool "[dtrace] Show NEMU D-trace info"
 	default n
 
 config FTRACE
 	depends on TRACE
-	bool "Enable function call and return trace"
+	bool "[ftrace] Print function call and return info"
 	default y
+
+config ETRACE
+  depends on TRACE
+  bool "[etrace] Print exception handle info"
+  default y
 
 config DIFFTEST
   depends on TARGET_NATIVE_ELF
