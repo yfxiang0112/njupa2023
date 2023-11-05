@@ -1,0 +1,157 @@
+<h1>Makefile for AbstractMachine Kernels and Libraries</h1>
+<h3><em>Get a more readable version of this Makefile</em> by <code>make html</code> (requires python-markdown)</h3>
+<pre><code>html:
+    cat Makefile | sed 's/^\([^#]\)/    \1/g' | markdown_py &gt; Makefile.html
+.PHONY: html
+</code></pre>
+<h2>1. Basic Setup and Checks</h2>
+<h3>Default to create a bare-metal kernel image</h3>
+<pre><code>ifeq ($(MAKECMDGOALS),)
+  MAKECMDGOALS  = image
+  .DEFAULT_GOAL = image
+endif
+</code></pre>
+<h3>Override checks when <code>make clean/clean-all/html</code></h3>
+<pre><code>ifeq ($(findstring $(MAKECMDGOALS),clean|clean-all|html),)
+</code></pre>
+<h3>Print build info message</h3>
+<pre><code>$(info # Building $(NAME)-$(MAKECMDGOALS) [$(ARCH)])
+</code></pre>
+<h3>Check: environment variable <code>$AM_HOME</code> looks sane</h3>
+<pre><code>ifeq ($(wildcard $(AM_HOME)/am/include/am.h),)
+  $(error $$AM_HOME must be an AbstractMachine repo)
+endif
+</code></pre>
+<h3>Check: environment variable <code>$ARCH</code> must be in the supported list</h3>
+<pre><code>ARCHS = $(basename $(notdir $(shell ls $(AM_HOME)/scripts/*.mk)))
+ifeq ($(filter $(ARCHS), $(ARCH)), )
+  $(error Expected $$ARCH in {$(ARCHS)}, Got "$(ARCH)")
+endif
+</code></pre>
+<h3>Extract instruction set architecture (<code>ISA</code>) and platform from <code>$ARCH</code>. Example: <code>ARCH=x86_64-qemu -&gt; ISA=x86_64; PLATFORM=qemu</code></h3>
+<pre><code>ARCH_SPLIT = $(subst -, ,$(ARCH))
+ISA        = $(word 1,$(ARCH_SPLIT))
+PLATFORM   = $(word 2,$(ARCH_SPLIT))
+</code></pre>
+<h3>Check if there is something to build</h3>
+<pre><code>ifeq ($(flavor SRCS), undefined)
+  $(error Nothing to build)
+endif
+</code></pre>
+<h3>Checks end here</h3>
+<pre><code>endif
+</code></pre>
+<h2>2. General Compilation Targets</h2>
+<h3>Create the destination directory (<code>build/$ARCH</code>)</h3>
+<pre><code>WORK_DIR  = $(shell pwd)
+DST_DIR   = $(WORK_DIR)/build/$(ARCH)
+$(shell mkdir -p $(DST_DIR))
+</code></pre>
+<h3>Compilation targets (a binary image or archive)</h3>
+<pre><code>IMAGE_REL = build/$(NAME)-$(ARCH)
+IMAGE     = $(abspath $(IMAGE_REL))
+ARCHIVE   = $(WORK_DIR)/build/$(NAME)-$(ARCH).a
+</code></pre>
+<h3>Collect the files to be linked: object files (<code>.o</code>) and libraries (<code>.a</code>)</h3>
+<pre><code>OBJS      = $(addprefix $(DST_DIR)/, $(addsuffix .o, $(basename $(SRCS))))
+LIBS     := $(sort $(LIBS) am klib) # lazy evaluation ("=") causes infinite recursions
+LINKAGE   = $(OBJS) \
+  $(addsuffix -$(ARCH).a, $(join \
+    $(addsuffix /build/, $(addprefix $(AM_HOME)/, $(LIBS))), \
+    $(LIBS) ))
+</code></pre>
+<h2>3. General Compilation Flags</h2>
+<h3>(Cross) compilers, e.g., mips-linux-gnu-g++</h3>
+<pre><code>AS        = $(CROSS_COMPILE)gcc
+CC        = $(CROSS_COMPILE)gcc
+CXX       = $(CROSS_COMPILE)g++
+LD        = $(CROSS_COMPILE)ld
+AR        = $(CROSS_COMPILE)ar
+OBJDUMP   = $(CROSS_COMPILE)objdump
+OBJCOPY   = $(CROSS_COMPILE)objcopy
+READELF   = $(CROSS_COMPILE)readelf
+</code></pre>
+<h3>Compilation flags</h3>
+<pre><code>INC_PATH += $(WORK_DIR)/include $(addsuffix /include/, $(addprefix $(AM_HOME)/, $(LIBS)))
+INCFLAGS += $(addprefix -I, $(INC_PATH))
+
+ARCH_H := arch/$(ARCH).h
+CFLAGS   += -O2 -MMD -Wall -Werror $(INCFLAGS) \
+            -D__ISA__=\"$(ISA)\" -D__ISA_$(shell echo $(ISA) | tr a-z A-Z)__ \
+            -D__ARCH__=$(ARCH) -D__ARCH_$(shell echo $(ARCH) | tr a-z A-Z | tr - _) \
+            -D__PLATFORM__=$(PLATFORM) -D__PLATFORM_$(shell echo $(PLATFORM) | tr a-z A-Z | tr - _) \
+            -DARCH_H=\"$(ARCH_H)\" \
+            -fno-asynchronous-unwind-tables -fno-builtin -fno-stack-protector \
+            -Wno-main -U_FORTIFY_SOURCE
+CXXFLAGS +=  $(CFLAGS) -ffreestanding -fno-rtti -fno-exceptions
+ASFLAGS  += -MMD $(INCFLAGS)
+LDFLAGS  += -z noexecstack
+</code></pre>
+<h2>4. Arch-Specific Configurations</h2>
+<h3>Paste in arch-specific configurations (e.g., from <code>scripts/x86_64-qemu.mk</code>)</h3>
+<pre><code>-include $(AM_HOME)/scripts/$(ARCH).mk
+</code></pre>
+<h3>Fall back to native gcc/binutils if there is no cross compiler</h3>
+<pre><code>ifeq ($(wildcard $(shell which $(CC))),)
+  $(info #  $(CC) not found; fall back to default gcc and binutils)
+  CROSS_COMPILE :=
+endif
+</code></pre>
+<h2>5. Compilation Rules</h2>
+<h3>Rule (compile): a single <code>.c</code> -&gt; <code>.o</code> (gcc)</h3>
+<pre><code>$(DST_DIR)/%.o: %.c
+    @mkdir -p $(dir $@) &amp;&amp; echo + CC $&lt;
+    @$(CC) -std=gnu11 $(CFLAGS) -c -o $@ $(realpath $&lt;)
+</code></pre>
+<h3>Rule (compile): a single <code>.cc</code> -&gt; <code>.o</code> (g++)</h3>
+<pre><code>$(DST_DIR)/%.o: %.cc
+    @mkdir -p $(dir $@) &amp;&amp; echo + CXX $&lt;
+    @$(CXX) -std=c++17 $(CXXFLAGS) -c -o $@ $(realpath $&lt;)
+</code></pre>
+<h3>Rule (compile): a single <code>.cpp</code> -&gt; <code>.o</code> (g++)</h3>
+<pre><code>$(DST_DIR)/%.o: %.cpp
+    @mkdir -p $(dir $@) &amp;&amp; echo + CXX $&lt;
+    @$(CXX) -std=c++17 $(CXXFLAGS) -c -o $@ $(realpath $&lt;)
+</code></pre>
+<h3>Rule (compile): a single <code>.S</code> -&gt; <code>.o</code> (gcc, which preprocesses and calls as)</h3>
+<pre><code>$(DST_DIR)/%.o: %.S
+    @mkdir -p $(dir $@) &amp;&amp; echo + AS $&lt;
+    @$(AS) $(ASFLAGS) -c -o $@ $(realpath $&lt;)
+</code></pre>
+<h3>Rule (recursive make): build a dependent library (am, klib, ...)</h3>
+<pre><code>$(LIBS): %:
+    @$(MAKE) -s -C $(AM_HOME)/$* archive
+</code></pre>
+<h3>Rule (link): objects (<code>*.o</code>) and libraries (<code>*.a</code>) -&gt; <code>IMAGE.elf</code>, the final ELF binary to be packed into image (ld)</h3>
+<pre><code>$(IMAGE).elf: $(OBJS) am $(LIBS)
+    @echo + LD "-&gt;" $(IMAGE_REL).elf
+    @$(LD) $(LDFLAGS) -o $(IMAGE).elf --start-group $(LINKAGE) --end-group
+</code></pre>
+<h3>Rule (archive): objects (<code>*.o</code>) -&gt; <code>ARCHIVE.a</code> (ar)</h3>
+<pre><code>$(ARCHIVE): $(OBJS)
+    @echo + AR "-&gt;" $(shell realpath $@ --relative-to .)
+    @$(AR) rcs $(ARCHIVE) $(OBJS)
+</code></pre>
+<h3>Rule (<code>#include</code> dependencies): paste in <code>.d</code> files generated by gcc on <code>-MMD</code></h3>
+<pre><code>-include $(addprefix $(DST_DIR)/, $(addsuffix .d, $(basename $(SRCS))))
+</code></pre>
+<h2>6. Miscellaneous</h2>
+<h3>Build order control</h3>
+<pre><code>image: image-dep
+archive: $(ARCHIVE)
+image-dep: $(OBJS) am $(LIBS)
+    @echo \# Creating image [$(ARCH)]
+.PHONY: image image-dep archive run $(LIBS)
+</code></pre>
+<h3>Clean a single project (remove <code>build/</code>)</h3>
+<pre><code>clean:
+    rm -rf Makefile.html $(WORK_DIR)/build/
+.PHONY: clean
+</code></pre>
+<h3>Clean all sub-projects within depth 2 (and ignore errors)</h3>
+<pre><code>CLEAN_ALL = $(dir $(shell find . -mindepth 2 -name Makefile))
+clean-all: $(CLEAN_ALL) clean
+$(CLEAN_ALL):
+    -@$(MAKE) -s -C $@ clean
+.PHONY: clean-all $(CLEAN_ALL)
+</code></pre>

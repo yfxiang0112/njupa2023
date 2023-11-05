@@ -15,6 +15,7 @@
 
 #include <isa.h>
 #include <memory/paddr.h>
+#include <cpu/ftrace.h>
 
 void init_rand();
 void init_log(const char *log_file);
@@ -30,6 +31,13 @@ static void welcome() {
         "to record the trace. This may lead to a large log file. "
         "If it is not necessary, you can disable it in menuconfig"));
   Log("Build time: %s, %s", __TIME__, __DATE__);
+
+#ifdef CONFIG_PRLOGO
+	printf(ANSI_FMT(" ===", ANSI_FG_RED)ANSI_FMT("===", ANSI_FG_YELLOW)ANSI_FMT("===", ANSI_FG_GREEN)ANSI_FMT("===", ANSI_FG_BLUE)ANSI_FMT("===", ANSI_FG_CYAN)ANSI_FMT("===\n", ANSI_FG_MAGENTA));
+	printf(" coding with "ANSI_FMT("P", ANSI_FG_RED)ANSI_FMT("R", ANSI_FG_YELLOW)ANSI_FMT("I", ANSI_FG_GREEN)ANSI_FMT("D", ANSI_FG_BLUE)ANSI_FMT("E", ANSI_FG_CYAN)ANSI_FMT("!\n", ANSI_FG_MAGENTA));
+	printf(ANSI_FMT(" ===", ANSI_FG_RED)ANSI_FMT("===", ANSI_FG_YELLOW)ANSI_FMT("===", ANSI_FG_GREEN)ANSI_FMT("===", ANSI_FG_BLUE)ANSI_FMT("===", ANSI_FG_CYAN)ANSI_FMT("===\n", ANSI_FG_MAGENTA));
+#endif
+	
   printf("Welcome to %s-NEMU!\n", ANSI_FMT(str(__GUEST_ISA__), ANSI_FG_YELLOW ANSI_BG_RED));
   printf("For help, type \"help\"\n");
 }
@@ -41,8 +49,10 @@ void sdb_set_batch_mode();
 
 static char *log_file = NULL;
 static char *diff_so_file = NULL;
+static char *ftrace_elf_file = NULL;
 static char *img_file = NULL;
 static int difftest_port = 1234;
+
 
 static long load_img() {
   if (img_file == NULL) {
@@ -72,16 +82,18 @@ static int parse_args(int argc, char *argv[]) {
     {"log"      , required_argument, NULL, 'l'},
     {"diff"     , required_argument, NULL, 'd'},
     {"port"     , required_argument, NULL, 'p'},
+		{"ftrace"   , required_argument, NULL, 'f'},
     {"help"     , no_argument      , NULL, 'h'},
     {0          , 0                , NULL,  0 },
   };
   int o;
-  while ( (o = getopt_long(argc, argv, "-bhl:d:p:", table, NULL)) != -1) {
+  while ( (o = getopt_long(argc, argv, "-bhl:d:p:f:", table, NULL)) != -1) {
     switch (o) {
       case 'b': sdb_set_batch_mode(); break;
       case 'p': sscanf(optarg, "%d", &difftest_port); break;
       case 'l': log_file = optarg; break;
       case 'd': diff_so_file = optarg; break;
+			case 'f': ftrace_elf_file = optarg;  break;
       case 1: img_file = optarg; return 0;
       default:
         printf("Usage: %s [OPTION...] IMAGE [args]\n\n", argv[0]);
@@ -89,6 +101,7 @@ static int parse_args(int argc, char *argv[]) {
         printf("\t-l,--log=FILE           output log to FILE\n");
         printf("\t-d,--diff=REF_SO        run DiffTest with reference REF_SO\n");
         printf("\t-p,--port=PORT          run DiffTest with port PORT\n");
+        printf("\t-f,--elf=FILE           check f-trace with efl file\n");
         printf("\n");
         exit(0);
     }
@@ -126,6 +139,9 @@ void init_monitor(int argc, char *argv[]) {
   /* Initialize the simple debugger. */
   init_sdb();
 
+	/* Initialize the function call trace file and read elf file. */
+	IFDEF(CONFIG_FTRACE, init_ftrace(ftrace_elf_file));
+
 #ifndef CONFIG_ISA_loongarch32r
   IFDEF(CONFIG_ITRACE, init_disasm(
     MUXDEF(CONFIG_ISA_x86,     "i686",
@@ -154,7 +170,9 @@ void am_init_monitor() {
   init_mem();
   init_isa();
   load_img();
+	IFDEF(CONFIG_FTRACE, init_ftrace(ftrace_elf_file));
   IFDEF(CONFIG_DEVICE, init_device());
   welcome();
 }
 #endif
+

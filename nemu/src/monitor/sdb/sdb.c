@@ -18,6 +18,7 @@
 #include <memory/paddr.h>
 #include <readline/readline.h>
 #include <readline/history.h>
+#include <cpu/trace.h>
 #include "sdb.h"
 
 static int is_batch_mode = false;
@@ -90,8 +91,10 @@ static int cmd_info(char *args){
 
 /* scan emory. */
 static int cmd_x(char *args){
+	bool success = true;
+
 	//char *expr = args;
-	char *endptr;
+	//char *endptr;
 	uint32_t addr;
 	int32_t len;
 
@@ -100,9 +103,17 @@ static int cmd_x(char *args){
 	char *addr_str = strtok(NULL, " ");
 
 	/* turn into int. */
-	len = atoi(len_str);
-	if (len<=0) { return 0; }
-	addr = strtol(addr_str, &endptr, 16);
+	if (addr_str==NULL) {
+		//addr = strtol(len_str, &endptr, 16);
+		addr = expr(len_str, &success);
+		len = 1;
+	}
+	else {
+		len = atoi(len_str);
+		if (len<=0) { return 0; }
+		//addr = strtol(addr_str, &endptr, 16);
+		addr = expr(addr_str, &success);
+	}
 	
 	/* evaluate & increse pmem address. */
 	for (int i=0; i<len; i++){
@@ -110,7 +121,7 @@ static int cmd_x(char *args){
 			printf("Error: Invalid memory address.\n");
 			return 0;
 		}
-		uint32_t res = paddr_read(addr, 4);
+		uint32_t res = paddr_read(addr, 4, false);
 		printf("0x%0*x\n",8,res);
 		addr+=4;
 	}	
@@ -128,6 +139,16 @@ static int cmd_p(char *args){
 	return 0;
 }
 
+static int cmd_px(char *args){
+	bool success = true;
+	word_t res = expr(args, &success);
+	//printf("res: %d, success: %d\n", res, success);
+	if (success) {
+		printf("0x%08x\n", res);
+	}
+	return 0;
+}
+
 /* add watchpoint */
 static int cmd_w(char *args){
 	add_wp(args);
@@ -137,6 +158,12 @@ static int cmd_w(char *args){
 /* remove watchpoint */
 static int cmd_d(char *args) {
 	rm_wp(atoi(args));
+	return 0;
+}
+
+/* display itrace */
+static int cmd_itr(char *args) {
+	ring_itrace();
 	return 0;
 }
 
@@ -153,11 +180,11 @@ static struct {
 	{ "si", "Run single instruction", cmd_si },
 	{ "info", "Print info of reg or watchpoint", cmd_info },
   { "x", "Scan memory", cmd_x },
-  { "p", "Print expression", cmd_p },
+  { "p", "Print expression with decimal", cmd_p },
+	{ "px", "Print expression with hexdecimal", cmd_px},
   { "w", "Set a watchpoint", cmd_w },
   { "d", "Delete a watchpoint", cmd_d },
-
-  /* TODO: Add more commands */
+  { "itr", "display recent itrace", cmd_itr },
 
 };
 
