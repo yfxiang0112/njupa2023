@@ -78,7 +78,7 @@ char* parse_fmt(const char** fmt, va_list *ap, int *cnt) {
       case '%':
         break;
 
-			case 'd':
+      case 'd': case 'p':
 				d = va_arg(*ap, uint32_t);
         *cnt = *cnt+1;
 				itoa(d, arg_buf, 10, 32);
