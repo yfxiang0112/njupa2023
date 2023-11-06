@@ -12,6 +12,8 @@
 static uintptr_t loader(PCB *pcb, const char *filename) {
   Elf_Ehdr elf;
   Elf_Phdr ph;
+  void *load_ptr;
+
   ramdisk_read(&elf, 0, sizeof(Elf_Ehdr));
   printf("0x%x, off=0x%x, num=0x%x\n", elf, elf.e_phoff, elf.e_phnum);
   printf("0x%x\n", elf.e_ident[0]);
@@ -20,9 +22,14 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
     ramdisk_read(&ph, elf.e_phoff + i*elf.e_phentsize, elf.e_phentsize);
     printf("%d, type=0x%x, addr=0x%x, fsz=0x%x, msz=0x%x\n",
            i, ph.p_type, ph.p_vaddr, ph.p_filesz, ph.p_memsz);
+    if (ph.p_type == 1) {
+      load_ptr = (void*) ph.p_vaddr;
+      ramdisk_read(load_ptr, ph.p_offset, ph.p_filesz);
+      memset(load_ptr+ph.p_filesz, ph.p_memsz-ph.p_filesz, 0);
+    }
   }
   
-  TODO();
+  //TODO();
   return 0;
 }
 
