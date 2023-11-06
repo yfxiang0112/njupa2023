@@ -102,7 +102,7 @@ char* parse_fmt(const char** fmt, va_list *ap, int *cnt) {
 
 			case 's':
         *cnt = *cnt+1;
-        strcpy(arg_buf, va_arg(*ap, char*));
+        strncpy(arg_buf, va_arg(*ap, char*),4096);
         break;
 
 			case 'c':
