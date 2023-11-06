@@ -6,7 +6,7 @@
 #if !defined(__ISA_NATIVE__) || defined(__NATIVE_USE_KLIB__)
 
 char singlech[2];
-char fmt_buf[1025];
+char fmt_buf[4097];
 
 char* itoa(uint64_t num, char* buf, uint32_t base, uint32_t len) {
 	uint32_t arr[64] = {0};
@@ -56,7 +56,7 @@ char* parse_fmt(const char** fmt, va_list *ap, int *cnt) {
   uint64_t ld;
   uint32_t wid=0;
 
-  char arg_buf[1025] = {'\0'};
+  char arg_buf[4097] = {'\0'};
 
 	if (**fmt == '%') {
 		*fmt = *fmt+1;
