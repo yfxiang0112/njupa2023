@@ -23,6 +23,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
     printf("%d, type=0x%x, addr=0x%x, fsz=0x%x, msz=0x%x\n",
            i, ph.p_type, ph.p_vaddr, ph.p_filesz, ph.p_memsz);
     if (ph.p_type == 1) {
+      if (ph.p_offset==0) { continue; }
       load_ptr = (char*) ph.p_vaddr;
       if (!ret_ptr) { ret_ptr = load_ptr; }
       printf("ptr = 0x%x\n", load_ptr);
