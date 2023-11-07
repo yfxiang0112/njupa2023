@@ -18,7 +18,8 @@
 
 word_t isa_raise_intr(word_t NO, vaddr_t epc) {
 #ifdef CONFIG_ETRACE
-  printf("[ETRACE]: type %2d, at addr 0x%08x, jump to 0x%08x\n", NO, epc, csr(SR_MTVEC));
+  printf("%s type %2d, at addr 0x%08x, jump to 0x%08x\n",
+         ANSI_FMT("[ETRACE]:", ANSI_FG_YELLOW), NO, epc, csr(SR_MTVEC));
 #endif
 
   csr(SR_MEPC) = epc;
