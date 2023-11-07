@@ -3,11 +3,10 @@
 static Context* do_event(Event e, Context* c) {
   switch (e.event) {
     case EVENT_YIELD: 
-      printf("nanos-lite met yield event.\n");
+      printf("nanos-lite triggered yield\n");
       break;
 
     case EVENT_SYSCALL:
-      printf("SYSCALL\n");
       do_syscall(c);
       break;
 
