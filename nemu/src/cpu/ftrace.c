@@ -94,7 +94,7 @@ void rec_ftrace(vaddr_t addr, vaddr_t pc, uint32_t inst_val) {
         call_node *temp;
 				while (st_top_call->func_ind != i) {
 					call_cnt--;
-					printf("FTRACE: 0x%x%*s%s [%s]\n", pc, call_cnt, " ", ANSI_FMT("ret ", ANSI_FG_YELLOW), funct_tab[st_top_call->func_ind].name);
+					printf("[FTRACE]: 0x%x%*s%s [%s]\n", pc, call_cnt, " ", ANSI_FMT("ret ", ANSI_FG_YELLOW), funct_tab[st_top_call->func_ind].name);
           temp = st_top_call;
 					st_top_call = st_top_call->next;
           free(temp);
@@ -104,7 +104,7 @@ void rec_ftrace(vaddr_t addr, vaddr_t pc, uint32_t inst_val) {
 				
 				/* current return */
 				call_cnt --;
-				printf("FTRACE: 0x%x%*s%s [%s]\n", pc, call_cnt, " ", ANSI_FMT("ret ", ANSI_FG_YELLOW), funct_tab[i].name);
+				printf("[FTRACE]: 0x%x%*s%s [%s]\n", pc, call_cnt, " ", ANSI_FMT("ret ", ANSI_FG_YELLOW), funct_tab[i].name);
 				return;
 			}
 		}
@@ -113,7 +113,7 @@ void rec_ftrace(vaddr_t addr, vaddr_t pc, uint32_t inst_val) {
 	/* case: call */
 	for (int i=0; i<func_num; i++) {
 		if (addr == funct_tab[i].addr) {
-			printf("FTRACE: 0x%x%*s%s [%s @0x%x]\n", pc, call_cnt, " ", ANSI_FMT("call", ANSI_FG_CYAN), funct_tab[i].name, addr);
+			printf("[FTRACE]: 0x%x%*s%s [%s @0x%x]\n", pc, call_cnt, " ", ANSI_FMT("call", ANSI_FG_CYAN), funct_tab[i].name, addr);
 			call_cnt ++;
 
 			/* use stack, record all function calls */
