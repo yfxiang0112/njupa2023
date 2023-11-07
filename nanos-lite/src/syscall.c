@@ -1,6 +1,5 @@
 #include <common.h>
 #include "syscall.h"
-#define SYS_yield 1
 
 void do_syscall(Context *c) {
   uintptr_t a[4];
