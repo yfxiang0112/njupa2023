@@ -3,7 +3,7 @@
 
 #include <cpu/decode.h> 
 
-#define TRACE_STR(x) ANSI_FMT("(x)TRACE", ANSI_FG_YELLOW)
+#define TRACE_STR(x) ANSI_FMT(x, ANSI_FG_YELLOW)
 
 void rec_itrace(Decode *_this);
 void ring_itrace();
