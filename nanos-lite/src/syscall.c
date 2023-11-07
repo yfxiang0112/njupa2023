@@ -5,7 +5,7 @@ void do_syscall(Context *c) {
   uintptr_t a[4];
   a[0] = c->GPR1;
 
-  printf("[STRACE]: syscall ID =  %d at pc = 0x%x\n", a[0], c->mepc);
+  printf("[STRACE]: syscall ID = %d at pc = 0x%x\n", a[0], c->mepc);
 
   switch (a[0]) {
     case SYS_exit:  halt(0);  break;
