@@ -7,9 +7,16 @@ static Context* (*user_handler)(Event, Context*) = NULL;
 Context* __am_irq_handle(Context *c) {
   if (user_handler) {
     Event ev = {0};
+
     switch (c->mcause) {
-      case -1: ev.event = EVENT_YIELD;   break;
-      case  1: ev.event = EVENT_SYSCALL; break;
+      case -1: 
+        ev.event = EVENT_YIELD;
+        break;
+
+      case 0: case 1:
+        ev.event = EVENT_SYSCALL;
+        break;
+
       default: 
         printf("Unkown mcause code: %d\n", c->mcause);
         ev.event = EVENT_ERROR; 
