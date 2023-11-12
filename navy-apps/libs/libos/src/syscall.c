@@ -74,6 +74,8 @@ int _write(int fd, void *buf, size_t count) {
 void *_sbrk(intptr_t increment) {
   void* ret=0;
   void* buf;
+  sprintf((char*)buf, "%d, %x\n", increment, (uintptr_t)ret);
+  _write(1, buf, 10);
   _syscall_(SYS_brk, increment, (uintptr_t)(&ret), 0);
 
   sprintf((char*)buf, "%d, %x\n", increment, (uintptr_t)ret);
