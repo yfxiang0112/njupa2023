@@ -32,7 +32,7 @@ void do_syscall(Context *c) {
       break;
 
     case SYS_brk:
-      putch('0'+end);
+      printf("%x\n", &end);
       c->GPRx = 0;
       break;
       
