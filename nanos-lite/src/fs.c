@@ -66,10 +66,13 @@ int fs_read(int fd, void* buf, size_t len) {
 }
 
 int fs_write(int fd, const void* buf, size_t len) {
+  size_t off; 
   assert(fd>2 && fd<NR_FILES);
   if (file_table[fd].open_offset + len > file_table[fd].size) { panic("file operation exceed max size"); }
 
-  return 0;
+  off = file_table[fd].disk_offset + file_table[fd].open_offset;
+  file_table[fd].write(buf, off, len);
+  return len;
 }
 
 int fs_lseek(int fd, size_t offset, int whence) {
@@ -89,5 +92,10 @@ int fs_lseek(int fd, size_t offset, int whence) {
 }
 
 int fs_close(int fd) {
+  assert(fd>2 && fd<NR_FILES);
+
+  file_table[fd].open_offset = 0;
+  file_table[fd].read = NULL;
+  file_table[fd].write = NULL;
   return 0;
 }
