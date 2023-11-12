@@ -79,7 +79,7 @@ void *_sbrk(intptr_t increment) {
   _syscall_(SYS_brk, increment, 0, 0);
 
 
-  assert(pb_ret == 0);
+  assert(pb_ret != 0);
 
   //sprintf((char*)buf, "ret = %x\n", pb_ret);
   //_write(1, buf, 20);
