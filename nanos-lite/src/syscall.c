@@ -19,6 +19,16 @@ void do_syscall(Context *c) {
       break;
     
     case SYS_write: 
+      if (c->GPR2 == 1 || c->GPR2 == 2){
+        for (int i=0; i<c->GPR4; i++) {
+          putch(*((char*)c->GPR2 + i));
+
+        }
+      }
+
+      c->GPRx = c->GPR4;
+      break;
+
     default: panic("Unhandled syscall ID = %d", a[0]);
   }
 

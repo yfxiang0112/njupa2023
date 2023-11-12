@@ -1,4 +1,3 @@
-#include <stdio.h>
 #include <unistd.h>
 #include <sys/stat.h>
 #include <sys/time.h>
@@ -67,14 +66,9 @@ int _open(const char *path, int flags, mode_t mode) {
 }
 
 int _write(int fd, void *buf, size_t count) {
-  /*
-  for (size_t i=0; i<count; i++) {
-    putch(*((char*)buf + i));
-  }
-  */
-  _exit(SYS_write);
-  printf("test\n");
-  return 0;
+  _syscall_(SYS_write, fd, (intptr_t)buf, count);
+  //_exit(SYS_write);
+  return count;
 }
 
 void *_sbrk(intptr_t increment) {
