@@ -80,19 +80,15 @@ int fs_lseek(int fd, size_t offset, int whence) {
   assert(fd>2 && fd<NR_FILES);
 
   if (whence == SEEK_SET) {
-    printf("seek set\n");
     if (offset > file_table[fd].size || offset < 0) { panic("file operation exceed max size"); }
     file_table[fd].open_offset = offset;
   }
   else if (whence == SEEK_CUR) {
-    printf("seek cur\n");
     size_t cur = file_table[fd].open_offset;
     if (offset+cur > file_table[fd].size || offset+cur < 0) { panic("file operation exceed max size"); }
     file_table[fd].open_offset += offset;
   }
   else if (whence == SEEK_END) {
-    printf("seek end\n");
-    if (offset > 0 || offset < -file_table[fd].size) { panic("file operation exceed max size"); }
     file_table[fd].open_offset = file_table[fd].size + offset;
   }
     
