@@ -1,9 +1,6 @@
 #include <common.h>
 #include "syscall.h"
 
-extern char end;
-uintptr_t prog_brk = (uintptr_t)(&end);
-
 void do_syscall(Context *c) {
   uintptr_t a[4];
   a[0] = c->GPR1;
@@ -34,9 +31,7 @@ void do_syscall(Context *c) {
 
     case SYS_brk:
       //*((uintptr_t *)(c->GPR3)) = prog_brk;
-      c->GPR3 = prog_brk;
       //c->GPRx = prog_brk;
-      prog_brk += (int32_t)(c->GPR2);
 
       //printf("%x\n", *((uintptr_t *)(c->GPR3)));
       
