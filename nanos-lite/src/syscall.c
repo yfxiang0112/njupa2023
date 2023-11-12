@@ -1,6 +1,8 @@
 #include <common.h>
 #include "syscall.h"
 
+extern char end;
+
 void do_syscall(Context *c) {
   uintptr_t a[4];
   a[0] = c->GPR1;
@@ -28,6 +30,12 @@ void do_syscall(Context *c) {
       }
       c->GPRx = c->GPR4;
       break;
+
+    case SYS_brk:
+      putch('0'+end);
+      c->GPRx = 0;
+      break;
+      
 
     default: panic("Unhandled syscall ID = %d", a[0]);
   }
