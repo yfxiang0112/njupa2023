@@ -78,11 +78,8 @@ void *_sbrk(intptr_t increment) {
   //_syscall_(SYS_brk, increment, (uintptr_t)(&pb_ret), 0);
   _syscall_(SYS_brk, increment, 0, 0);
 
-  register intptr_t _gpr3 asm (GPR3) = pb_ret;
 
-  if (pb_ret == 0) {
-    _exit(1);
-  }
+  assert(pb_ret == 0);
 
   //sprintf((char*)buf, "ret = %x\n", pb_ret);
   //_write(1, buf, 20);
