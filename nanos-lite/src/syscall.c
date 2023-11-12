@@ -2,7 +2,7 @@
 #include "syscall.h"
 
 extern char end;
-void* prog_brk = &end;
+uintptr_t prog_brk = (uintptr_t)(&end);
 
 void do_syscall(Context *c) {
   uintptr_t a[4];
@@ -33,10 +33,10 @@ void do_syscall(Context *c) {
       break;
 
     case SYS_brk:
-      *((void**)c->GPR3) = prog_brk;
+      *((uintptr_t *)c->GPR3) = prog_brk;
       prog_brk += c->GPR2;
 
-      printf("%x\n", *((void**)c->GPR3));
+      printf("%x\n", *((uintptr_t *)c->GPR3));
       
       c->GPRx = 0;
       break;
