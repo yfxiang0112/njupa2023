@@ -75,7 +75,10 @@ void *_sbrk(intptr_t increment) {
   uintptr_t pb_ret=0;
   char buf[20];
 
-  _syscall_(SYS_brk, increment, (uintptr_t)(&pb_ret), 0);
+  //_syscall_(SYS_brk, increment, (uintptr_t)(&pb_ret), 0);
+  _syscall_(SYS_brk, increment, 0, 0);
+
+  register intptr_t _gpr3 asm (GPR3) = pb_ret;
 
   if (pb_ret == 0) {
     _exit(1);
