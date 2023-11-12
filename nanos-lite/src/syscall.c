@@ -8,8 +8,17 @@ void do_syscall(Context *c) {
   printf("[STRACE]: syscall ID = %d at pc = 0x%x\n", a[0], c->mepc);
 
   switch (a[0]) {
-    case SYS_exit:  halt(0);  break;
-    case SYS_yield: yield();  break;
+    case SYS_exit:  
+      halt(c->GPR2);  
+      c->GPRx = 0;
+      break;
+
+    case SYS_yield: 
+      yield();  
+      c->GPRx = 0;
+      break;
+    
+    case SYS_write: 
     default: panic("Unhandled syscall ID = %d", a[0]);
   }
 
