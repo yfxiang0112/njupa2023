@@ -23,7 +23,7 @@ void do_syscall(Context *c) {
     case SYS_write: 
       if (c->GPR2 == 1 || c->GPR2 == 2){
         for (int i=0; i<c->GPR4; i++) {
-          putch(*((char*)c->GPR3));
+          putch(*((char*)c->GPR3 + i));
         }
       }
       c->GPRx = c->GPR4;
