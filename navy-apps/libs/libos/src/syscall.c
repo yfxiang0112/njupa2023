@@ -77,6 +77,10 @@ void *_sbrk(intptr_t increment) {
 
   _syscall_(SYS_brk, increment, (uintptr_t)(&pb_ret), 0);
 
+  if (pb_ret == 0) {
+    _exit(1);
+  }
+
   //sprintf((char*)buf, "ret = %x\n", pb_ret);
   //_write(1, buf, 20);
   return (void *)pb_ret;
