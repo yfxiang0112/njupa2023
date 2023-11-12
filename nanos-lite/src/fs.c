@@ -44,6 +44,7 @@ int fs_open(const char *pathname, int flags, int mode) {
       return idx;
     }
   }
+    assert(0);
   return 2;
 }
 
