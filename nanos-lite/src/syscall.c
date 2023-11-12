@@ -39,7 +39,6 @@ void do_syscall(Context *c) {
 
     case SYS_lseek:
       c->GPRx = fs_lseek(c->GPR2, c->GPR3, c->GPR4);
-      printf("ret=%d\n", c->GPRx);
 
     case SYS_brk:
       
