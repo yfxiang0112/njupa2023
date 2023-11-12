@@ -22,6 +22,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
   assert(elf.e_ident[3] == 0x46);
 
   for (int i=0; i<elf.e_phnum; i++) {
+    fs_open("", 0, 0);
     ramdisk_read(&ph, elf.e_phoff + i*elf.e_phentsize, elf.e_phentsize);
 
     if (ph.p_type == 1) {
