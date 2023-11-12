@@ -34,12 +34,12 @@ void do_syscall(Context *c) {
 
     case SYS_brk:
       *((uintptr_t *)(c->GPR3)) = prog_brk;
-      c->GPRx = prog_brk;
+      //c->GPRx = prog_brk;
       prog_brk += (int32_t)(c->GPR2);
 
       printf("%x\n", *((uintptr_t *)(c->GPR3)));
       
-      //c->GPRx = 0;
+      c->GPRx = 0;
       break;
       
 
