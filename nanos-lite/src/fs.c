@@ -87,6 +87,9 @@ int fs_lseek(int fd, size_t offset, int whence) {
     if (offset+cur > file_table[fd].size || offset+cur < 0) { panic("file operation exceed max size"); }
     file_table[fd].open_offset += offset;
   }
+  else if (whence == SEEK_END) {
+
+  }
     
   return offset;
 }
