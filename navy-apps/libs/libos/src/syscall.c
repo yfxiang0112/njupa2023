@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include <unistd.h>
 #include <sys/stat.h>
 #include <sys/time.h>
@@ -75,8 +76,8 @@ void *_sbrk(intptr_t increment) {
   void* buf;
   _syscall_(SYS_brk, increment, (uintptr_t)(&ret), 0);
 
-  sprintf((char*)buf, "%d, %x\n", increment, ret);
-  _write(buf, 1, 10);
+  sprintf((char*)buf, "%d, %x\n", increment, (uintptr_t)ret);
+  _write(1, buf, 10);
   return ret;
   //return (void *)-1;
 }
