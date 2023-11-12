@@ -47,7 +47,7 @@
 #endif
 
 extern char end;
-uintptr_t prog_brk = (uintptr_t)(&end);
+uintptr_t pb_addr = (uintptr_t)(&end);
 
 intptr_t _syscall_(intptr_t type, intptr_t a0, intptr_t a1, intptr_t a2) {
   register intptr_t _gpr1 asm (GPR1) = type;
@@ -75,20 +75,11 @@ int _write(int fd, void *buf, size_t count) {
 }
 
 void *_sbrk(intptr_t increment) {
-  uintptr_t pb_ret=prog_brk;
-  prog_brk += (int32_t)increment;
-  char buf[20];
+  uintptr_t pb_ret = pb_addr;
+  pb_addr += (int32_t)increment;
 
-  //_syscall_(SYS_brk, increment, (uintptr_t)(&pb_ret), 0);
-  _syscall_(SYS_brk, prog_brk, 0, 0);
+  _syscall_(SYS_brk, pb_addr, 0, 0);
 
-
-  if (pb_ret == 0) {
-    _exit(1);
-  }
-
-  //sprintf((char*)buf, "ret = %x\n", pb_ret);
-  //_write(1, buf, 20);
   return (void *)pb_ret;
   //return (void *)-1;
 }
