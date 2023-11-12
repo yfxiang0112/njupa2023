@@ -73,12 +73,12 @@ int _write(int fd, void *buf, size_t count) {
 
 void *_sbrk(intptr_t increment) {
   uintptr_t ret=0;
-  void* buf;
+  char buf[20];
 
   _syscall_(SYS_brk, increment, (uintptr_t)(&ret), 0);
 
   sprintf((char*)buf, "%d, %x\n", increment, ret);
-  _write(1, buf, 10);
+  _write(1, buf, 20);
   return (void *)ret;
   //return (void *)-1;
 }
