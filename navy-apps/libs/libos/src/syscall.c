@@ -72,7 +72,11 @@ int _write(int fd, void *buf, size_t count) {
 
 void *_sbrk(intptr_t increment) {
   void* ret=0;
+  void* buf;
   _syscall_(SYS_brk, increment, (uintptr_t)(&ret), 0);
+
+  sprintf((char*)buf, "%d, %x\n", increment, ret);
+  _write(buf, 1, 10);
   return ret;
   //return (void *)-1;
 }
