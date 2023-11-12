@@ -65,7 +65,7 @@ void _exit(int status) {
 }
 
 int _open(const char *path, int flags, mode_t mode) {
-  _syscall_(SYS_open, path, flags, mode);
+  _syscall_(SYS_open, (uintptr_t)path, flags, mode);
   return 0;
 }
 
@@ -95,6 +95,7 @@ int _close(int fd) {
 }
 
 off_t _lseek(int fd, off_t offset, int whence) {
+  printf("fd=%d\n", fd);
   _syscall_(SYS_lseek, fd, offset, whence);
   return 0;
 }
