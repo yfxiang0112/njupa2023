@@ -35,6 +35,8 @@ void do_syscall(Context *c) {
     case SYS_brk:
       *((void**)c->GPR3) = prog_brk;
       prog_brk += c->GPR2;
+
+      printf("%x\n", *((void**)c->GPR3));
       
       c->GPRx = 0;
       break;
