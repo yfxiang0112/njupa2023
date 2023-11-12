@@ -2,6 +2,7 @@
 #include "syscall.h"
 
 extern char end;
+void* prog_brk = &end;
 
 void do_syscall(Context *c) {
   uintptr_t a[4];
@@ -32,7 +33,9 @@ void do_syscall(Context *c) {
       break;
 
     case SYS_brk:
-      printf("%x\n", &end);
+      *((void**)c->GPR3) = prog_brk;
+      prog_brk += c->GPR2;
+      
       c->GPRx = 0;
       break;
       
