@@ -72,6 +72,7 @@ int _write(int fd, void *buf, size_t count) {
   }
   */
   _exit(SYS_write);
+  printf("test\n");
   return 0;
 }
 
