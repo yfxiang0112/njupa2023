@@ -76,7 +76,6 @@ int fs_write(int fd, const void* buf, size_t len) {
 }
 
 int fs_lseek(int fd, size_t offset, int whence) {
-  printf("fd = %d\n", fd);
   assert(fd>2 && fd<NR_FILES);
 
   if (whence == SEEK_SET) {

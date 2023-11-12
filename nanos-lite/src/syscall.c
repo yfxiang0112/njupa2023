@@ -24,6 +24,10 @@ void do_syscall(Context *c) {
       c->GPRx = fs_open((char*)c->GPR2, c->GPR3, c->GPR4);
       break;
 
+    //case SYS_read:
+      
+      
+
     case SYS_write: 
       if (c->GPR2 == 1 || c->GPR2 == 2){
         for (int i=0; i<c->GPR4; i++) {
@@ -35,6 +39,7 @@ void do_syscall(Context *c) {
 
     case SYS_lseek:
       c->GPRx = fs_lseek(c->GPR2, c->GPR3, c->GPR4);
+      printf("ret=%d\n", c->GPRx);
 
     case SYS_brk:
       
