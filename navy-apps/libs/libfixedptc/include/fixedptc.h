@@ -1,6 +1,7 @@
 #ifndef _FIXEDPTC_H_
 #define _FIXEDPTC_H_
 
+#include <stdio.h>
 /*
  * fixedptc.h is a 32-bit or 64-bit fixed point numeric library.
  *
@@ -151,12 +152,12 @@ static inline fixedpt fixedpt_abs(fixedpt A) {
 }
 
 static inline fixedpt fixedpt_floor(fixedpt A) {
-  if (A<0 && (fixedpt_fracpart(A) != 0)) {A -= FIXEDPT_ONE;}	
+  if (A<0 && (fixedpt_fracpart(A) != 0)) {printf("check\n"); A = fixedpt_sub( A, FIXEDPT_ONE );}	
   return A>>8;
 }
 
 static inline fixedpt fixedpt_ceil(fixedpt A) {
-  if (A>0 && (fixedpt_fracpart(A) != 0)) {A += FIXEDPT_ONE;}	
+  if (A>0 && (fixedpt_fracpart(A) != 0)) {A = fixedpt_add( A, FIXEDPT_ONE );}	
   return A>>8;
 }
 
