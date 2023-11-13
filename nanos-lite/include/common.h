@@ -6,7 +6,7 @@
 //#define HAS_VME
 //#define MULTIPROGRAM
 //#define TIME_SHARING
-//#define ENABLE_STRACE
+#define ENABLE_STRACE
 //
 
 #include <am.h>
@@ -25,7 +25,6 @@ int fs_lseek(int fd, size_t offset, int whence);
 int fs_close(int fd);
 
 void do_syscall(Context *c);
-//
 // macro stringizing
 #define str_temp(x) #x
 #define str(x) str_temp(x)
