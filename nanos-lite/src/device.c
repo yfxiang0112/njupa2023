@@ -28,7 +28,7 @@ size_t events_read(void *buf, size_t offset, size_t len) {
   strcat(ev_str, keyname[ev.keycode]);
   strncpy((char*)buf, ev_str, len);
 
-  printf("%s\n", buf);
+  printf("%s\n", (char*)buf);
 
   return strlen(buf);
 }
