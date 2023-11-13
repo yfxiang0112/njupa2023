@@ -5,11 +5,9 @@
 #include <unistd.h>
 #include <sys/time.h>
 
-static int evtdev = -1;
-static int fbdev = -1;
+static int evtdev = 3;
+static int fbdev = 5;
 static int screen_w = 0, screen_h = 0;
-
-enum {FD_STDIN, FD_STDOUT, FD_STDERR, FD_EVENT, FD_FB, FD_DINFO};
 
 uint32_t NDL_GetTicks() {
   struct timeval tv = {0};
@@ -20,18 +18,18 @@ uint32_t NDL_GetTicks() {
 
 int NDL_PollEvent(char *buf, int len) {
   int succ = 0;
-  succ = read(FD_EVENT, buf, len);
-  close(FD_EVENT);
+  succ = read(evtdev, buf, len);
+  close(evtdev);
   return (succ != 0);
 }
 
 void NDL_OpenCanvas(int *w, int *h) {
   int max_w, max_h;
   char readbuf[32];
-  read(FD_DINFO, readbuf, strlen(readbuf));
+  read(fbdev, readbuf, strlen(readbuf));
   sscanf(readbuf, "WIDTH : %d\nHEIGHT : %d\n", &max_w, &max_h);
-  if (*w > max_w) { *w = max_w; }
-  if (*h > max_h) { *h = max_h; }
+  if (*w>max_w || *w==0) { *w = max_w; }
+  if (*h>max_h || *h==0) { *h = max_h; }
   
   if (getenv("NWM_APP")) {
     int fbctl = 4;
@@ -53,6 +51,7 @@ void NDL_OpenCanvas(int *w, int *h) {
 }
 
 void NDL_DrawRect(uint32_t *pixels, int x, int y, int w, int h) {
+
 }
 
 void NDL_OpenAudio(int freq, int channels, int samples) {
