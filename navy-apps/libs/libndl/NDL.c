@@ -20,7 +20,6 @@ int NDL_PollEvent(char *buf, int len) {
   int succ = 0;
   int kbdin = 3;
   succ = read(kbdin, buf, len);
-  printf("%d\n", succ);
   close(kbdin);
   return (succ != 0);
 }
