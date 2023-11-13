@@ -51,7 +51,6 @@ void do_syscall(Context *c) {
       break;
 
     case SYS_gettimeofday:
-      printf("ptr= %x\n", a[1]);
       ((struct timeval *)a[1])->tv_usec = io_read(AM_TIMER_UPTIME).us;
       ((struct timeval *)a[1])->tv_sec = io_read(AM_TIMER_UPTIME).us / 1000;
       c->GPRx = 0;
