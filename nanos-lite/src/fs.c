@@ -58,7 +58,7 @@ int fs_open(const char *pathname, int flags, int mode) {
 int fs_read(int fd, void* buf, size_t len) {
   size_t off; 
   assert(fd>2 && fd<NR_FILES);
-  printf("off = %x, len = %x, size = %x\n", file_table[fd].open_offset, len, file_table[fd].size);
+  printf("off = %d, len = %d, size = %d\n", file_table[fd].open_offset, len, file_table[fd].size);
   if (file_table[fd].open_offset + len > file_table[fd].size) { panic("file operation exceed max size"); }
 
   off = file_table[fd].disk_offset + file_table[fd].open_offset;
