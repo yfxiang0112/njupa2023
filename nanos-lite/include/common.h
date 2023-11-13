@@ -26,6 +26,8 @@ int fs_write(int fd, const void* buf, size_t len);
 int fs_lseek(int fd, size_t offset, int whence);
 int fs_close(int fd);
 
+size_t serial_write(const void *buf, size_t offset, size_t len);
+
 void do_syscall(Context *c);
 
 #endif
