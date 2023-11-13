@@ -10,7 +10,6 @@ void do_syscall(Context *c) {
 
 
   #ifdef ENABLE_STRACE
-  int fd = -1;
   printf("[STRACE]: syscall ID = %d at pc = 0x%x\n", a[0], c->mepc);
   #endif
 
@@ -27,48 +26,22 @@ void do_syscall(Context *c) {
     
     case SYS_open:
       c->GPRx = fs_open((char*)a[1], a[2], a[3]);
-    #ifdef ENABLE_STRACE
-      fd = c->GPRx;
-    #endif
       break;
 
     case SYS_read:
-      if (a[1] == 0) {
-        //TODO:
-        break;
-      }
       c->GPRx = fs_read(a[1], (void*)a[2], a[3]);
-    #ifdef ENABLE_STRACE
-      fd = a[1];
-    #endif
       break;
 
     case SYS_write: 
-      if (a[1] == 1 || a[1] == 2){
-        for (int i=0; i<a[3]; i++) {
-          putch(*((char*)a[2] + i));
-        }
-        c->GPRx = a[3];
-        break;
-      }
       c->GPRx = fs_write(a[1], (void*)a[2], a[3]);
-    #ifdef ENABLE_STRACE
-      fd = a[1];
-    #endif
       break;
 
     case SYS_close:
       c->GPRx = fs_close(a[1]);
-    #ifdef ENABLE_STRACE
-      fd = a[1];
-    #endif
       break;
 
     case SYS_lseek:
       c->GPRx = fs_lseek(a[1], a[2], a[3]);
-    #ifdef ENABLE_STRACE
-      fd = a[1];
-    #endif
       break;
 
     case SYS_brk:
@@ -81,8 +54,11 @@ void do_syscall(Context *c) {
   }
 
   #ifdef ENABLE_STRACE
-  if (fd >= 0) {
-    printf("[STRACE]:         file operation at %d\n", fd);
+  if (a[0]==SYS_read || a[0]==SYS_write || a[0]==SYS_close || a[0]==SYS_lseek) {
+    printf("[STRACE]:         file operation at %d\n", a[1]);
+  }
+  if (a[0]==SYS_open) {
+    printf("[STRACE]:         file operation at %d\n", c->GPRx);
   }
   #endif
 
