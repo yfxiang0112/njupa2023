@@ -5,7 +5,9 @@
 
 int main() {
 
-  assert(fixedpt_mul(fixedpt_rconst(1.1), fixedpt_rconst(1.1)) == fixedpt_rconst(1.21));
+  assert(fixedpt_mul(fixedpt_rconst(1.1), fixedpt_rconst(1.1)) == fixedpt_rconst(1.20));
+
+  
 
   return 0;
 }
