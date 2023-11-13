@@ -23,7 +23,7 @@ int main() {
   assert(fixedpt_floor(fixedpt_rconst(-127.625)) == fixedpt_rconst(-128)); 
   assert(fixedpt_floor(fixedpt_rconst(0.5)) == fixedpt_rconst(0)); 
   assert(fixedpt_floor(fixedpt_rconst(128.625)) == fixedpt_rconst(128)); 
-  assert(fixedpt_floor(fixedpt_rconst(-128)) == fixedpt_rconst(128)); 
+  assert(fixedpt_floor(fixedpt_rconst(-128)) == fixedpt_rconst(-128)); 
   assert(fixedpt_floor(fixedpt_rconst(128)) == fixedpt_rconst(128)); 
   
   assert(fixedpt_ceil(fixedpt_rconst(0)) == fixedpt_rconst(0)); 
@@ -31,7 +31,7 @@ int main() {
   assert(fixedpt_floor(fixedpt_rconst(-128.625)) == fixedpt_rconst(-128)); 
   assert(fixedpt_floor(fixedpt_rconst(0.5)) == fixedpt_rconst(1)); 
   assert(fixedpt_floor(fixedpt_rconst(127.625)) == fixedpt_rconst(128)); 
-  assert(fixedpt_floor(fixedpt_rconst(-128)) == fixedpt_rconst(128)); 
+  assert(fixedpt_floor(fixedpt_rconst(-128)) == fixedpt_rconst(-128)); 
   assert(fixedpt_floor(fixedpt_rconst(128)) == fixedpt_rconst(128)); 
 
   return 0;
