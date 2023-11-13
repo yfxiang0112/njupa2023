@@ -26,7 +26,7 @@ size_t events_read(void *buf, size_t offset, size_t len) {
   char ev_str[20] = "";
   strncpy(ev_str, ev.keydown ? "kd " : "ku ", 4);
   strcat(ev_str, keyname[ev.keycode]);
-  strncpy(buf, ev_str, len);
+  strncpy((char*)buf, ev_str, len);
 
   printf("%s\n", buf);
 
