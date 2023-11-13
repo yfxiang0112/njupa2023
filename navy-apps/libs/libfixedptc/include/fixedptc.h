@@ -151,12 +151,12 @@ static inline fixedpt fixedpt_abs(fixedpt A) {
 }
 
 static inline fixedpt fixedpt_floor(fixedpt A) {
-  if (A<0 && (fixedpt_fracpart(A) != 0)) {A -= 1;}	
+  if (A<0 && (fixedpt_fracpart(A) != 0)) {A -= FIXEDPT_ONE;}	
   return A>>8;
 }
 
 static inline fixedpt fixedpt_ceil(fixedpt A) {
-  if (A>0 && (fixedpt_fracpart(A) != 0)) {A += 1;}	
+  if (A>0 && (fixedpt_fracpart(A) != 0)) {A += FIXEDPT_ONE;}	
   return A>>8;
 }
 
