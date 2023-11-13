@@ -59,7 +59,6 @@ int fs_read(int fd, void* buf, size_t len) {
   size_t off;
   size_t f_off=file_table[fd].open_offset, f_size=file_table[fd].size, f_addr=file_table[fd].disk_offset;
   assert(fd>2 && fd<NR_FILES);
-  printf("off = %d, len = %d, size = %d\n", f_off, len, f_size);
   if (f_off + len > f_size) { len = f_size - f_off; }
 
   off = f_addr + f_off;
@@ -72,7 +71,6 @@ int fs_write(int fd, const void* buf, size_t len) {
   size_t off;
   size_t f_off=file_table[fd].open_offset, f_size=file_table[fd].size, f_addr=file_table[fd].disk_offset;
   assert(fd>2 && fd<NR_FILES);
-  printf("off = %d, len = %d, size = %d\n", f_off, len, f_size);
   if (f_off + len > f_size) { len = f_size - f_off; }
 
   off = f_addr + f_off;
