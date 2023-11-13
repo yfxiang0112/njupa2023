@@ -29,6 +29,7 @@ void NDL_OpenCanvas(int *w, int *h) {
   char readbuf[32];
   read(fbctl, readbuf, strlen(readbuf));
   sscanf(readbuf, "WIDTH : %d\nHEIGHT : %d\n", &max_w, &max_h);
+  printf("w=%d, h=%d\n", max_w, max_h);
   if (*w>max_w || *w==0) { *w = max_w; }
   if (*h>max_h || *h==0) { *h = max_h; }
   
