@@ -27,7 +27,9 @@ void do_syscall(Context *c) {
     
     case SYS_open:
       c->GPRx = fs_open((char*)a[1], a[2], a[3]);
-      IFDEF(ENABLE_STRACE, fd = c->GPRx);
+    #ifdef ENABLE_STRACE
+      fd = c->GPRx;
+    #endif
       break;
 
     case SYS_read:
@@ -36,7 +38,9 @@ void do_syscall(Context *c) {
         break;
       }
       c->GPRx = fs_read(a[1], (void*)a[2], a[3]);
-      IFDEF(ENABLE_STRACE, fd = a[1]);
+    #ifdef ENABLE_STRACE
+      fd = a[1];
+    #endif
       break;
 
     case SYS_write: 
@@ -48,17 +52,23 @@ void do_syscall(Context *c) {
         break;
       }
       c->GPRx = fs_write(a[1], (void*)a[2], a[3]);
-      IFDEF(ENABLE_STRACE, fd = a[1]);
+    #ifdef ENABLE_STRACE
+      fd = a[1];
+    #endif
       break;
 
     case SYS_close:
       c->GPRx = fs_close(a[1]);
-      IFDEF(ENABLE_STRACE, fd = a[1]);
+    #ifdef ENABLE_STRACE
+      fd = a[1];
+    #endif
       break;
 
     case SYS_lseek:
       c->GPRx = fs_lseek(a[1], a[2], a[3]);
-      IFDEF(ENABLE_STRACE, fd = a[1]);
+    #ifdef ENABLE_STRACE
+      fd = a[1];
+    #endif
       break;
 
     case SYS_brk:
