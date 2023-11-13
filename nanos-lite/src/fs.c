@@ -99,6 +99,7 @@ int fs_lseek(int fd, size_t offset, int whence) {
 }
 
 int fs_close(int fd) {
+  printf("fd=%d\n", fd);
   assert(fd>2 && fd<NR_FILES);
 
   file_table[fd].open_offset = 0;

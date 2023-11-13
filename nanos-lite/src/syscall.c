@@ -47,7 +47,6 @@ void do_syscall(Context *c) {
       c->GPRx = fs_close(c->GPR2);
       break;
 
-
     case SYS_lseek:
       c->GPRx = fs_lseek(c->GPR2, c->GPR3, c->GPR4);
       break;
