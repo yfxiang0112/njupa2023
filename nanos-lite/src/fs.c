@@ -57,27 +57,48 @@ int fs_open(const char *pathname, int flags, int mode) {
 }
 
 int fs_read(int fd, void* buf, size_t len) {
-  size_t off;
-  size_t f_off=file_table[fd].open_offset, f_size=file_table[fd].size, f_addr=file_table[fd].disk_offset;
-  assert(fd>2 && fd<NR_FILES);
-  if (f_off + len > f_size) { len = f_size - f_off; }
+  assert(fd<NR_FILES);
 
-  off = f_addr + f_off;
-  file_table[fd].read(buf, off, len);
-  file_table[fd].open_offset += len;
-  return len;
+  switch(fd) {
+    case FD_STDIN:
+      return 0;
+    case FD_STDOUT: case FD_STDERR:
+      panic("should not reach here");
+      return -1;
+
+    default:
+      size_t off;
+      size_t f_off=file_table[fd].open_offset, f_size=file_table[fd].size, f_addr=file_table[fd].disk_offset;
+      if (f_off + len > f_size) { len = f_size - f_off; }
+
+      off = f_addr + f_off;
+      file_table[fd].read(buf, off, len);
+      file_table[fd].open_offset += len;
+      return len;
+  }
 }
 
 int fs_write(int fd, const void* buf, size_t len) {
-  size_t off;
-  size_t f_off=file_table[fd].open_offset, f_size=file_table[fd].size, f_addr=file_table[fd].disk_offset;
-  assert(fd>2 && fd<NR_FILES);
-  if (f_off + len > f_size) { len = f_size - f_off; }
+  assert(fd<NR_FILES);
 
-  off = f_addr + f_off;
-  file_table[fd].write(buf, off, len);
-  file_table[fd].open_offset += len;
-  return len;
+  switch(fd) {
+    case FD_STDIN:
+      panic("should not reach here");
+      return -1;
+    case FD_STDOUT: case FD_STDERR:
+      for (int i=0; i<len; i++) { putch(*((char*)buf + i)); }
+      return len;
+      
+    default:
+      size_t off;
+      size_t f_off=file_table[fd].open_offset, f_size=file_table[fd].size, f_addr=file_table[fd].disk_offset;
+      if (f_off + len > f_size) { len = f_size - f_off; }
+    
+      off = f_addr + f_off;
+      file_table[fd].write(buf, off, len);
+      file_table[fd].open_offset += len;
+      return len;
+  }
 }
 
 int fs_lseek(int fd, size_t offset, int whence) {
