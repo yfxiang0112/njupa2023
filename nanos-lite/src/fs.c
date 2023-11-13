@@ -13,7 +13,7 @@ typedef struct {
   WriteFn write;
 } Finfo;
 
-enum {FD_STDIN, FD_STDOUT, FD_STDERR, FD_EVENT, FD_FB, FD_DINFO};
+enum {FD_STDIN, FD_STDOUT, FD_STDERR, FD_EVENT, FD_FBCTL, FD_FBDEV};
 
 size_t invalid_read(void *buf, size_t offset, size_t len) {
   panic("should not reach here");
@@ -31,8 +31,8 @@ static Finfo file_table[] __attribute__((used)) = {
   [FD_STDOUT] = {"stdout",         0, 0, 0, invalid_read,  serial_write},
   [FD_STDERR] = {"stderr",         0, 0, 0, invalid_read,  serial_write},
   [FD_EVENT]  = {"/dev/events",    0, 0, 0, events_read,   invalid_write},
-  [FD_FB]     = {"/dev/fb",        0, 0, 0, invalid_read,  invalid_write},
-  [FD_DINFO]  = {"/proc/dispinfo", 0, 0, 0, dispinfo_read, invalid_write},
+  [FD_FBCTL]  = {"/proc/dispinfo", 0, 0, 0, dispinfo_read, invalid_write},
+  [FD_FBDEV]  = {"/dev/fb",        0, 0, 0, invalid_read,  fb_write},
 #include "files.h"
 };
 
@@ -40,7 +40,7 @@ static Finfo file_table[] __attribute__((used)) = {
 
 void init_fs() {
   // TODO: initialize the size of /dev/fb
-  file_table[FD_FB].size = io_read(AM_GPU_CONFIG).vmemsz;
+  file_table[FD_FBDEV].size = io_read(AM_GPU_CONFIG).vmemsz;
 }
 
 
@@ -67,9 +67,9 @@ int fs_read(int fd, void* buf, size_t len) {
   switch(fd) {
     case FD_STDIN:
       return 0;
-    case FD_STDOUT: case FD_STDERR:
+    case FD_STDOUT: case FD_STDERR: case FD_FBDEV:
       return file_table[fd].read(0,0,0);
-    case FD_EVENT:
+    case FD_EVENT: case FD_FBCTL:
       return file_table[fd].read(buf, 0, len);
 
     default:
@@ -88,11 +88,12 @@ int fs_write(int fd, const void* buf, size_t len) {
   assert(fd<NR_FILES);
 
   switch(fd) {
-    case FD_STDIN: case FD_EVENT:
+    case FD_STDIN: case FD_EVENT: case FD_FBCTL:
       return file_table[fd].write(0,0,0);
     case FD_STDOUT: case FD_STDERR:
       return file_table[fd].write(buf, 0, len);
       
+    case FD_FBDEV:
     default:
       size_t off;
       size_t f_off=file_table[fd].open_offset, f_size=file_table[fd].size, f_addr=file_table[fd].disk_offset;

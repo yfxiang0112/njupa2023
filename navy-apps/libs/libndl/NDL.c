@@ -6,6 +6,7 @@
 #include <sys/time.h>
 
 static int evtdev = 3;
+static int fbctl = 4;
 static int fbdev = 5;
 static int screen_w = 0, screen_h = 0;
 
@@ -26,14 +27,12 @@ int NDL_PollEvent(char *buf, int len) {
 void NDL_OpenCanvas(int *w, int *h) {
   int max_w, max_h;
   char readbuf[32];
-  read(fbdev, readbuf, strlen(readbuf));
+  read(fbctl, readbuf, strlen(readbuf));
   sscanf(readbuf, "WIDTH : %d\nHEIGHT : %d\n", &max_w, &max_h);
   if (*w>max_w || *w==0) { *w = max_w; }
   if (*h>max_h || *h==0) { *h = max_h; }
   
   if (getenv("NWM_APP")) {
-    int fbctl = 4;
-    fbdev = 5;
     screen_w = *w; screen_h = *h;
     char buf[64];
     int len = sprintf(buf, "%d %d", screen_w, screen_h);
