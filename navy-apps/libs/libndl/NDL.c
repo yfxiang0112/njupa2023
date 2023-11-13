@@ -29,14 +29,15 @@ void NDL_OpenCanvas(int *w, int *h) {
   char readbuf[32];
   read(fbctl, readbuf, strlen(readbuf));
   sscanf(readbuf, "WIDTH : %d\nHEIGHT : %d\n", &screen_w, &screen_h);
-  printf("w=%d, h=%d\n", max_w, max_h);
   if (*w>screen_w || *w==0) { *w = screen_w; }
   if (*h>screen_h || *h==0) { *h = screen_h; }
+  printf("w=%d, h=%d\n", *w, *h);
   
   if (getenv("NWM_APP")) {
     canvas_w = *w; canvas_h = *h;
     char buf[64];
     int len = sprintf(buf, "%d %d", canvas_w, canvas_h);
+    printf("cw=%d, ch=%d\n", canvas_w, canvas_h);
     // let NWM resize the window and create the frame buffer
     write(fbctl, buf, len);
     while (1) {
