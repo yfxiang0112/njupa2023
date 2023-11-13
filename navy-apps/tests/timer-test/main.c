@@ -17,7 +17,7 @@ int main() {
   
   while (1) {
 
-    while(NDL_GetTicks() /100000 < sec);
+    while(NDL_GetTicks() /1000000 < sec);
 
     //_syscall_(19, (uintptr_t)tv, (uintptr_t)tz, 0);
     //_gettimeofday(&tv, &tz);
