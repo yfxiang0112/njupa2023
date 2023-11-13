@@ -1,5 +1,8 @@
 #include <stdio.h>
 #include <assert.h>
+#include <sys/time.h>
+
+extern int _gettimeofday(struct timeval *tv, struct timezone *tz);
 
 int main() {
 
@@ -8,7 +11,8 @@ int main() {
   
   while (1) {
 
-    _syscall_(SYS_gettimeofday, tv, tz, 0);
+    //_syscall_(19, (uintptr_t)tv, (uintptr_t)tz, 0);
+    _gettimeofday(tv, tz);
     printf("%ld\n", tv->tv_usec);
   }
 
