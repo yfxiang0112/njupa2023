@@ -6,8 +6,8 @@ extern int _gettimeofday(struct timeval *tv, struct timezone *tz);
 
 int main() {
 
-  struct timeval *tv;
-  struct timezone *tz;
+  struct timeval *tv = {0};
+  struct timezone *tz = {0};
   
   while (1) {
 
