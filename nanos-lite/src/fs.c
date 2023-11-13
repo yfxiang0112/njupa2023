@@ -86,8 +86,7 @@ int fs_write(int fd, const void* buf, size_t len) {
       panic("should not reach here");
       return -1;
     case FD_STDOUT: case FD_STDERR:
-      for (int i=0; i<len; i++) { putch(*((char*)buf + i)); }
-      return len;
+      return file_table[fd].write(buf, 0, len);
       
     default:
       size_t off;
@@ -95,9 +94,8 @@ int fs_write(int fd, const void* buf, size_t len) {
       if (f_off + len > f_size) { len = f_size - f_off; }
     
       off = f_addr + f_off;
-      file_table[fd].write(buf, off, len);
       file_table[fd].open_offset += len;
-      return len;
+      return file_table[fd].write(buf, off, len);
   }
 }
 
