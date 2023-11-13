@@ -26,14 +26,12 @@ int NDL_PollEvent(char *buf, int len) {
 }
 
 void NDL_OpenCanvas(int *w, int *h) {
-  int scr_w, scr_h;
+  int max_w, max_h;
   char readbuf[32];
   read(FD_DINFO, readbuf, strlen(readbuf));
-  sscanf(readbuf, "WIDTH : %d\nHEIGHT : %d\n", &scr_w, &scr_h);
-  printf("w=%d, h=%d\n", scr_w, scr_h);
-
-  
-  
+  sscanf(readbuf, "WIDTH : %d\nHEIGHT : %d\n", &max_w, &max_h);
+  if (*w > max_w) { *w = max_w; }
+  if (*h > max_h) { *h = max_h; }
   
   if (getenv("NWM_APP")) {
     int fbctl = 4;
