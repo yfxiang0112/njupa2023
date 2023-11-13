@@ -17,6 +17,7 @@ uint32_t NDL_GetTicks() {
 }
 
 int NDL_PollEvent(char *buf, int len) {
+  printf("ndl len=%d\n", len);
   int succ = 0;
   int kbdin = 3;
   succ = read(kbdin, buf, len);
