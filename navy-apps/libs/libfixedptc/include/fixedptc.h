@@ -152,8 +152,6 @@ static inline fixedpt fixedpt_abs(fixedpt A) {
 }
 
 static inline fixedpt fixedpt_floor(fixedpt A) {
-  //if (A<0 && (fixedpt_fracpart(A) != 0)) {printf("check\n"); A = fixedpt_sub( A, FIXEDPT_ONE );}
-  //printf("%s\n", fixedpt_cstr(A, -1));
   return fixedpt_fromint(fixedpt_toint(A));
 }
 
