@@ -43,8 +43,10 @@ int fs_open(const char *pathname, int flags, int mode) {
   for (int idx=0; idx<NR_FILES; idx++) {
     if (strcmp(file_table[idx].name , pathname) == 0) {
       file_table[idx].open_offset = 0;
-      file_table[idx].read = ramdisk_read;
-      file_table[idx].write = ramdisk_write;
+      if (!file_table[idx].read && file_table[idx].write) {
+        file_table[idx].read = ramdisk_read;
+        file_table[idx].write = ramdisk_write;
+      }
 
       return idx;
     }
@@ -103,7 +105,8 @@ int fs_close(int fd) {
   assert(fd>2 && fd<NR_FILES);
 
   file_table[fd].open_offset = 0;
-  file_table[fd].read = NULL;
-  file_table[fd].write = NULL;
+  //TODO:
+  //file_table[fd].read = invalid_read;
+  //file_table[fd].write = invalid_write;
   return 0;
 }

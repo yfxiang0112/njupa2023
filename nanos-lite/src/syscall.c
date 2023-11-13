@@ -8,9 +8,9 @@ void do_syscall(Context *c) {
   a[2] = c->GPR3;
   a[3] = c->GPR4;
 
-  int fd = -1;
 
   #ifdef ENABLE_STRACE
+  int fd = -1;
   printf("[STRACE]: syscall ID = %d at pc = 0x%x\n", a[0], c->mepc);
   #endif
 
@@ -27,7 +27,7 @@ void do_syscall(Context *c) {
     
     case SYS_open:
       c->GPRx = fs_open((char*)a[1], a[2], a[3]);
-      fd = c->GPRx;
+      IFDEF(ENABLE_STRACE, fd = c->GPRx);
       break;
 
     case SYS_read:
@@ -36,7 +36,7 @@ void do_syscall(Context *c) {
         break;
       }
       c->GPRx = fs_read(a[1], (void*)a[2], a[3]);
-      fd = a[1];
+      IFDEF(ENABLE_STRACE, fd = a[1]);
       break;
 
     case SYS_write: 
@@ -48,17 +48,17 @@ void do_syscall(Context *c) {
         break;
       }
       c->GPRx = fs_write(a[1], (void*)a[2], a[3]);
-      fd = a[1];
+      IFDEF(ENABLE_STRACE, fd = a[1]);
       break;
 
     case SYS_close:
       c->GPRx = fs_close(a[1]);
-      fd = a[1];
+      IFDEF(ENABLE_STRACE, fd = a[1]);
       break;
 
     case SYS_lseek:
       c->GPRx = fs_lseek(a[1], a[2], a[3]);
-      fd = a[1];
+      IFDEF(ENABLE_STRACE, fd = a[1]);
       break;
 
     case SYS_brk:
