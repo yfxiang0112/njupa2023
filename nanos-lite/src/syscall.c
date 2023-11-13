@@ -4,6 +4,11 @@
 void do_syscall(Context *c) {
   uintptr_t a[4];
   a[0] = c->GPR1;
+  a[1] = c->GPR2;
+  a[2] = c->GPR3;
+  a[3] = c->GPR4;
+
+  int fd = -1;
 
   #ifdef ENABLE_STRACE
   printf("[STRACE]: syscall ID = %d at pc = 0x%x\n", a[0], c->mepc);
@@ -11,7 +16,7 @@ void do_syscall(Context *c) {
 
   switch (a[0]) {
     case SYS_exit:  
-      halt(c->GPR2);  
+      halt(a[1]);  
       c->GPRx = 0;
       break;
 
@@ -21,34 +26,39 @@ void do_syscall(Context *c) {
       break;
     
     case SYS_open:
-      c->GPRx = fs_open((char*)c->GPR2, c->GPR3, c->GPR4);
+      c->GPRx = fs_open((char*)a[1], a[2], a[3]);
+      fd = c->GPRx;
       break;
 
     case SYS_read:
-      if (c->GPR2 == 0) {
+      if (a[1] == 0) {
         //TODO:
         break;
       }
-      c->GPRx = fs_read(c->GPR2, (void*)c->GPR3, c->GPR4);
+      c->GPRx = fs_read(a[1], (void*)a[2], a[3]);
+      fd = a[1];
       break;
 
     case SYS_write: 
-      if (c->GPR2 == 1 || c->GPR2 == 2){
-        for (int i=0; i<c->GPR4; i++) {
-          putch(*((char*)c->GPR3 + i));
+      if (a[1] == 1 || a[1] == 2){
+        for (int i=0; i<a[3]; i++) {
+          putch(*((char*)a[2] + i));
         }
-        c->GPRx = c->GPR4;
+        c->GPRx = a[3];
         break;
       }
-      c->GPRx = fs_write(c->GPR2, (void*)c->GPR3, c->GPR4);
+      c->GPRx = fs_write(a[1], (void*)a[2], a[3]);
+      fd = a[1];
       break;
 
     case SYS_close:
-      c->GPRx = fs_close(c->GPR2);
+      c->GPRx = fs_close(a[1]);
+      fd = a[1];
       break;
 
     case SYS_lseek:
-      c->GPRx = fs_lseek(c->GPR2, c->GPR3, c->GPR4);
+      c->GPRx = fs_lseek(a[1], a[2], a[3]);
+      fd = a[1];
       break;
 
     case SYS_brk:
@@ -59,5 +69,11 @@ void do_syscall(Context *c) {
 
     default: panic("Unhandled syscall ID = %d", a[0]);
   }
+
+  #ifdef ENABLE_STRACE
+  if (fd >= 0) {
+    printf("[STRACE]:         file operation at %d\n", fd);
+  }
+  #endif
 
 }
