@@ -21,6 +21,7 @@ int NDL_PollEvent(char *buf, int len) {
   int kbdin = 3;
   succ = read(kbdin, buf, len);
   close(kbdin);
+  printf("%d\n", succ);
   return (succ != 0);
 }
 
