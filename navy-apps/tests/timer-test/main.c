@@ -20,7 +20,8 @@ int main() {
     //uint32_t usec = tv.tv_usec;
     uint32_t usec = NDL_GetTicks();
     if (usec % 1000 == 0) {
-      printf("%d\n", usec);
+      //printf("%d\n", usec);
+      printf("tick\n");
     }
   }
 
