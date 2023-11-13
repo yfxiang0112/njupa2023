@@ -9,6 +9,8 @@ static int evtdev = -1;
 static int fbdev = -1;
 static int screen_w = 0, screen_h = 0;
 
+enum {FD_STDIN, FD_STDOUT, FD_STDERR, FD_EVENT, FD_FB, FD_DINFO};
+
 uint32_t NDL_GetTicks() {
   struct timeval tv = {0};
   struct timezone tz = {0};
@@ -28,7 +30,7 @@ void NDL_OpenCanvas(int *w, int *h) {
   char readbuf[32];
   read(FD_DINFO, readbuf, 8);
   if (strcmp(readbuf, "WIDTH : ")==0) {
-    for (int i=0; *(readbuf+i)!='\n', i++) {
+    for (int i=0; *(readbuf+i)!='\n'; i++) {
       read(FD_DINFO, readbuf+i, 1);
       *(readbuf+i+1) = 0;
     }
