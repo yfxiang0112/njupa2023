@@ -28,14 +28,11 @@ int NDL_PollEvent(char *buf, int len) {
 void NDL_OpenCanvas(int *w, int *h) {
   int scr_w, scr_h;
   char readbuf[32];
-  read(FD_DINFO, readbuf, 8);
-  if (strcmp(readbuf, "WIDTH : ")==0) {
-    for (int i=0; *(readbuf+i)!='\n'; i++) {
-      read(FD_DINFO, readbuf+i, 1);
-      *(readbuf+i+1) = 0;
-    }
-    printf("%s\n", readbuf);
-  }
+  read(FD_DINFO, readbuf, strlen(readbuf));
+  sscanf(readbuf, "WIDTH : %d\nHEIGHT : %d\n", &scr_w, &scr_h);
+  printf("w=%d, h=%d\n", scr_w, scr_h);
+
+  
   
   
   if (getenv("NWM_APP")) {
