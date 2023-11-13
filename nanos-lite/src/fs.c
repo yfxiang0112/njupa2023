@@ -65,8 +65,9 @@ int fs_read(int fd, void* buf, size_t len) {
     case FD_STDIN:
       return 0;
     case FD_STDOUT: case FD_STDERR:
-      panic("should not reach here");
-      return -1;
+      return file_table[fd].read(0,0,0);
+    case FD_EVENT:
+      return file_table[fd].read(buf, 0, len);
 
     default:
       size_t off;
@@ -84,9 +85,8 @@ int fs_write(int fd, const void* buf, size_t len) {
   assert(fd<NR_FILES);
 
   switch(fd) {
-    case FD_STDIN:
-      panic("should not reach here");
-      return -1;
+    case FD_STDIN: case FD_EVENT:
+      return file_table[fd].write(0,0,0);
     case FD_STDOUT: case FD_STDERR:
       return file_table[fd].write(buf, 0, len);
       
