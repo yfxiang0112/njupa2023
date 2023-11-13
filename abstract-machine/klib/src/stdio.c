@@ -177,7 +177,30 @@ int sprintf(char *out, const char *fmt, ...) {
 }
 
 int snprintf(char *out, size_t n, const char *fmt, ...) {
-  panic("Not implemented");
+	va_list ap;
+	char *s;
+
+	int cnt = 0;
+  int len;
+
+	va_start(ap, fmt);
+	while (*fmt != '\0') {
+
+    s = parse_fmt(&fmt, &ap, &cnt);
+    len = strlen(s);
+    if (cnt + len >= n) {
+      len = n - cnt;
+    }
+    memcpy(out, s, strlen(s));
+
+    out += strlen(s);
+		fmt ++;
+	}
+	
+	va_end(ap);
+	*out = '\0';
+
+	return cnt;
 }
 
 int vsnprintf(char *out, size_t n, const char *fmt, va_list ap) {

@@ -14,7 +14,7 @@
 #include <klib-macros.h>
 #include <debug.h>
 
-#define IMAGE_FILE "/bin/event-test"
+#define IMAGE_FILE "/bin/bmp-test"
 
 size_t ramdisk_read(void *buf, size_t offset, size_t len);
 size_t ramdisk_write(const void *buf, size_t offset, size_t len);
@@ -28,6 +28,7 @@ int fs_close(int fd);
 
 size_t serial_write(const void *buf, size_t offset, size_t len);
 size_t events_read(void *buf, size_t offset, size_t len);
+size_t dispinfo_read(void *buf, size_t offset, size_t len);
 
 void do_syscall(Context *c);
 
