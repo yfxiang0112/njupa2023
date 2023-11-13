@@ -18,17 +18,23 @@ uint32_t NDL_GetTicks() {
 
 int NDL_PollEvent(char *buf, int len) {
   int succ = 0;
-  int kbdin = 3;
-  succ = read(kbdin, buf, len);
-  close(kbdin);
+  succ = read(FD_EVENT, buf, len);
+  close(FD_EVENT);
   return (succ != 0);
 }
 
 void NDL_OpenCanvas(int *w, int *h) {
   int scr_w, scr_h;
   char readbuf[32];
-  read(5, readbuf, strlen(readbuf));
-  printf("%s\n", readbuf);
+  read(FD_DINFO, readbuf, 8);
+  if (strcmp(readbuf, "WIDTH : ")==0) {
+    for (int i=0; *(readbuf+i)!='\n', i++) {
+      read(FD_DINFO, readbuf+i, 1);
+      *(readbuf+i+1) = 0;
+    }
+    printf("%s\n", readbuf);
+  }
+  
   
   if (getenv("NWM_APP")) {
     int fbctl = 4;
