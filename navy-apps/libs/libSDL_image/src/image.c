@@ -12,27 +12,23 @@ SDL_Surface* IMG_Load_RW(SDL_RWops *src, int freesrc) {
 }
 
 SDL_Surface* IMG_Load(const char *filename) {
+  /*
   FILE *fp = fopen(filename, "r+");
   assert(fp);
 
   fseek(fp, 0, SEEK_END);
   long size = ftell(fp);
   printf("size=%ld\n", size);
-  uint32_t buf[size];
+  char buf[size+2];
 
   fseek(fp, 0, SEEK_SET);
-  printf( "test at :24\n" );
-  fread(buf, sizeof(uint32_t), size/sizeof(uint32_t), fp);
-  printf( "test at :26\n" );
-
-  for (int i=0; i<size/sizeof(uint32_t); i++) {
-    printf("%x  ", ((uint32_t*)buf)[i]);
-  }
-  printf("\n");
+  fread(buf, sizeof(char), size, fp);
+  */
 
 
+  return STBIMG_Load(filename);
 
-  return NULL;
+  //return NULL;
 
 }
 
