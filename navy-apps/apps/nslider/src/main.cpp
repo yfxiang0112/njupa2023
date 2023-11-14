@@ -48,10 +48,11 @@ void next(int rep) {
 }
 
 int main() {
+  printf("cur=%d at :51\n", cur);
   SDL_Init(0);
-  printf("cur=%d\n at :52", cur);
+  printf("cur=%d at :53\n", cur);
   SDL_Surface *screen = SDL_SetVideoMode(W, H, 32, SDL_HWSURFACE);
-  printf("cur=%d\n at :54", cur);
+  printf("cur=%d at :55\n", cur);
 
   int rep = 0, g = 0;
 
