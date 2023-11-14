@@ -90,7 +90,7 @@ void *_sbrk(intptr_t increment) {
   */
   char test_buf[128];
   sprintf(test_buf, "nav: addr= %x, inc=%x\n", pb_addr, (int32_t)increment);
-  _write(1, test_buf, 128);
+  _write(1, test_buf, strlen(test_buf));
 
 
 
