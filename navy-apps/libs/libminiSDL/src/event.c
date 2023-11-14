@@ -27,12 +27,14 @@ int SDL_WaitEvent(SDL_Event *event) {
 
       event->type = keydown=='d' ? SDL_KEYDOWN : SDL_KEYUP;
 
-      for (int i=0; i<=SDLK_PAGEDOWN) {
+      for (int i=0; i<=SDLK_PAGEDOWN; i++) {
         if (strcmp(keystr, keyname[i]) == 0) {
           event->key.keysym.sym = i;
           break;
         }
       }
+
+      printf("key event %d %d %s\n", event->type, event->key.keysym.sym, keyname[event->key.keysym.sym]);
 
       return 1;
     }
