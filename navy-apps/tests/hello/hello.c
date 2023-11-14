@@ -4,11 +4,12 @@
 
 static int test0 = 0;
 const int test1 = 0;
+int test2 = 0;
 
 int main() {
   write(1, "Hello World!\n", 13);
-  printf("test0=%d, test1=%d\n", test0, test1);
-  assert(test0==0);
+  printf("test0=%d, test1=%d, test2=%d\n", test0, test1, test2);
+  assert(test2==0);
   int i = 2;
   volatile int j = 0;
   while (1) {
