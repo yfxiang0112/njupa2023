@@ -15,13 +15,14 @@ SDL_Surface* IMG_Load(const char *filename) {
   FILE *fp = fopen(filename, "r+");
   assert(fp);
 
+  fseek(fp, 0, SEEK_END);
   long size = ftell(fp);
+  printf("size=%ld\n", size);
   char buf[size*2];
 
   fseek(fp, 0, SEEK_SET);
   fread(buf, size, size, fp);
 
-  printf("test size=%ld\n", size);
   for (int i=0; i<size/sizeof(uint32_t); i++) {
     printf("%d  ", ((uint32_t*)buf)[i]);
   }
