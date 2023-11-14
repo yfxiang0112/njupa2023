@@ -20,17 +20,14 @@ static SDL_Surface *slide = NULL;
 static int cur = 0;
 
 void render() {
-  printf("slide=%x\n", (uintptr_t)(&slide));
   if (slide) {
     SDL_FreeSurface(slide);
   }
   char fname[256];
   sprintf(fname, path, cur);
-  printf("cur=%d\n", cur);
   slide = SDL_LoadBMP(fname);
   assert(slide);
   SDL_UpdateRect(slide, 0, 0, 0, 0);
-  printf("update rect\n");
 }
 
 void prev(int rep) {
@@ -48,15 +45,10 @@ void next(int rep) {
 }
 
 int main() {
-  printf("test\n");
-  printf("cur=%d at :51\n", cur);
   SDL_Init(0);
-  printf("cur=%d at :53\n", cur);
   SDL_Surface *screen = SDL_SetVideoMode(W, H, 32, SDL_HWSURFACE);
-  printf("cur=%d at :55\n", cur);
 
   int rep = 0, g = 0;
-
 
   render();
 

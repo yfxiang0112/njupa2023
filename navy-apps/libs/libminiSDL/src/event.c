@@ -17,7 +17,19 @@ int SDL_PollEvent(SDL_Event *ev) {
 }
 
 int SDL_WaitEvent(SDL_Event *event) {
-  return 1;
+  while(1) {
+    char ndl_buf[64];
+    if (NDL_PollEvent(ndl_buf, sizeof(ndl_buf))) {
+      char keycode[64], keydown;
+
+      sscanf(ndl_buf, "k%c %s", &keydown, keycode);
+
+      //event->
+      return 1;
+    }
+  }
+
+  return 0;
 }
 
 int SDL_PeepEvents(SDL_Event *ev, int numevents, int action, uint32_t mask) {
