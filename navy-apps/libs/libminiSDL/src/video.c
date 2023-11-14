@@ -35,7 +35,7 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
 }
 
 void SDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, uint32_t color) {
-  assert(dst && dstrect);
+  assert(dst);
   if (dst->format->BitsPerPixel != 32) { printf("TODO: non-32bits pix\n");assert(0); }
   int rx, ry, rw, rh;
 
