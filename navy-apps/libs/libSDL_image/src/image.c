@@ -22,7 +22,6 @@ SDL_Surface* IMG_Load(const char *filename) {
   printf("test at :23\n");
   fread(buf, size, size, fp);
 
-  printf("test at :28\n");
 
   for (int i=0; i<size/sizeof(uint32_t); i++) {
     printf("%d  ", ((uint32_t*)buf)[i]);
