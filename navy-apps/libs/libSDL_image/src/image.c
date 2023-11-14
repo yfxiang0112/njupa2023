@@ -32,11 +32,13 @@ SDL_Surface* IMG_Load(const char *filename) {
 
   printf("test at :31\n");
 
+  printf("w=%d, h=%d\n", res->w, res->h);
+
 
   fclose(fp);
 
   printf("test at :38\n");
-  free(buf);
+  //free(buf);
   printf("test at :40\n");
   return res;
 
