@@ -1,3 +1,4 @@
+#include <string.h>
 #include <NDL.h>
 #include <SDL.h>
 
@@ -20,11 +21,19 @@ int SDL_WaitEvent(SDL_Event *event) {
   while(1) {
     char ndl_buf[64];
     if (NDL_PollEvent(ndl_buf, sizeof(ndl_buf))) {
-      char keycode[64], keydown;
+      char keystr[64], keydown;
 
-      sscanf(ndl_buf, "k%c %s", &keydown, keycode);
+      sscanf(ndl_buf, "k%c %s", &keydown, keystr);
 
-      //event->
+      event->type = keydown=='d' ? SDL_KEYDOWN : SDL_KEYUP;
+
+      for (int i=0; i<=SDLK_PAGEDOWN) {
+        if (strcmp(keystr, keyname[i]) == 0) {
+          event->key.keysym.sym = i;
+          break;
+        }
+      }
+
       return 1;
     }
   }
