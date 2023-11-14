@@ -9,7 +9,7 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
   assert(dst && src);
   assert(dst->format->BitsPerPixel == src->format->BitsPerPixel);
   printf("bits=%d\n", dst->format->BitsPerPixel);
-  if (dst->format->BitsPerPixel != 32) { printf("TODO: non-32bits pix\n");assert(0); }
+  //if (dst->format->BitsPerPixel != 32) { printf("TODO: non-32bits pix\n");assert(0); }
   int sx, sy, dx, dy, sw, sh, dw, dh;
 
   if(!srcrect){ sx=0; sy=0; sw=src->w; sh=src->h; }
@@ -21,6 +21,8 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
   if(sh>dh){sh=dh;} if(sw>dw){sw=dw;}
   assert((sx+sw<=src->w) && (sy+sh<=src->h));
   assert((dx+sw<=dst->w) && (dy+sh<=dst->h));
+
+  printf("color 0,0: idx=%d, c=%x\n", ((uint8_t*)src->pixels)[src->w*sy + sx], (*src->format->palette).colors[((uint8_t*)src->pixels)[src->w*sy + sx]].val);
 
   for (int j = 0; j < sh; j++) {
     int row_off_s = src->w * (j + sy);
