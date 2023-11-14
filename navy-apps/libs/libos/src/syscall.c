@@ -74,6 +74,7 @@ int _write(int fd, void *buf, size_t count) {
 }
 
 void *_sbrk(intptr_t increment) {
+  _write(1, "t\n", 3);
   if(increment >= 0) {
     for (uint32_t i=0; i<increment; i++) {
       *(uint32_t*)(pb_addr + i) = 0;
