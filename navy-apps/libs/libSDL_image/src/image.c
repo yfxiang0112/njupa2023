@@ -16,8 +16,8 @@ SDL_Surface* IMG_Load(const char *filename) {
   assert(fp);
 
   fseek(fp, 0, SEEK_END);
-  long size = ftell(fp);
-  printf("size=%ld\n", size);
+  int size = ftell(fp);
+  printf("size=%d\n", size);
   char buf[size*4];
 
   fseek(fp, 0, SEEK_SET);
@@ -27,6 +27,7 @@ SDL_Surface* IMG_Load(const char *filename) {
 
 
   SDL_Surface* res = STBIMG_LoadFromMemory(buf, size);
+  assert(res);
 
   printf("test at :31\n");
 
