@@ -2,7 +2,7 @@
 #include <assert.h>
 #include <stdio.h>
 
-int test0 = 0;
+static int test0 = 0;
 const int test1 = 0;
 
 int main() {
