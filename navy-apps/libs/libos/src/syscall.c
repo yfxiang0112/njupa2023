@@ -92,15 +92,15 @@ void *_sbrk(intptr_t increment) {
   sprintf(test_buf, "nav: addr= %x, inc=%x\n", pb_addr, (int32_t)increment);
   _write(1, test_buf, 128);
 
-  uintptr_t pb_ret = pb_addr;
-  pb_addr += (int32_t)increment;
 
-  sprintf(test_buf, "nav: addr= %x, inc=%d, n_addr=%x\n", pb_ret, (int32_t)increment, pb_addr);
-  _write(1, test_buf, 128);
 
-  _syscall_(SYS_brk, pb_ret, pb_addr, 0);
+  if (_syscall_(SYS_brk, pb_addr, increment, 0) == 0) {
+    uintptr_t pb_ret = pb_addr;
+    pb_addr += (int32_t)increment;
 
-  return (void *)pb_ret;
+    return (void *)pb_ret;
+  } else { return (void*) -1; }
+  
   //return (void *)-1;
 }
 
