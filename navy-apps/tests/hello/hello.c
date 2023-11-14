@@ -3,7 +3,7 @@
 #include <stdio.h>
 
 int test0 = 0;
-int test1 = 1;
+const int test1 = 0;
 
 int main() {
   write(1, "Hello World!\n", 13);
