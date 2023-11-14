@@ -83,9 +83,11 @@ void *_sbrk(intptr_t increment) {
     printf("%x\n", *(uint32_t*)(pb_addr+i));
   }
   */
+  /*
   if (pb_addr + (int32_t)increment > 0x87ffffff) {
     return (void*) -1;
   }
+  */
   char test_buf[128];
   sprintf(test_buf, "nav: addr= %x, inc=%d\n", pb_addr, (int32_t)increment);
   _write(1, test_buf, 128);
