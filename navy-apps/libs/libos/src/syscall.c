@@ -87,9 +87,9 @@ void *_sbrk(intptr_t increment) {
   uintptr_t pb_ret = pb_addr;
   pb_addr += (int32_t)increment;
 
-  char test_buf[32];
+  char test_buf[64];
   sprintf(test_buf, "nav: addr= %x, n_addr=%x\n", pb_ret, pb_addr);
-  _write(1, test_buf, 30);
+  _write(1, test_buf, 64);
 
   _syscall_(SYS_brk, pb_ret, pb_addr, 0);
 
