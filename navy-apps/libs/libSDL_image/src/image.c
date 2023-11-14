@@ -21,10 +21,14 @@ SDL_Surface* IMG_Load(const char *filename) {
   char buf[size+2];
 
   fseek(fp, 0, SEEK_SET);
+  printf("test at :24\n");
   fread(buf, sizeof(char), size, fp);
+  printf("test at :26\n");
 
 
   SDL_Surface* res = STBIMG_LoadFromMemory(buf, size);
+
+  printf("test at :31\n");
 
 
   fclose(fp);
