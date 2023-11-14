@@ -74,12 +74,7 @@ int _write(int fd, void *buf, size_t count) {
 }
 
 void *_sbrk(intptr_t increment) {
-  _write(1, "t\n", 3);
-  if(increment >= 0) {
-    for (uint32_t i=0; i<increment; i++) {
-      *(uint32_t*)(pb_addr + i) = 0;
-    }
-  }
+  //if(increment >= 0) memset((char*)(pb_addr), 0, increment);
   //else memset((char*)(pb_addr+increment), 0, -increment);
   /*
   printf("test\n");
@@ -92,7 +87,7 @@ void *_sbrk(intptr_t increment) {
   uintptr_t pb_ret = pb_addr;
   pb_addr += (int32_t)increment;
 
-  _syscall_(SYS_brk, pb_addr, 0, 0);
+  _syscall_(SYS_brk, pb_addr, increment, 0);
 
   return (void *)pb_ret;
   //return (void *)-1;
