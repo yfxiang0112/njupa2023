@@ -48,23 +48,10 @@ void do_syscall(Context *c) {
     case SYS_brk:
       //TODO: 
      
-      printf("addr = %x, n_addr = %x\n", a[1], a[1]+(int32_t)a[2]);
-      /*
-      for (uint32_t curr=a[1]; curr<a[2]; curr++) {
-        //printf("addr=%x, off=%x\n", a[1], a[1]+i);
-        *(uint32_t*)(curr) = 0;
+      for (uint32_t i=0; i<(int32_t)a[2]; i++) {
+        *(uint32_t*)(a[1] + i) = 0;
       }
-      */
 
-      //*((uint32_t*) ( a[1] + ((int32_t)a[2]) )) = 0;
-
-      if (a[1] + (int32_t)a[2] < 0x87ffffff) {
-        for (uint32_t i=0; i<(int32_t)a[2]; i++) {
-          *(uint32_t*)(a[1] + i) = 0;
-        }
-      }
-        
-      //} else { c->GPRx = 1; }
       c->GPRx = 0;
       
       break;
