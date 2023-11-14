@@ -3,18 +3,49 @@
 #include <assert.h>
 #include <string.h>
 #include <stdlib.h>
+#include <stdio.h>
 
 void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_Rect *dstrect) {
   assert(dst && src);
   assert(dst->format->BitsPerPixel == src->format->BitsPerPixel);
+  if (dst->format->BitsPerPixel != 32) { printf("TODO: non-32bits pix\n");assert(0); }
+  int sx, sy, dx, dy, rw, rh;
+
+  if (!dstrect && !srcrect) { sx=0;sy=0; dx=0;dy=0; rw=dst->w;rh=dst->h; }
+  else if(!srcrect){ sx=dstrect->x;sy=dstrect->y; rw=dstrect->w;rh=dstrect->h; dx=sx;dy=sy; }
+  else if(!dstrect){ sx=srcrect->x;sy=srcrect->y; rw=srcrect->w;rh=srcrect->h; dx=sx;dy=sy; }
+  else {
+    if (dstrect->w > srcrect->w){rw=srcrect->w;} else{rw=dstrect->w;}
+    if (dstrect->h > srcrect->h){rh=srcrect->h;} else{rh=dstrect->h;}
+    sx=srcrect->x; sy=srcrect->y;
+    dx=dstrect->x; dy=dstrect->y;
+  }
+  assert((sx+rw<=src->w) && (sy+rh<=src->h));
+  assert((dx+rw<=dst->w) && (dy+rh<=dst->h));
+
+  for (int j = 0; j < rh; j++) {
+    int row_off_s = src->w * (j + sy);
+    int row_off_d = dst->w * (j + dy);
+
+    for (int i = 0; i < rw; i++) {
+      ((uint32_t*)dst->pixels)[row_off_d + dx + i] = 
+        ((uint32_t*)src->pixels)[row_off_s + sx + i];
+    }
+  }
 }
 
 void SDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, uint32_t color) {
-  for (int j = dstrect->y; j < dstrect->y+dstrect->h; j++) {
-    int off = dst->w * j;
-    for (int i = dstrect->x; i < dstrect->x+dstrect->w; i++) {
-      (uint32_t*)(dst->pixels)[off] = color;
-      off ++;
+  assert(dst && dstrect);
+  if (dst->format->BitsPerPixel != 32) { printf("TODO: non-32bits pix\n");assert(0); }
+  int rx, ry, rw, rh;
+
+  if (!dstrect) { rx=0; ry=0; rw=dst->w; rh=dst->h; }
+  else { rx=dstrect->x; ry=dstrect->y; rw=dstrect->w; rh=dstrect->h; }
+
+  for (int j = ry; j < ry+rh; j++) {
+    int row_off = dst->w * j;
+    for (int i = rx; i < rx+rw; i++) {
+      ((uint32_t*)dst->pixels)[row_off + i] = color;
     }
   }
 }
