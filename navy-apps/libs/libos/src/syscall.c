@@ -83,13 +83,15 @@ void *_sbrk(intptr_t increment) {
     printf("%x\n", *(uint32_t*)(pb_addr+i));
   }
   */
+  char test_buf[128];
+  sprintf(test_buf, "nav: addr= %x, inc=%d\n", pb_addr, (int32_t)increment);
+  _write(1, test_buf, 128);
 
   uintptr_t pb_ret = pb_addr;
   pb_addr += (int32_t)increment;
 
-  char test_buf[64];
   sprintf(test_buf, "nav: addr= %x, inc=%d, n_addr=%x\n", pb_ret, (int32_t)increment, pb_addr);
-  _write(1, test_buf, 64);
+  _write(1, test_buf, 128);
 
   _syscall_(SYS_brk, pb_ret, pb_addr, 0);
 
