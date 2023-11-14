@@ -2,13 +2,7 @@
 #include <assert.h>
 #include <stdio.h>
 
-static int test0 = 0;
-const int test1 = 0;
-int test2 = 0;
-
 int main() {
-  printf("test0=%d, test1=%d, test2=%d\n", test0, test1, test2);
-  printf("addr=%x\n", (uintptr_t)(&test2));
   write(1, "Hello World!\n", 13);
   assert(test2==0);
   int i = 2;
@@ -17,7 +11,6 @@ int main() {
     j ++;
     if (j == 10000) {
       printf("Hello World from Navy-apps for the %dth time!\n", i ++);
-      return 0;
       j = 0;
     }
   }
