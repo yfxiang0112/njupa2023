@@ -20,7 +20,7 @@ static SDL_Surface *slide = NULL;
 static int cur = 0;
 
 void render() {
-  printf("slide=%d", slide == NULL);
+  printf("slide=%x", (uintptr_t)(&slide));
   if (slide) {
     SDL_FreeSurface(slide);
   }
