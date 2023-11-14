@@ -32,7 +32,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
       load_ptr = (char*) ph.p_vaddr;
       fs_lseek(fd, ph.p_offset, 0);
       fs_read(fd, load_ptr, ph.p_filesz);
-      memset(load_ptr+ph.p_filesz, ph.p_memsz-ph.p_filesz, 0);
+      memset(load_ptr+ph.p_filesz, 0, ph.p_memsz-ph.p_filesz);
     }
   }
   
