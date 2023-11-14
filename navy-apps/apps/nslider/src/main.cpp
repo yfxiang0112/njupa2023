@@ -20,16 +20,13 @@ static SDL_Surface *slide = NULL;
 static int cur = 0;
 
 void render() {
-  printf("test mian.c: 23\n");
+  printf("slide=%d", (uintptr_t)slide);
   if (slide) {
     SDL_FreeSurface(slide);
   }
-  printf("test mian.c: 27\n");
   char fname[256];
   sprintf(fname, path, cur);
-  printf("test mian.c: 30\n");
   slide = SDL_LoadBMP(fname);
-  printf("test mian.c: 32\n");
   assert(slide);
   SDL_UpdateRect(slide, 0, 0, 0, 0);
 }
@@ -51,11 +48,9 @@ void next(int rep) {
 int main() {
   SDL_Init(0);
   SDL_Surface *screen = SDL_SetVideoMode(W, H, 32, SDL_HWSURFACE);
-  printf("test mian.c: 50\n");
 
   int rep = 0, g = 0;
 
-  printf("test mian.c: 54\n");
 
   render();
 
