@@ -87,10 +87,11 @@ void *_sbrk(intptr_t increment) {
   }
   */
 
+  _syscall_(SYS_brk, pb_addr, increment, 0);
+
   uintptr_t pb_ret = pb_addr;
   pb_addr += (int32_t)increment;
 
-  _syscall_(SYS_brk, pb_addr, increment, 0);
 
   return (void *)pb_ret;
   //return (void *)-1;
