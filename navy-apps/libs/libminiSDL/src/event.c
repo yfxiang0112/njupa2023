@@ -14,7 +14,24 @@ int SDL_PushEvent(SDL_Event *ev) {
 }
 
 int SDL_PollEvent(SDL_Event *ev) {
-  return 0;
+  char ndl_buf[64];
+  int succ;
+  succ = NDL_PollEvent(ndl_buf, sizeof(ndl_buf));
+  if (succ != 0) {
+    char keystr[64], keydown;
+    sscanf(ndl_buf, "k%c %s", &keydown, keystr);
+
+    ev->type = keydown=='d' ? SDL_KEYDOWN : SDL_KEYUP;
+
+    for (int i=0; i<=SDLK_PAGEDOWN; i++) {
+      if (strcmp(keystr, keyname[i]) == 0) {
+        ev->key.keysym.sym = i;
+        break;
+      }
+    }
+  }
+  else { ev->key.keysym.sym = 0; }
+  return succ;
 }
 
 int SDL_WaitEvent(SDL_Event *event) {
