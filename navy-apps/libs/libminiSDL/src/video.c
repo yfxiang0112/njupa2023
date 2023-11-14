@@ -9,25 +9,21 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
   assert(dst && src);
   assert(dst->format->BitsPerPixel == src->format->BitsPerPixel);
   if (dst->format->BitsPerPixel != 32) { printf("TODO: non-32bits pix\n");assert(0); }
-  int sx, sy, dx, dy, rw, rh;
+  int sx, sy, dx, dy, sw, sh, dw, dh;
 
-  if (!dstrect && !srcrect) { sx=0;sy=0; dx=0;dy=0; rw=dst->w;rh=dst->h; }
-  else if(!srcrect){ sx=dstrect->x;sy=dstrect->y; rw=dstrect->w;rh=dstrect->h; dx=sx;dy=sy; }
-  else if(!dstrect){ sx=srcrect->x;sy=srcrect->y; rw=srcrect->w;rh=srcrect->h; dx=sx;dy=sy; }
-  else {
-    if (dstrect->w > srcrect->w){rw=srcrect->w;} else{rw=dstrect->w;}
-    if (dstrect->h > srcrect->h){rh=srcrect->h;} else{rh=dstrect->h;}
-    sx=srcrect->x; sy=srcrect->y;
-    dx=dstrect->x; dy=dstrect->y;
-  }
-  assert((sx+rw<=src->w) && (sy+rh<=src->h));
-  assert((dx+rw<=dst->w) && (dy+rh<=dst->h));
+  if(!srcrect){ sx=0; sy=0; sw=src->w; sh=src->h; }
+  else { sx=srcrect->x; sy=srcrect->y; sw=srcrect->w; sh=srcrect->h; }
+  if(!dstrect){ dx=0; dy=0; dw=dst->w; dh=dst->h; }
+  else { dx=dstrect->x; dy=dstrect->y; dw=dstrect->w; dh=dstrect->h; }
+  if(sh>dh){sh=dh;} if(sw>dw){sw=dw;}
+  assert((sx+sw<=src->w) && (sy+sh<=src->h));
+  assert((dx+sw<=dst->w) && (dy+sh<=dst->h));
 
-  for (int j = 0; j < rh; j++) {
+  for (int j = 0; j < sh; j++) {
     int row_off_s = src->w * (j + sy);
     int row_off_d = dst->w * (j + dy);
 
-    for (int i = 0; i < rw; i++) {
+    for (int i = 0; i < sw; i++) {
       ((uint32_t*)dst->pixels)[row_off_d + dx + i] = 
         ((uint32_t*)src->pixels)[row_off_s + sx + i];
     }
