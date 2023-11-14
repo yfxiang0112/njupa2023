@@ -48,6 +48,7 @@ void next(int rep) {
 }
 
 int main() {
+  printf("test\n");
   printf("cur=%d at :51\n", cur);
   SDL_Init(0);
   printf("cur=%d at :53\n", cur);
