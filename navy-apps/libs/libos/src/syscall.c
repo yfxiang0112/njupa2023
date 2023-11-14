@@ -99,7 +99,7 @@ void *_sbrk(intptr_t increment) {
     pb_addr += (int32_t)increment;
 
     return (void *)pb_ret;
-  } else { return (void*) -1; }
+  } else { return (void*) pb_addr; }
   
   //return (void *)-1;
 }
