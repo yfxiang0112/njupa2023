@@ -48,9 +48,9 @@ void do_syscall(Context *c) {
     case SYS_brk:
       //TODO: 
      
-      printf("a[1] = %x\n", a[1]);
+      printf("addr = %x, inc = %d\n", a[1], a[2]);
       for (uint32_t i=0; i<a[2]; i++) {
-        printf("addr=%x, off=%x\n", a[1], a[1]+i);
+        //printf("addr=%x, off=%x\n", a[1], a[1]+i);
         *(uint32_t*)(a[1] + i) = 0;
       }
       
