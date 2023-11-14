@@ -51,6 +51,9 @@ void mtrace(paddr_t addr, int len, word_t data, char* type, bool is_gst) {
   if (strcmp(type, "write")==0 && addr >= 0x83008660 && addr <= (0x83008660 + 0x008e8)) { 
     //printf(ANSI_FMT("segment 2 at 0x%x\n", ANSI_FG_RED), cpu.pc); 
   }
+  if (strcmp(type, "write")==0 && addr == 0x83008f30) { 
+    printf(ANSI_FMT("0x%x : write test 2\n", ANSI_FG_RED), cpu.pc); 
+  }
 #endif
 }
 
