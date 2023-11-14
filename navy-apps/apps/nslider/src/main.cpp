@@ -21,7 +21,7 @@ static int cur = 0;
 
 void render() {
   slide = NULL;
-  printf("slide=%x", (uintptr_t)(&slide));
+  printf("slide=%x\n", (uintptr_t)(&slide));
   if (slide) {
     SDL_FreeSurface(slide);
   }
@@ -49,7 +49,9 @@ void next(int rep) {
 
 int main() {
   SDL_Init(0);
+  printf("cur=%d\n at :52", cur);
   SDL_Surface *screen = SDL_SetVideoMode(W, H, 32, SDL_HWSURFACE);
+  printf("cur=%d\n at :54", cur);
 
   int rep = 0, g = 0;
 
