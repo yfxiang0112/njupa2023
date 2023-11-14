@@ -53,6 +53,7 @@ void do_syscall(Context *c) {
         *(uint32_t*)(a[1] + i) = 0;
       }
       */
+      printf("a[1] = %x\n", a[1]);
       c->GPRx = 0;
       break;
 
