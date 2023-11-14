@@ -14,15 +14,12 @@ SDL_Surface* IMG_Load_RW(SDL_RWops *src, int freesrc) {
 SDL_Surface* IMG_Load(const char *filename) {
   FILE *fp = fopen(filename, "r+");
   assert(fp);
-  printf("test at :17\n");
 
-  fseek(fp, 0, SEEK_END);
   long size = ftell(fp);
   char buf[size*2];
 
-  printf("test at :23\n");
-
   fseek(fp, 0, SEEK_SET);
+  printf("test at :23\n");
   fread(buf, size, size, fp);
 
   printf("test at :28\n");
