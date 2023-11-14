@@ -1,8 +1,12 @@
 #include <unistd.h>
 #include <stdio.h>
 
+int test0 = 0;
+int test1 = 1;
+
 int main() {
   write(1, "Hello World!\n", 13);
+  printf("test0=%d, test1=%d\n", test0, test1);
   int i = 2;
   volatile int j = 0;
   while (1) {
