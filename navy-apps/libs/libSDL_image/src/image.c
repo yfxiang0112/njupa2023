@@ -18,11 +18,11 @@ SDL_Surface* IMG_Load(const char *filename) {
   fseek(fp, 0, SEEK_END);
   long size = ftell(fp);
   printf("size=%ld\n", size);
-  char buf[size*2];
+  uint32_t buf[size];
 
   fseek(fp, 0, SEEK_SET);
   printf( "test at :24\n" );
-  fread(buf, size, size, fp);
+  fread(buf, sizeof(uint32_t), size/sizeof(uint32_t), fp);
   printf( "test at :26\n" );
 
   for (int i=0; i<size/sizeof(uint32_t); i++) {
