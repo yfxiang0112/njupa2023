@@ -44,6 +44,8 @@ void mtrace(paddr_t addr, int len, word_t data, char* type, bool is_gst) {
 #ifdef CONFIG_MTRACE
   if (is_gst) { printf("%s %5s at %x(%d) = 0x%x\n", TRACE_STR("[MTRACE]:"), type, addr, len, data); }
   else { IFDEF(CONFIG_MTRACE_ALL, printf("%s %5s at %x(%d) = 0x%x (NEMU)\n", TRACE_STR("[MTRACE]:"), type, addr, len, data)); }
+  if (addr >= 0x83000000 && addr <= 0x8300765c) { printf(ANSI_FMT("segment 1\n", ANSI_FG_RED)); }
+  if (addr >= 0x83008660 && addr <= (0x83008660 + 0x008e8)) { printf(ANSI_FMT("segment 2\n", ANSI_FG_RED)); }
 #endif
 }
 
