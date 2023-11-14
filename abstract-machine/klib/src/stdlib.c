@@ -35,6 +35,9 @@ void *malloc(size_t size) {
   if (size==0) { return NULL; }
   if (addr==NULL) { addr = heap.start; }
   void *res = addr;
+  for (int i=0; i<size; i++) {
+    *((char*)(addr+i)) = 0;
+  }
   addr += size;
   return res;
 }
