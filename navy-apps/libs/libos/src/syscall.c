@@ -93,6 +93,9 @@ void *_sbrk(intptr_t increment) {
   _write(1, test_buf, strlen(test_buf));
 
 
+  if ((int32_t)increment + pb_addr > 0x87ffffff) {
+    return (void*) pb_addr;
+  }
 
   /*
   if (_syscall_(SYS_brk, pb_addr, increment, 0) == 0) {
