@@ -88,7 +88,6 @@ void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
   }
 
   else if (bits == 8) {
-    printf("test\n");
     uint32_t pix[w*h*2], color;
     for (int j=0; j<h; j++) {
       for (int i=0; i<w; i++) {
