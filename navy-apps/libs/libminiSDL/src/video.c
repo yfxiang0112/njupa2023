@@ -94,7 +94,7 @@ void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
       for (int i=0; i<w; i++) {
         int roff_s = j*s->w + x;
         int roff_d = j*w;
-        pix[roff_d+i] = 
+        pix[roff_d+i] = 0x00ffffff - 
          (*s->format->palette).colors[((uint8_t*)s->pixels)[roff_s+i]].val;
 
         if (roff_d+i >= sizeof(pix)/sizeof(uint32_t)) {printf("overflow at update rect\n");}

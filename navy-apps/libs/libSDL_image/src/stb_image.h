@@ -763,7 +763,6 @@ STBIDEF void stbi_set_flip_vertically_on_load(int flag_true_if_should_flip)
 
 static void *stbi__load_main(stbi__context *s, int *x, int *y, int *comp, int req_comp, stbi__result_info *ri, int bpc)
 {
-  printf("stbi_load_main\n");
 
    memset(ri, 0, sizeof(*ri)); // make sure it's initialized if we add new fields
    ri->bits_per_channel = 8; // default is 8 so most paths don't have to be changed
@@ -883,7 +882,6 @@ static unsigned char *stbi__load_and_postprocess_8bit(stbi__context *s, int *x, 
       ri.bits_per_channel = 8;
    }
 
-   assert(0);
    // @TODO: move stbi__convert_format to here
 
    if (stbi__vertically_flip_on_load) {
@@ -910,7 +908,6 @@ static stbi__uint16 *stbi__load_and_postprocess_16bit(stbi__context *s, int *x, 
       ri.bits_per_channel = 16;
    }
 
-   assert(0);
    // @TODO: move stbi__convert_format16 to here
    // @TODO: special case RGB-to-Y (and RGBA-to-YA) for 8-bit-to-16-bit case to keep more precision
 
@@ -1103,8 +1100,6 @@ static stbi_uc stbi__compute_y(int r, int g, int b)
 static unsigned char *stbi__convert_format(unsigned char *data, int img_n, int req_comp, unsigned int x, unsigned int y)
 {
 
-  printf("stbi_convert_format\n");
-  assert(0);
 
    int i,j;
    unsigned char *good;
@@ -4907,7 +4902,6 @@ static stbi_uc *stbi__process_gif_raster(stbi__context *s, stbi__gif *g)
 // two back is the image from two frames ago, used for a very specific disposal format
 static stbi_uc *stbi__gif_load_next(stbi__context *s, stbi__gif *g, int *comp, int req_comp, stbi_uc *two_back)
 {
-  printf("stbi__git_load_next\n");
 
    int dispose;
    int first_frame;
@@ -5083,7 +5077,6 @@ static stbi_uc *stbi__gif_load_next(stbi__context *s, stbi__gif *g, int *comp, i
 
 static void *stbi__load_gif_main(stbi__context *s, int **delays, int *x, int *y, int *z, int *comp, int req_comp)
 {
-  printf("stbi_load_git_main\n");
 
    if (stbi__gif_test(s)) {
       int layers = 0;
@@ -5163,19 +5156,16 @@ static void *stbi__load_gif_main(stbi__context *s, int **delays, int *x, int *y,
 
 static void *stbi__gif_load(stbi__context *s, int *x, int *y, int *comp, int req_comp, stbi__result_info *ri)
 {
-  printf("test:5153\n");
    stbi_uc *u = 0;
    stbi__gif g;
    memset(&g, 0, sizeof(g));
    STBI_NOTUSED(ri);
-  printf("test:5158\n");
 
    u = stbi__gif_load_next(s, &g, comp, req_comp, 0);
    if (u == (stbi_uc *) s) u = 0;  // end of animated gif marker
    if (u) {
       *x = g.w;
       *y = g.h;
-  printf("test:5165\n");
 
       // moved conversion to after successful load so that the same
       // can be done for multiple frames.
@@ -5185,7 +5175,6 @@ static void *stbi__gif_load(stbi__context *s, int *x, int *y, int *comp, int req
       // if there was an error and we allocated an image buffer, free it!
       STBI_FREE(g.out);
    }
-  printf("test:5175\n");
 
    // free buffers needed for multiple frame loading;
    STBI_FREE(g.history);

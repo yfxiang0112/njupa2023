@@ -15,7 +15,10 @@
 enum SDL_Keys {
   SDLK_NONE = 0,
   _KEYS(enumdef)
+  NUM_KEYS
 };
+
+static uint8_t keystat[NUM_KEYS] = {0};
 
 enum SDL_EventType {
   SDL_KEYDOWN,
