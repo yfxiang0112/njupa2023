@@ -46,10 +46,10 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
       }
 
     }
-
-    uint32_t delay = NDL_GetTicks();
-    while(NDL_GetTicks()-delay < 500);
   }
+
+  uint32_t delay = NDL_GetTicks();
+  while(NDL_GetTicks()-delay < 5000);
 }
 
 void SDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, uint32_t color) {
