@@ -46,6 +46,7 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
 
     }
   }
+  printf("reach end\n");
 }
 
 void SDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, uint32_t color) {
@@ -112,8 +113,6 @@ SDL_Surface* SDL_CreateRGBSurface(uint32_t flags, int width, int height, int dep
     s->format->Amask = Amask; s->format->Ashift = maskToShift(Amask); s->format->Aloss = 0;
   }
 
-  printf("sdl:115\n");
-
   s->format->BitsPerPixel = depth;
   s->format->BytesPerPixel = depth / 8;
 
@@ -122,14 +121,10 @@ SDL_Surface* SDL_CreateRGBSurface(uint32_t flags, int width, int height, int dep
   s->pitch = width * depth / 8;
   assert(s->pitch == width * s->format->BytesPerPixel);
 
-  printf("sdl:125\n");
-
   if (!(flags & SDL_PREALLOC)) {
     s->pixels = malloc(s->pitch * height);
     assert(s->pixels);
   }
-
-  printf("sdl:132\n");
 
   return s;
 }
