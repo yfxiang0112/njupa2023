@@ -762,6 +762,8 @@ STBIDEF void stbi_set_flip_vertically_on_load(int flag_true_if_should_flip)
 
 static void *stbi__load_main(stbi__context *s, int *x, int *y, int *comp, int req_comp, stbi__result_info *ri, int bpc)
 {
+  printf("stbi_load_main\n");
+
    memset(ri, 0, sizeof(*ri)); // make sure it's initialized if we add new fields
    ri->bits_per_channel = 8; // default is 8 so most paths don't have to be changed
    ri->channel_order = STBI_ORDER_RGB; // all current input & output are this, but this is here so we can add BGR order
@@ -1097,6 +1099,9 @@ static stbi_uc stbi__compute_y(int r, int g, int b)
 #else
 static unsigned char *stbi__convert_format(unsigned char *data, int img_n, int req_comp, unsigned int x, unsigned int y)
 {
+
+  printf("stbi_convert_format\n");
+
    int i,j;
    unsigned char *good;
 
@@ -4898,6 +4903,8 @@ static stbi_uc *stbi__process_gif_raster(stbi__context *s, stbi__gif *g)
 // two back is the image from two frames ago, used for a very specific disposal format
 static stbi_uc *stbi__gif_load_next(stbi__context *s, stbi__gif *g, int *comp, int req_comp, stbi_uc *two_back)
 {
+  printf("stbi__git_load_next\n");
+
    int dispose;
    int first_frame;
    int pi;
@@ -5072,6 +5079,8 @@ static stbi_uc *stbi__gif_load_next(stbi__context *s, stbi__gif *g, int *comp, i
 
 static void *stbi__load_gif_main(stbi__context *s, int **delays, int *x, int *y, int *z, int *comp, int req_comp)
 {
+  printf("stbi_load_git_main\n");
+
    if (stbi__gif_test(s)) {
       int layers = 0;
       stbi_uc *u = 0;
