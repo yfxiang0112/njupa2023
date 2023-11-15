@@ -54,7 +54,6 @@ void SDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, uint32_t color) {
   assert(dst);
   int bits = dst->format->BitsPerPixel;
   
-  printf("bits=%d\n", bits);
   if (bits != 32 && bits != 8) { printf("TODO: non-32bits pix\n");assert(0); }
   int rx, ry, rw, rh;
   uint8_t color_idx;
