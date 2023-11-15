@@ -8,8 +8,8 @@
 void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_Rect *dstrect) {
   assert(dst && src);
   assert(dst->format->BitsPerPixel == src->format->BitsPerPixel);
-  printf("bits=%d\n", dst->format->BitsPerPixel);
-  uint16_t bits = dst->format->BitsPerPixel;
+  uint32_t bits = dst->format->BitsPerPixel;
+  printf("bits=%d\n", bits);
   if (bits != 32 && bits!=8) { printf("non-32bits or 8bits pix\n");assert(0); }
   int sx, sy, dx, dy, sw, sh, dw, dh;
 
@@ -33,7 +33,7 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
         ((uint32_t*)dst->pixels)[row_off_d + dx + i] = 
           ((uint32_t*)src->pixels)[row_off_s + sx + i];
       }
-      if(bits==8) {
+      else if(bits==8) {
         ((uint8_t*)dst->pixels)[row_off_d + dx + i] = 
           ((uint8_t*)src->pixels)[row_off_s + sx + i];
 
