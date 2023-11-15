@@ -91,7 +91,6 @@ static inline int maskToShift(uint32_t mask) {
 
 SDL_Surface* SDL_CreateRGBSurface(uint32_t flags, int width, int height, int depth,
     uint32_t Rmask, uint32_t Gmask, uint32_t Bmask, uint32_t Amask) {
-  assert(0);
   assert(depth == 8 || depth == 32);
   SDL_Surface *s = malloc(sizeof(SDL_Surface));
   assert(s);
@@ -113,6 +112,8 @@ SDL_Surface* SDL_CreateRGBSurface(uint32_t flags, int width, int height, int dep
     s->format->Amask = Amask; s->format->Ashift = maskToShift(Amask); s->format->Aloss = 0;
   }
 
+  printf("sdl:115\n");
+
   s->format->BitsPerPixel = depth;
   s->format->BytesPerPixel = depth / 8;
 
@@ -121,10 +122,14 @@ SDL_Surface* SDL_CreateRGBSurface(uint32_t flags, int width, int height, int dep
   s->pitch = width * depth / 8;
   assert(s->pitch == width * s->format->BytesPerPixel);
 
+  printf("sdl:125\n");
+
   if (!(flags & SDL_PREALLOC)) {
     s->pixels = malloc(s->pitch * height);
     assert(s->pixels);
   }
+
+  printf("sdl:132\n");
 
   return s;
 }
