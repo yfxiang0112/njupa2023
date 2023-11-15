@@ -83,7 +83,6 @@ uint8_t* SDL_GetKeyState(int *numkeys) {
       }
     }
   }
-  printf("test\n");
 
   /*
   int num = numkeys ? *numkeys : NUM_KEYS;
