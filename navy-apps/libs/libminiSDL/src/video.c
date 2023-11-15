@@ -70,11 +70,33 @@ void SDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, uint32_t color) {
 void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
   //TODO: w=? and h=?
   assert(s);
+  uint32_t bits = s->format->BitsPerPixel;
+  assert(bits == 32 || bits == 8);
   if(w==0){w=s->w;} if(h==0){h=s->h;}
 
-  int off = s->w * y + x;
-  if (s->format->BitsPerPixel == 32) {
-    NDL_DrawRect((uint32_t*)(s->pixels + off), x, y, w, h);
+  if (bits == 32) {
+    if (x=0 && w==s->w) {
+      NDL_DrawRect((uint32_t*)(s->pixels), 0, y, w, h);
+    }
+    else {
+      for (int j=0; j<h; j++) {
+        int off = j*s->w;
+        NDL_DrawRect((uint32_t*)(s->pixels + off), x, j, w, 1);
+      }
+    }
+  }
+
+  else if (bits == 8) {
+    uint32_t pix[w*h];
+    for (int j=0; j<h; j++) {
+      for (int i=0; i<w; i++) {
+        int roff_s = j*s->w + x;
+        int roff_d = j*w;
+        pix[roff_d+i] = 
+         (*s->format->palette).colors[((uint8_t*)src->pixels)[roff_s+i]].val;
+      }
+    }
+    NDL_DrawRect(pix, x, y, w, h);
   }
 }
 
