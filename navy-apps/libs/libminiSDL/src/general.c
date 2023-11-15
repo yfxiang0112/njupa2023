@@ -5,6 +5,7 @@ int SDL_Init(uint32_t flags) {
 }
 
 void SDL_Quit() {
+  assert(0);
   NDL_Quit();
 }
 

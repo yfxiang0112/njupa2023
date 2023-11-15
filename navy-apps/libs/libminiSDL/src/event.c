@@ -1,3 +1,4 @@
+#include <assert.h>
 #include <string.h>
 #include <NDL.h>
 #include <SDL.h>
@@ -12,6 +13,7 @@ static const char *keyname[] = {
 
 
 int SDL_PushEvent(SDL_Event *ev) {
+  assert(0);
   return 0;
 }
 
@@ -65,6 +67,7 @@ int SDL_WaitEvent(SDL_Event *event) {
 }
 
 int SDL_PeepEvents(SDL_Event *ev, int numevents, int action, uint32_t mask) {
+  assert(0);
   return 0;
 }
 
@@ -84,10 +87,5 @@ uint8_t* SDL_GetKeyState(int *numkeys) {
     }
   }
 
-  /*
-  int num = numkeys ? *numkeys : NUM_KEYS;
-  for (int i=0; i<num; i++) {
-  }
-  */
   return keystat;
 }

@@ -52,17 +52,27 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
 
 void SDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, uint32_t color) {
   assert(dst);
-  if (dst->format->BitsPerPixel != 32) { printf("TODO: non-32bits pix\n");assert(0); }
+  int bits = dst->format->BitsPerPixel;
+  if (bits != 32 && bits != 8) { printf("TODO: non-32bits pix\n");assert(0); }
   int rx, ry, rw, rh;
+  uint8_t color_idx;
 
   if (!dstrect) { rx=0; ry=0; rw=dst->w; rh=dst->h; }
   else { rx=dstrect->x; ry=dstrect->y; rw=dstrect->w; rh=dstrect->h; }
   if(rw==0){rw=dst->w;} if(rh==0){rh=dst->h;}
 
+  if (bits == 8) {
+    SDL_Color* palette = (*dst->format->palette).colors;
+    for (int i=0; i<(*dst->format->palette).ncolors; i++) {
+      if (palette[i].val == color) { color_idx = i; break; }
+    }
+  }
+
   for (int j = ry; j < ry+rh; j++) {
     int row_off = dst->w * j;
     for (int i = rx; i < rx+rw; i++) {
-      ((uint32_t*)dst->pixels)[row_off + i] = color;
+      if (bits==32) {((uint32_t*)dst->pixels)[row_off + i] = color;}
+      if (bits==8)  {((uint8_t*)dst->pixels)[row_off + i] = color_idx;}
     }
   }
 }
@@ -279,7 +289,6 @@ SDL_Surface *SDL_ConvertSurface(SDL_Surface *src, SDL_PixelFormat *fmt, uint32_t
 }
 
 uint32_t SDL_MapRGBA(SDL_PixelFormat *fmt, uint8_t r, uint8_t g, uint8_t b, uint8_t a) {
-  assert(0);
   assert(fmt->BytesPerPixel == 4);
   uint32_t p = (r << fmt->Rshift) | (g << fmt->Gshift) | (b << fmt->Bshift);
   if (fmt->Amask) p |= (a << fmt->Ashift);
@@ -287,8 +296,10 @@ uint32_t SDL_MapRGBA(SDL_PixelFormat *fmt, uint8_t r, uint8_t g, uint8_t b, uint
 }
 
 int SDL_LockSurface(SDL_Surface *s) {
+  assert(0);
   return 0;
 }
 
 void SDL_UnlockSurface(SDL_Surface *s) {
+  assert(0);
 }
