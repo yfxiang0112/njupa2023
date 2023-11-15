@@ -5150,16 +5150,19 @@ static void *stbi__load_gif_main(stbi__context *s, int **delays, int *x, int *y,
 
 static void *stbi__gif_load(stbi__context *s, int *x, int *y, int *comp, int req_comp, stbi__result_info *ri)
 {
+  printf("test:5153\n");
    stbi_uc *u = 0;
    stbi__gif g;
    memset(&g, 0, sizeof(g));
    STBI_NOTUSED(ri);
+  printf("test:5158\n");
 
    u = stbi__gif_load_next(s, &g, comp, req_comp, 0);
    if (u == (stbi_uc *) s) u = 0;  // end of animated gif marker
    if (u) {
       *x = g.w;
       *y = g.h;
+  printf("test:5165\n");
 
       // moved conversion to after successful load so that the same
       // can be done for multiple frames.
@@ -5169,6 +5172,7 @@ static void *stbi__gif_load(stbi__context *s, int *x, int *y, int *comp, int req
       // if there was an error and we allocated an image buffer, free it!
       STBI_FREE(g.out);
    }
+  printf("test:5175\n");
 
    // free buffers needed for multiple frame loading;
    STBI_FREE(g.history);
