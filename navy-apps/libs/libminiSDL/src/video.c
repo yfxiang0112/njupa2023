@@ -46,7 +46,9 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
       }
 
     }
-        printf("test\n");
+
+    uint32_t delay = NDL_GetTicks();
+    while(NDL_GetTicks()-delay < 500);
   }
 }
 
