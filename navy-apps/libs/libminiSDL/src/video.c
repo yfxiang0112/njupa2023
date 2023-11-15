@@ -30,10 +30,12 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
 
     for (int i = 0; i < sw; i++) {
       if(bits==32) {
+        printf("32\n");
         ((uint32_t*)dst->pixels)[row_off_d + dx + i] = 
           ((uint32_t*)src->pixels)[row_off_s + sx + i];
       }
       else if(bits==8) {
+        printf("8\n");
         ((uint8_t*)dst->pixels)[row_off_d + dx + i] = 
           ((uint8_t*)src->pixels)[row_off_s + sx + i];
 
