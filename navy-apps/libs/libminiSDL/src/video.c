@@ -22,7 +22,6 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
   assert((sx+sw<=src->w) && (sy+sh<=src->h));
   assert((dx+sw<=dst->w) && (dy+sh<=dst->h));
 
-  printf("color 0,0: idx=%d, c=%x\n", ((uint8_t*)src->pixels)[src->w*sy + sx], (*src->format->palette).colors[((uint8_t*)src->pixels)[src->w*sy + sx]].val);
 
   for (int j = 0; j < sh; j++) {
     int row_off_s = src->w * (j + sy);
@@ -31,6 +30,7 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
     for (int i = 0; i < sw; i++) {
       ((uint32_t*)dst->pixels)[row_off_d + dx + i] = 
         ((uint32_t*)src->pixels)[row_off_s + sx + i];
+      printf("color %d,%d: idx=%d, c=%x\n", i, j, ((uint8_t*)src->pixels)[row_off_s + sx + i], (*src->format->palette).colors[((uint8_t*)src->pixels)[row_off_s + sx + i]].val);
     }
   }
 }
