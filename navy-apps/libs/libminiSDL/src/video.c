@@ -34,12 +34,14 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
           ((uint32_t*)src->pixels)[row_off_s + sx + i];
       }
       else if(bits==8) {
+        /*
         uint32_t color = (*src->format->palette).colors[((uint8_t*)src->pixels)[row_off_s + sx + i]].val;
         if(color != 0){
           printf("color %d,%d: idx=%d, c=%x\n", i, j, 
             ((uint8_t*)src->pixels)[row_off_s + sx + i], color);
         }
 
+        */
         ((uint8_t*)dst->pixels)[row_off_d + dx + i] = 
           ((uint8_t*)src->pixels)[row_off_s + sx + i];
       }
