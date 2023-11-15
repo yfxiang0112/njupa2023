@@ -96,13 +96,12 @@ void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
         color =  (*s->format->palette).colors[((uint8_t*)s->pixels)[roff_s+i]].val;
         color = ((color&0x00ff0000) >> 16) | (color&0x0000ff00) | ((color&0x000000ff) << 16);
         pix[roff_d+i] = color;
-        if (color!=0) { printf("%x\n", color); }
       }
     }
+    uint32_t delay = NDL_GetTicks();
+    while(NDL_GetTicks()-delay < 100000);
     NDL_DrawRect(pix, x, y, w, h);
   }
-  uint32_t delay = NDL_GetTicks();
-  while(NDL_GetTicks()-delay < 1000000);
 }
 
 // APIs below are already implemented.
