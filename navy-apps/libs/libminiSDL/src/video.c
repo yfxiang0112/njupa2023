@@ -48,8 +48,6 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, SDL_Surface *dst, SDL_
     }
   }
 
-  uint32_t delay = NDL_GetTicks();
-  while(NDL_GetTicks()-delay < 10000000);
 }
 
 void SDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, uint32_t color) {
@@ -102,6 +100,8 @@ void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
     }
     NDL_DrawRect(pix, x, y, w, h);
   }
+  uint32_t delay = NDL_GetTicks();
+  while(NDL_GetTicks()-delay < 1000000);
 }
 
 // APIs below are already implemented.
