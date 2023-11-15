@@ -89,15 +89,14 @@ void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
 
   else if (bits == 8) {
     printf("test\n");
-    uint32_t pix[w*h*2];
+    uint32_t pix[w*h*2], color;
     for (int j=0; j<h; j++) {
       for (int i=0; i<w; i++) {
         int roff_s = j*s->w + x;
         int roff_d = j*w;
-        pix[roff_d+i] = 0x00ffffff - 
-         (*s->format->palette).colors[((uint8_t*)s->pixels)[roff_s+i]].val;
-
-        if (roff_d+i >= sizeof(pix)/sizeof(uint32_t)) {printf("overflow at update rect\n");}
+        color =  (*s->format->palette).colors[((uint8_t*)s->pixels)[roff_s+i]].val;
+        color = ((color&0x00ff0000) >> 16) | (color&0x0000ff00) | ((color&0x000000ff) << 16);
+        pix[roff_d+i] = color;
       }
     }
     NDL_DrawRect(pix, x, y, w, h);
