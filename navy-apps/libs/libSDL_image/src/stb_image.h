@@ -883,6 +883,7 @@ static unsigned char *stbi__load_and_postprocess_8bit(stbi__context *s, int *x, 
       ri.bits_per_channel = 8;
    }
 
+   assert(0);
    // @TODO: move stbi__convert_format to here
 
    if (stbi__vertically_flip_on_load) {
@@ -909,6 +910,7 @@ static stbi__uint16 *stbi__load_and_postprocess_16bit(stbi__context *s, int *x, 
       ri.bits_per_channel = 16;
    }
 
+   assert(0);
    // @TODO: move stbi__convert_format16 to here
    // @TODO: special case RGB-to-Y (and RGBA-to-YA) for 8-bit-to-16-bit case to keep more precision
 
@@ -1102,6 +1104,7 @@ static unsigned char *stbi__convert_format(unsigned char *data, int img_n, int r
 {
 
   printf("stbi_convert_format\n");
+  assert(0);
 
    int i,j;
    unsigned char *good;
