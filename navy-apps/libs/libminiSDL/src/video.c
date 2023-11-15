@@ -100,8 +100,10 @@ void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
         //if(color!=0){ printf("%x\n", color); }
       }
     }
+    /*
     uint32_t delay = NDL_GetTicks();
     while(NDL_GetTicks()-delay < 100000);
+    */
     NDL_DrawRect(pix, x, y, w, h);
   }
 }
