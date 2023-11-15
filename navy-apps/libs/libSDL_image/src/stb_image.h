@@ -350,6 +350,7 @@ enum
 };
 
 #include <stdlib.h>
+#include <stdio.h>
 typedef unsigned char stbi_uc;
 typedef unsigned short stbi_us;
 
