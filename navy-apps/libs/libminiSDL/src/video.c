@@ -100,9 +100,7 @@ void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
         if (roff_d+i >= sizeof(pix)/sizeof(uint32_t)) {printf("overflow at update rect\n");}
       }
     }
-    printf("test:103\n");
     NDL_DrawRect(pix, x, y, w, h);
-    printf("test:105\n");
   }
 }
 
