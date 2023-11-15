@@ -72,8 +72,8 @@ void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
   uint32_t bits = s->format->BitsPerPixel;
   assert(bits == 32 || bits == 8);
   if(w==0){w=s->w;} if(h==0){h=s->h;}
-  printf("update sw=%d, sh=%d, w=%d, h=%d, x=%d, y=%d\n",
-         s->w, s->h, w, h, x, y);
+//  printf("update sw=%d, sh=%d, w=%d, h=%d, x=%d, y=%d\n",
+ //        s->w, s->h, w, h, x, y);
 
   if (bits == 32) {
     if (x==0 && w==s->w) {
