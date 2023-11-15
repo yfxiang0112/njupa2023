@@ -76,7 +76,7 @@ void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
          s->w, s->h, w, h, x, y);
 
   if (bits == 32) {
-    if (x=0 && w==s->w) {
+    if (x==0 && w==s->w) {
       NDL_DrawRect((uint32_t*)(s->pixels), 0, y, w, h);
     }
     else {
