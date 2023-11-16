@@ -99,7 +99,8 @@ void stack_check(CPU_state *cpu) {
   
   if (cpu->gpr[2] < seg_end && (cpu->gpr[2]-CONFIG_MBASE < CONFIG_MSIZE)) {
     
-    panic("stack overflow at $pc= 0x%x\n\
+    panic("stack overflow at \n\
+          pc= 0x%x\n\
           program data segment end = 0x%x\n\
           stack pointer = 0x%x", cpu->pc, seg_end, cpu->gpr[2]);
     
