@@ -2,6 +2,7 @@
 #include <stdarg.h>
 #include <unistd.h>
 #include <SDL.h>
+#include <assert.h>
 
 char handle_key(SDL_Event *ev);
 
@@ -24,7 +25,7 @@ static void sh_prompt() {
 
 static void sh_handle_cmd(const char *cmd) {
   printf("%s\n", cmd);
-  if (strcmp(cmd, "sudo poweroff\n")==0) { SDL_Quit(); }
+  if (strcmp(cmd, "sudo poweroff\n")==0) { assert(0);SDL_Quit(); }
 }
 
 void builtin_sh_run() {
