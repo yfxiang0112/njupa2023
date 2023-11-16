@@ -39,7 +39,6 @@ void *malloc(size_t size) {
     *((char*)(addr+i)) = 0;
   }
   addr += size;
-  printf("malloc addr=%x\n", (uintptr_t)res);
   return res;
 }
 

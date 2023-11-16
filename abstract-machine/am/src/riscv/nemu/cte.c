@@ -5,6 +5,7 @@
 static Context* (*user_handler)(Event, Context*) = NULL;
 
 Context* __am_irq_handle(Context *c) {
+  printf("handler addr=%x\n", &user_handler);
   if (user_handler) {
     Event ev = {0};
 
@@ -21,8 +22,6 @@ Context* __am_irq_handle(Context *c) {
       ev.event = EVENT_ERROR; 
     }
     
-    printf("handler addr = %x\n", &user_handler);
-    printf("handler = %x\n", user_handler);
     c = user_handler(ev, c);
     assert(c != NULL);
   }
