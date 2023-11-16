@@ -17,8 +17,10 @@ void do_syscall(Context *c) {
 
   switch (a[0]) {
     case SYS_exit:  
-      //halt(a[1]);  
-      naive_uload(NULL, "/bin/nterm");
+      if(strcmp("/bin/menu", IMAGE_FILE) == 0) naive_uload(NULL, "/bin/menu");
+      if(strcmp("/bin/nterm", IMAGE_FILE) == 0) naive_uload(NULL, "/bin/nterm");
+
+      halt(a[1]);  
       c->GPRx = 0;
       break;
 
