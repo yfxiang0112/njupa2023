@@ -61,6 +61,8 @@ void init_ftrace(const char* elf_file) {
 	succ = fread(name_str, sections[sst_idx].sh_size, 1, fp);
 	if (!succ){ panic("fail to read sections"); }
 
+  fclose(fp);
+
 	/* filter function symbols from symtab */
 	for (int i=0; i<st_num; i++) {
 		if (ELF32_ST_TYPE(symtab[i].st_info) == STT_FUNC) {

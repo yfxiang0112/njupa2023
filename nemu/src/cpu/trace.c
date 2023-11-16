@@ -88,6 +88,7 @@ void init_stackcheck(const char* elf_file) {
       seg_end = ph.p_offset + ph.p_filesz;
     }
   }
+  fclose(fp);
   assert(seg_end);
   printf("seg_end=%d\n", seg_end);
 }
