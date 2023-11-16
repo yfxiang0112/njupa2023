@@ -24,9 +24,12 @@ static void sh_prompt() {
 }
 
 static void sh_handle_cmd(const char *cmd) {
-  printf("%s\n", cmd);
-  if (strcmp(cmd, "sudo poweroff\n")==0) { SDL_Quit(); }
-  execve(cmd, 0, 0);
+  char cmd_buf[256];
+  if (strlen(cmd)>200) {assert(0);}
+  strncpy(cmd_buf, cmd, strlen(cmd)-1);
+  printf("%s\n", cmd_buf);
+  if (strcmp(cmd_buf, "sudo poweroff")==0) { SDL_Quit(); }
+  execve(cmd_buf, 0, 0);
 }
 
 void builtin_sh_run() {
