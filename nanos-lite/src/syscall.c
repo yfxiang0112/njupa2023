@@ -1,4 +1,5 @@
 #include <common.h>
+#include <proc.h>
 #include "syscall.h"
 #include <sys/time.h>
 
@@ -55,6 +56,11 @@ void do_syscall(Context *c) {
       c->GPRx = 0;
       
       break;
+
+    case SYS_execve:
+      naive_uload(NULL, (char*)(a[1]));
+      break;
+
 
     case SYS_gettimeofday:
       uint32_t tick = io_read(AM_TIMER_UPTIME).us;
