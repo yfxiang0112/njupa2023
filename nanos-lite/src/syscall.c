@@ -56,6 +56,8 @@ void do_syscall(Context *c) {
         *(uint32_t*)(a[1] + i) = 0;
       }
 
+      printf("brk=%x, inc=%x\n", a[1], a[2]);
+
       c->GPRx = 0;
       
       break;
