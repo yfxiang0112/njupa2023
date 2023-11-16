@@ -29,13 +29,13 @@ static void sh_handle_cmd(const char *cmd) {
   strncpy(cmd_buf, cmd, strlen(cmd)-1);
   printf("%s\n", cmd_buf);
   if (strcmp(cmd_buf, "sudo poweroff")==0) { SDL_Quit(); }
-  execvp(cmd_buf, 0);
+  execve(cmd_buf, 0, 0);
 }
 
 void builtin_sh_run() {
   sh_banner();
   sh_prompt();
-  setenv("PATH", "/bin", 0);
+  //setenv("PATH", "/bin", 0);
 
   while (1) {
     SDL_Event ev;
