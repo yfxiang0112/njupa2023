@@ -17,14 +17,17 @@ uint32_t foo() {
   //exit(0);
 
   printf("test\n");
+  /*
   for (int i=100000-1; i>=0; i--) {
     printf("[%d]=%d\n", i, test[i]);
     test[i] = 100000-i;
   }
+  */
 
   return test[5000];
 }
 
+/*
 uint32_t bar(int a) {
   int b=1000;
   uint32_t test[a*b];
@@ -36,17 +39,20 @@ uint32_t bar(int a) {
 
   return a;
 }
+*/
 
 int main() {
   
   foo();
 
+  /*
   for (int i=0; i<10; i++) {
     foo();
     bar(i*1000);
   }
 
   bar(0xffff);
+  */
 
   return 0;
 }
