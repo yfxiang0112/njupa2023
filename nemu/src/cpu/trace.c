@@ -82,8 +82,8 @@ void init_stackcheck(const char* elf_file) {
 	if (header.e_ident[0]!=0x7f||header.e_ident[1]!='E'||header.e_ident[2]!='L'||header.e_ident[3]!='F') { panic("not an elf file. "); }
 
   for (int i=0; i<header.e_phnum; i++) {
-	  succ = fseek(fp, header.e_phoff, SEEK_SET); assert(succ);
-    printf("%d\n",i);
+    printf("%d off=%x\n",i, header.e_phoff);
+	  succ = fseek(fp, header.e_phoff+ i*header.e_phentsize, SEEK_SET); assert(succ);
     succ = fread(&ph, header.e_phentsize, 1, fp); assert(succ);
     if (ph.p_type == 1) {
       seg_end = ph.p_offset + ph.p_filesz;
