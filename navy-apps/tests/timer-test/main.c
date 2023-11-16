@@ -11,10 +11,10 @@ int main() {
   struct timezone tz = {0};
   NDL_Init(0);
 
-  int sec = NDL_GetTicks() / 1000000;
+  int sec = NDL_GetTicks() / 1000;
   
   while (1) {
-    while(NDL_GetTicks() /1000000 < sec);
+    while(NDL_GetTicks() / 1000 < sec);
 
     printf("%d\n", sec);
     sec ++;
