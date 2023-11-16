@@ -30,7 +30,7 @@ int main(int argc, char *argv[]) {
 
 static void draw_ch(int x, int y, char ch, uint32_t fg, uint32_t bg) {
   SDL_Surface *s = BDF_CreateSurface(font, ch, fg, bg);
-  SDL_Rect dstrect = { .x = x, .y = y };
+  SDL_Rect dstrect = { .x = (uint16_t)x, .y = (uint16_t)y };
   SDL_BlitSurface(s, NULL, screen, &dstrect);
   SDL_FreeSurface(s);
 }
@@ -48,12 +48,12 @@ void refresh_terminal() {
   static uint32_t last = 0;
   static int flip = 0;
   uint32_t now = SDL_GetTicks();
-  if (now - last > 500 || needsync) {
+  if (now - last > 1000 || needsync) {
     int x = term->cursor.x, y = term->cursor.y;
     uint32_t color = (flip ? term->foreground(x, y) : term->background(x, y));
     draw_ch(x * font->w, y * font->h, ' ', 0, color);
     SDL_UpdateRect(screen, 0, 0, 0, 0);
-    if (now - last > 500) {
+    if (now - last > 1000) {
       flip = !flip;
       last = now;
     }
