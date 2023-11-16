@@ -57,7 +57,7 @@ int fs_open(const char *pathname, int flags, int mode) {
   }
 
   printf("cannot find requested file: %s\n", pathname);
-  assert(0);
+  //assert(0);
   return 2;
 }
 
