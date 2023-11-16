@@ -93,3 +93,11 @@ void init_stackcheck(const char* elf_file) {
   assert(seg_end);
   printf("seg_end=%x\n", seg_end);
 }
+
+void stack_check(CPU_state *cpu) {
+  if (cpu->gpr[2] < seg_end) {
+    panic("stack overflow at $pc= 0x%x\n\
+          program data segment end = 0x%x\n\
+          stack pointer = 0x%x", cpu->pc, seg_end, cpu->gpr[2]);
+  }
+}
