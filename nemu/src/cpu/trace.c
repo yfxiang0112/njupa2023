@@ -103,6 +103,6 @@ void stack_check(CPU_state *cpu) {
           program data segment end = 0x%x\n\
           stack pointer = 0x%x", cpu->pc, seg_end, cpu->gpr[2]);
     */
-    printf("pc=%x, seg=%x, ps=%x", cpu->pc, seg_end, cpu->gpr[2]);
+    printf("pc=%x, seg=%x, ps=%x\n", cpu->pc, seg_end, cpu->gpr[2]);
   }
 }
