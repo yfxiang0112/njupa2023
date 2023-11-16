@@ -104,5 +104,6 @@ void stack_check(CPU_state *cpu) {
           stack pointer = 0x%x", cpu->pc, seg_end, cpu->gpr[2]);
     */
     printf("pc=%x, seg=%x, ps=%x\n", cpu->pc, seg_end, cpu->gpr[2]);
+    if (cpu->gpr[2]==0x81c96d50) {assert(0);}
   }
 }
