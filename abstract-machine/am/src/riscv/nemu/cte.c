@@ -23,6 +23,7 @@ Context* __am_irq_handle(Context *c) {
     
     printf("test\n");
     c = user_handler(ev, c);
+    printf("test:finished call\n");
     assert(c != NULL);
   }
 

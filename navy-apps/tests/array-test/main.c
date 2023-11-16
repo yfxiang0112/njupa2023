@@ -4,9 +4,9 @@
 #include <stdlib.h>
 
 uint32_t foo() {
-  uint32_t test[0x100000];
+  uint32_t test[0x200000];
 
-  for (int i=0; i<0x100000; i++) {
+  for (int i=0; i<0x200000; i++) {
     test[i] = i;
     //printf("0x%x , %d\n", i,test[i]);
   }
