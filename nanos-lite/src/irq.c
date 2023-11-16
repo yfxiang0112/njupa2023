@@ -1,7 +1,7 @@
 #include <common.h>
 
 static Context* do_event(Event e, Context* c) {
-  printf("contex=%x\n", &c);
+  //printf("contex=%x\n", &c);
   switch (e.event) {
     case EVENT_YIELD: 
       printf("nanos-lite triggered yield\n");
