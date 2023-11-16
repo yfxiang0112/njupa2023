@@ -7,7 +7,7 @@ uint32_t foo() {
 
   for (int i=0; i<100000; i++) {
     test[i] = i;
-    printf("%x\n", i);
+    printf("0x%x , %d\n", i,i);
   }
 
   printf("test\n");
