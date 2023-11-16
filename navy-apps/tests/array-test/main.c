@@ -6,6 +6,8 @@
 uint32_t foo() {
   uint32_t test[0x100000];
 
+  printf("test addr=%x\n", (uintptr_t)test);
+  printf("fdc26 addr=%x\n", (uintptr_t)test+8*(0xfdc26));
   for (int i=0; i<0x100000; i++) {
     test[i] = i;
     //printf("0x%x , %d\n", i,test[i]);
