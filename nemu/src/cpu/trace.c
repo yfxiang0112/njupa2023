@@ -91,5 +91,5 @@ void init_stackcheck(const char* elf_file) {
   }
   fclose(fp);
   assert(seg_end);
-  printf("seg_end=%d\n", seg_end);
+  printf("seg_end=%x\n", seg_end);
 }
