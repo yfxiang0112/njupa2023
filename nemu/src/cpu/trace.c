@@ -99,10 +99,10 @@ void stack_check(CPU_state *cpu) {
   
   if (cpu->gpr[2] < seg_end && (cpu->gpr[2]-CONFIG_MBASE < CONFIG_MSIZE)) {
     
-    panic("stack overflow at \n\
-          pc= 0x%x\n\
-          program data segment end = 0x%x\n\
-          stack pointer = 0x%x", cpu->pc, seg_end, cpu->gpr[2]);
+    panic("%s%x%s%x%s%x\n",
+          "stack overflow at pc= 0x", cpu->pc,
+          ", program data segment end = 0x", seg_end, 
+          ", stack pointer = 0x", cpu->gpr[2]);
     
     //printf("pc=%x, seg=%x, ps=%x\n", cpu->pc, seg_end, cpu->gpr[2]);
     //if (cpu->gpr[2]==0x81c96d50) {assert(0);}
