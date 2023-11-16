@@ -83,8 +83,6 @@ void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
   uint32_t bits = s->format->BitsPerPixel;
   assert(bits == 32 || bits == 8);
   if(w==0){w=s->w;} if(h==0){h=s->h;}
-//  printf("update sw=%d, sh=%d, w=%d, h=%d, x=%d, y=%d\n",
- //        s->w, s->h, w, h, x, y);
 
   if (bits == 32) {
     if (x==0 && w==s->w) {
@@ -99,11 +97,7 @@ void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
   }
 
   else if (bits == 8) {
-    printf("8bits\n");
-    uint32_t pix[w*h*4];
-    //uint32_t color;
-    assert((*s->format->palette).colors);
-    printf("video:106\n");
+    uint32_t pix[s->w*s->h];
     for (int j=0; j<h; j++) {
       for (int i=0; i<w; i++) {
         int roff_s = j*s->w + x;
@@ -111,14 +105,8 @@ void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
         uint32_t color =  (*s->format->palette).colors[((uint8_t*)s->pixels)[roff_s+i]].val;
         color = ((color&0x00ff0000) >> 16) | (color&0x0000ff00) | ((color&0x000000ff) << 16);
         pix[roff_d+i] = color;
-        //if(color!=0){ printf("%x\n", color); }
       }
     }
-    printf("draw rect\n");
-    /*
-    uint32_t delay = NDL_GetTicks();
-    while(NDL_GetTicks()-delay < 100000);
-    */
     NDL_DrawRect(pix, x, y, w, h);
   }
 }
