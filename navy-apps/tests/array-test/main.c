@@ -6,9 +6,11 @@ uint32_t foo() {
   uint32_t test[100000];
 
   for (int i=0; i<85000; i++) {
-    test[i] = i;
+    //test[i] = i;
     printf("0x%x , %d\n", i,i);
   }
+
+  assert(0);
 
   printf("test\n");
   for (int i=100000-1; i>=0; i--) {
