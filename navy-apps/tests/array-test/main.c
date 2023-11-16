@@ -7,7 +7,7 @@ uint32_t foo() {
 
   for (int i=0; i<85000; i++) {
     //test[i] = i;
-    printf("0x%x , %d\n", i,i);
+    printf("0x%x , %d\n", i,test[i]);
   }
 
   assert(0);
