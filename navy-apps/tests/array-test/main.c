@@ -12,7 +12,7 @@ uint32_t foo() {
   }
 
   //assert(0);
-  exit(0);
+  //exit(0);
 
   printf("test\n");
   for (int i=100000-1; i>=0; i--) {
