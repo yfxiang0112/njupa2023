@@ -100,11 +100,13 @@ void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
 
   else if (bits == 8) {
     printf("8bits\n");
-    uint32_t pix[w*h*2];
+    uint32_t pix[w*h*4];
     uint32_t color;
     assert((*s->format->palette).colors);
+    printf("video:106\n");
     for (int j=0; j<h; j++) {
       for (int i=0; i<w; i++) {
+        printf("%d,%d\n",i,j);
         int roff_s = j*s->w + x;
         int roff_d = j*w;
         color =  (*s->format->palette).colors[((uint8_t*)s->pixels)[roff_s+i]].val;
