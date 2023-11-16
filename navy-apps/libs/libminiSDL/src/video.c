@@ -99,8 +99,10 @@ void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
   }
 
   else if (bits == 8) {
+    printf("8bits\n");
     uint32_t pix[w*h*2];
     uint32_t color;
+    assert((*s->format->palette).colors);
     for (int j=0; j<h; j++) {
       for (int i=0; i<w; i++) {
         int roff_s = j*s->w + x;
@@ -111,6 +113,7 @@ void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
         //if(color!=0){ printf("%x\n", color); }
       }
     }
+    printf("draw rect\n");
     /*
     uint32_t delay = NDL_GetTicks();
     while(NDL_GetTicks()-delay < 100000);
