@@ -9,6 +9,7 @@ uint32_t foo() {
     test[i] = i;
   }
 
+  printf("test\n");
   for (int i=100000-1; i>=0; i--) {
     printf("[%d]=%d\n", i, test[i]);
     test[i] = 100000-i;
