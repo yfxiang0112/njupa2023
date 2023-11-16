@@ -57,7 +57,6 @@ int SDL_WaitEvent(SDL_Event *event) {
         }
       }
 
-      printf("key event %d %d %s\n", event->type, event->key.keysym.sym, keyname[event->key.keysym.sym]);
 
       return 1;
     }
