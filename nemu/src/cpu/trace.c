@@ -95,12 +95,14 @@ void init_stackcheck(const char* elf_file) {
 }
 
 void stack_check(CPU_state *cpu) {
-  printf("ps=%x\n", cpu->gpr[2]);
-  /*
+  //printf("ps=%x\n", cpu->gpr[2]);
+  
   if (cpu->gpr[2] < seg_end) {
+    /*
     panic("stack overflow at $pc= 0x%x\n\
           program data segment end = 0x%x\n\
           stack pointer = 0x%x", cpu->pc, seg_end, cpu->gpr[2]);
+    */
+    printf("pc=%x, seg=%x, ps=%x", cpu->pc, seg_end, cpu->gpr[2]);
   }
-  */
 }
