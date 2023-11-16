@@ -83,6 +83,7 @@ void init_stackcheck(const char* elf_file) {
 
   for (int i=0; i<header.e_phnum; i++) {
 	  succ = fseek(fp, header.e_phoff+ i*header.e_phentsize, SEEK_SET); assert(succ);
+    printf("%d\n",i);
     succ = fread(&ph, header.e_phentsize, 1, fp); assert(succ);
     if (ph.p_type == 1) {
       seg_end = ph.p_offset + ph.p_filesz;
