@@ -4,10 +4,10 @@
 #include <stdlib.h>
 
 uint32_t foo() {
-  uint32_t test[0x100000];
+  uint32_t test[0x23f0];
 
-  printf("test addr=%x, fdc26 addr=%x\n", (uintptr_t)test, (uintptr_t)test+4*(0xfdc26));
-  for (int i=0; i<0x100000; i++) {
+  printf("test addr=%x, fdc26 addr=%x\n", (uintptr_t)test, (uintptr_t)test+4*(0x16));
+  for (int i=0; i<0x23f0; i++) {
     test[i] = i;
     //printf("0x%x , %d\n", i,test[i]);
   }
