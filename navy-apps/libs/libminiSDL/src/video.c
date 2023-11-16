@@ -97,7 +97,7 @@ void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
   }
 
   else if (bits == 8) {
-    uint32_t pix[w*h];
+    uint32_t pix[w*h*8];
     //printf("%d,%d,%d\n", sizeof(pix), w, h);
     for (int j=0; j<h; j++) {
       for (int i=0; i<w; i++) {
