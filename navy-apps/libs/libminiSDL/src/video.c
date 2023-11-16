@@ -106,7 +106,7 @@ void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
         uint32_t color =  (*s->format->palette).colors[((uint8_t*)s->pixels)[roff_s+i]].val;
         color = ((color&0x00ff0000) >> 16) | (color&0x0000ff00) | ((color&0x000000ff) << 16);
         pix[roff_d+i] = color;
-        if(roff_d+i > w*h) {printf("test\n");}
+        //if(roff_d+i > w*h) {printf("test\n");}
       }
     }
     NDL_DrawRect(pix, x, y, w, h);
