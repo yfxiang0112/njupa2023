@@ -28,6 +28,8 @@ deps_/home/yfxiang/njupa/ics2023/nemu/build/obj-riscv32-nemu-interpreter/src/mon
   /home/yfxiang/njupa/ics2023/nemu/include/memory/paddr.h \
     $(wildcard include/config/pc/reset/offset.h) \
   /home/yfxiang/njupa/ics2023/nemu/include/cpu/ftrace.h \
+  /home/yfxiang/njupa/ics2023/nemu/include/cpu/trace.h \
+  /home/yfxiang/njupa/ics2023/nemu/include/cpu/decode.h \
 
 /home/yfxiang/njupa/ics2023/nemu/build/obj-riscv32-nemu-interpreter/src/monitor/monitor.o: $(deps_/home/yfxiang/njupa/ics2023/nemu/build/obj-riscv32-nemu-interpreter/src/monitor/monitor.o)
 

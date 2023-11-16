@@ -10,6 +10,7 @@ int ringidx = 0;
 #endif
 
 extern CPU_state cpu;
+static vaddr_t seg_end;
 
 void rec_itrace(Decode *_this) {
 #ifdef CONFIG_ITRACE_QUIT
@@ -64,4 +65,29 @@ void dtrace(paddr_t addr, int len, word_t data, const char* name, char* type, bo
   if (is_gst) { printf("%s %5s %s at %x(%d) = 0x%x\n", TRACE_STR("[MTRACE]:"), type, name, addr, len, data); }
   else { IFDEF(CONFIG_DTRACE_ALL, printf("%s %5s %s at %x(%d) = 0x%x (NEMU)\n", TRACE_STR("[MTRACE]:"), type, name, addr, len, data)); }
 #endif
+}
+
+void init_stackcheck(const char* elf_file) {
+	/* load elf file */
+	FILE *fp;
+	int succ;
+	fp = fopen(elf_file, "r");
+	if (fp == NULL) { panic("elf file not found"); }
+
+	/* read elf header infomation from elf file */
+	Elf32_Ehdr header;
+  Elf32_Phdr ph;
+	succ = fread(&header, sizeof(Elf32_Ehdr), 1, fp);
+	if (!succ) { panic("fail to read head"); }
+	if (header.e_ident[0]!=0x7f||header.e_ident[1]!='E'||header.e_ident[2]!='L'||header.e_ident[3]!='F') { panic("not an elf file. "); }
+
+  for (int i=0; i<header.e_phnum; i++) {
+	  succ = fseek(fp, header.e_phoff+ i*header.e_phentsize, SEEK_SET); assert(succ);
+    succ = fread(&ph, header.e_phentsize, 1, fp); assert(succ);
+    if (ph.p_type == 1) {
+      seg_end = ph.p_offset + ph.p_filesz;
+    }
+  }
+  assert(seg_end);
+  printf("seg_end=%d\n", seg_end);
 }
