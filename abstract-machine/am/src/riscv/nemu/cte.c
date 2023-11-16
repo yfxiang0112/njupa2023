@@ -3,11 +3,11 @@
 #include <klib.h>
 
 static Context* (*user_handler)(Event, Context*) = NULL;
-//static int test[2];
+static int test[2];
 
 Context* __am_irq_handle(Context *c) {
-  //printf("handler addr=%x\n", &user_handler);
-  //printf("test addr=%x\n", test);
+  printf("handler addr=%x\n", &user_handler);
+  printf("test addr=%x\n", test);
   if (user_handler) {
     Event ev = {0};
 
