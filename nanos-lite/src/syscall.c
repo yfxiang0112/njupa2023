@@ -1,8 +1,9 @@
 #include <common.h>
 #include <proc.h>
-#include <loader.h>
 #include "syscall.h"
 #include <sys/time.h>
+
+static char curr_pathname[64] = IMAGE_FILE;
 
 void do_syscall(Context *c) {
   uintptr_t a[4];
@@ -66,6 +67,7 @@ void do_syscall(Context *c) {
       break;
 
     case SYS_execve:
+      strncpy(curr_pathname, (char*)(a[1]), strlen((char*)(a[1])));
       naive_uload(NULL, (char*)(a[1]));
       break;
 
