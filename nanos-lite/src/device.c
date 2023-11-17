@@ -38,7 +38,7 @@ size_t fb_write(const void *buf, size_t offset, size_t len) {
   int h = io_read(AM_GPU_CONFIG).height;
   int x = offset%w, y = offset/w;
 
-  if (!buf) { io_write(AM_GPU_FBDRAW, 0, 0, 0, w, h, true); }
+  if (buf==0) { io_write(AM_GPU_FBDRAW, 0, 0, 0, w, h, true); }
   printf("buf=%x\n", (uintptr_t)buf);
   if (len == w*h) { io_write(AM_GPU_FBDRAW, 0, 0, (uint32_t*)buf, w, h, true); }
   else if (len <= w-x) { io_write(AM_GPU_FBDRAW, x, y, (uint32_t*)buf, len, 1, true); }
