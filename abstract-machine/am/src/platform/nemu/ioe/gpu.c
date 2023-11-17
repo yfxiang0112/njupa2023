@@ -18,10 +18,10 @@ void __am_gpu_config(AM_GPU_CONFIG_T *cfg) {
 void __am_gpu_fbdraw(AM_GPU_FBDRAW_T *ctl) {
   uint32_t screen_w = inl(VGACTL_ADDR) >> 16; 
 
-    if (ctl->pixels == 0) {
-      printf("test\n");
-      return;
-    }
+  if (ctl->pixels == 0) {
+    printf("test\n");
+    return;
+  }
   
   for (int y=0; y<ctl->h; y++) {
     uint32_t row_off_p = y * ctl->w;
