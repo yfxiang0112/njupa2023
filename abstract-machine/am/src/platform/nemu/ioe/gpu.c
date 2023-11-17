@@ -25,7 +25,7 @@ void __am_gpu_fbdraw(AM_GPU_FBDRAW_T *ctl) {
       if (ctl->pixels)
         outl(FB_ADDR+(row_off_s+x+ctl->x)*sizeof(uint32_t), ((uint32_t*)(ctl->pixels))[row_off_p + x]);
       else {
-        printf("NULL\n");
+        //printf("NULL\n");
         outl(FB_ADDR+(row_off_s+x+ctl->x)*sizeof(uint32_t), 0);
       }
     }
