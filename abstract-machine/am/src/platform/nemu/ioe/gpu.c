@@ -22,7 +22,7 @@ void __am_gpu_fbdraw(AM_GPU_FBDRAW_T *ctl) {
     uint32_t row_off_p = y * ctl->w;
     uint32_t row_off_s = (y+ctl->y) * screen_w;
     for (int x=0; x<ctl->w; x++) {
-      if (ctl->pixels != NULL) {
+      if ((uintptr_t)(ctl->pixels) -(uintptr_t)&_pmem_start < PMEM_SIZE) {
         printf("%x\n", (uintptr_t)ctl->pixels);
         outl(FB_ADDR+(row_off_s+x+ctl->x)*sizeof(uint32_t), ((uint32_t*)(ctl->pixels))[row_off_p + x]);
       }else {
