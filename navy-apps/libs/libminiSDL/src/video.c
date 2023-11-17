@@ -97,7 +97,7 @@ void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
   }
 
   else if (bits == 8) {
-    uint32_t pix[w];
+    uint32_t pix[w+1];
     for (int j=0; j<h; j++) {
       int roff_s = j*s->w + x;
       //int roff_d = j*w;
