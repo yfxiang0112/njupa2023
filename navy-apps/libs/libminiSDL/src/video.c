@@ -98,18 +98,18 @@ void SDL_UpdateRect(SDL_Surface *s, int x, int y, int w, int h) {
 
   else if (bits == 8) {
     uint32_t pix[w];
-    /*
     for (int j=0; j<h; j++) {
+      int roff_s = j*s->w + x;
+      //int roff_d = j*w;
       for (int i=0; i<w; i++) {
-        int roff_s = j*s->w + x;
-        int roff_d = j*w;
         uint32_t color =  (*s->format->palette).colors[((uint8_t*)s->pixels)[roff_s+i]].val;
         color = ((color&0x00ff0000) >> 16) | (color&0x0000ff00) | ((color&0x000000ff) << 16);
-        pix[roff_d+i] = color;
+        //pix[roff_d+i] = color;
+        pix[i] = color;
       }
+      NDL_DrawRect(pix, x, j, w, 1);
     }
-    */
-    NDL_DrawRect(pix, x, y, w, 1);
+    NDL_DrawRect(pix, x, y, w, h);
   }
 }
 
