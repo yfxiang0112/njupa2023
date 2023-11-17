@@ -18,6 +18,7 @@ void do_syscall(Context *c) {
 
   switch (a[0]) {
     case SYS_exit:  
+      printf("%s\n", curr_pathname);
       if(strcmp("/bin/menu", IMAGE_FILE) == 0) naive_uload(NULL, "/bin/menu");
       if(strcmp("/bin/nterm", IMAGE_FILE) == 0 && strcmp("/bin/nterm", curr_pathname) != 0)
         naive_uload(NULL, "/bin/nterm");
