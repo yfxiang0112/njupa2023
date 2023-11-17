@@ -27,7 +27,7 @@ static void sh_handle_cmd(const char *cmd) {
   char cmd_buf[256];
   if (strlen(cmd)>200) {assert(0);}
   strncpy(cmd_buf, cmd, strlen(cmd)-1);
-  cmd_buf[strlen(cmd)] = 0;
+  cmd_buf[strlen(cmd)-1] = 0;
   for (int i=0; i<strlen(cmd); i++) { printf("%d ",cmd_buf[i]);}
   printf("%s\n", cmd_buf);
   if (strcmp(cmd_buf, "sudo poweroff")==0) { SDL_Quit(); }
