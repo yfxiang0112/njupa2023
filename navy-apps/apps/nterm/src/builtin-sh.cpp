@@ -29,7 +29,7 @@ static void sh_handle_cmd(const char *cmd) {
   strncpy(cmd_buf, cmd, strlen(cmd)-1);
   printf("%s\n", cmd_buf);
   if (strcmp(cmd_buf, "sudo poweroff")==0) { SDL_Quit(); }
-  execve(cmd_buf, 0, 0);
+  execvp(cmd_buf, 0);
 }
 
 void builtin_sh_run() {
