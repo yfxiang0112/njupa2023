@@ -4,7 +4,7 @@
 #include <common.h>
 
 #ifndef SEEK_SET
-static char curr_pathname[64];
+static char curr_pathname[64] = IMAGE_FILE;
 
 #endif
 
