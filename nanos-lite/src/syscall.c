@@ -21,8 +21,10 @@ void do_syscall(Context *c) {
     case SYS_exit:  
       printf("%s\n", curr_pathname);
       if(strcmp("/bin/menu", IMAGE_FILE) == 0) naive_uload(NULL, "/bin/menu");
-      if(strcmp("/bin/nterm", IMAGE_FILE) == 0 && strcmp("/bin/nterm", curr_pathname) != 0)
+      if(strcmp("/bin/nterm", IMAGE_FILE) == 0 && strcmp("/bin/nterm", curr_pathname) != 0) {
+        strncpy(curr_pathname, "/bin/nterm", 11);
         naive_uload(NULL, "/bin/nterm");
+      }
 
       halt(a[1]);  
       c->GPRx = 0;
@@ -67,7 +69,7 @@ void do_syscall(Context *c) {
       break;
 
     case SYS_execve:
-      strncpy(curr_pathname, (char*)(a[1]), strlen((char*)(a[1])));
+      strncpy(curr_pathname, (char*)(a[1]), 1+strlen((char*)(a[1])));
       naive_uload(NULL, (char*)(a[1]));
       break;
 
