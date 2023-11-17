@@ -30,6 +30,7 @@ void __am_gpu_fbdraw(AM_GPU_FBDRAW_T *ctl) {
         outl(FB_ADDR+(row_off_s+x+ctl->x)*sizeof(uint32_t), 0);
       }
     }
+    printf("test\n");
   }
   if (ctl->sync) {
     outl(SYNC_ADDR, 1);
