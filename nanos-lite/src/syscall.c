@@ -1,5 +1,6 @@
 #include <common.h>
 #include <proc.h>
+#include <loader.h>
 #include "syscall.h"
 #include <sys/time.h>
 
@@ -18,7 +19,8 @@ void do_syscall(Context *c) {
   switch (a[0]) {
     case SYS_exit:  
       if(strcmp("/bin/menu", IMAGE_FILE) == 0) naive_uload(NULL, "/bin/menu");
-      if(strcmp("/bin/nterm", IMAGE_FILE) == 0) naive_uload(NULL, "/bin/nterm");
+      if(strcmp("/bin/nterm", IMAGE_FILE) == 0 && strcmp("/bin/nterm", curr_pathname) != 0)
+        naive_uload(NULL, "/bin/nterm");
 
       halt(a[1]);  
       c->GPRx = 0;

@@ -1,4 +1,5 @@
 #include <proc.h>
+#include <loader.h>
 #include <elf.h>
 
 #ifdef __LP64__
@@ -42,6 +43,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
 }
 
 void naive_uload(PCB *pcb, const char *filename) {
+  strncpy(curr_pathname, filename, strlen(curr_pathname));
   uintptr_t entry = loader(pcb, filename);
 
   if (!entry) {
