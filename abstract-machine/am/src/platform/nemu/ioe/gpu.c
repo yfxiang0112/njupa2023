@@ -31,7 +31,8 @@ void __am_gpu_fbdraw(AM_GPU_FBDRAW_T *ctl) {
       }
     }
   }
-  if (ctl->sync || !ctl->pixels) {
+  printf("test\n");
+  if (ctl->sync) {
     outl(SYNC_ADDR, 1);
   }
 
