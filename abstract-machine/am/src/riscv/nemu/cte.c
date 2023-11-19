@@ -46,13 +46,20 @@ Context *kcontext(Area kstack, void (*entry)(void *), void *arg) {
 
   asm volatile ("addi %0, %0, %1" : "+r"(ksp) : "i"(-CONTEXT_SIZE));
 
+  printf("%s\n", STR(MAP(REGS, KPUSH)));
+    
+
+  /*
   asm volatile (
-    "sw x1, %[i1](%[ksp]);"
-    "sw x2, %[i2](%[ksp]);"
+    //"sw x1, %[i1](%[ksp]);"
+    //"sw x2, %[i2](%[ksp]);"
+    STR(MAP(REGS, KPUSH))
 
     : [ksp]"+r"(ksp)
-    : [i1]"i"(1*XLEN), [i2]"i"(2*XLEN)
+    //: [i1]"i"(1*XLEN), [i2]"i"(2*XLEN)
+    : MAP(REGS, IMM)
   );
+  */
 
   for (int i=0; i<36; i++) {
     printf("%x\n", ((uint32_t*)ksp)[i]);
@@ -61,6 +68,7 @@ Context *kcontext(Area kstack, void (*entry)(void *), void *arg) {
   
 
   return NULL;
+  //return (Context*)ksp;
 }
 
 void yield() {

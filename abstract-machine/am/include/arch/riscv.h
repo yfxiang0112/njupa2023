@@ -14,6 +14,7 @@ f(30) f(31)
 #define REGS_HI16(f)
 #define NR_REGS 16
 #endif
+#define REGS(f) REGS_LO16(f) REGS_HI16(f)
 
 struct Context {
   uintptr_t gpr[NR_REGS], mcause, mstatus, mepc;
@@ -42,7 +43,15 @@ struct Context {
 #define XLEN  8
 #endif
 
+#define concat_temp(x, y) x ## y
+#define concat(x, y) concat_temp(x, y)
+#define MAP(c, f) c(f)
+#define STR(s) #s
+
+#define KPUSH(n) STORE concat(x, n), (n * XLEN)(%[ksp]);
+#define IMM(n) [concat(i, n)]"i"(n*XLEN),
 
 #define CONTEXT_SIZE  ((NR_REGS + 3 + 1) * XLEN)
+
 
 #endif
