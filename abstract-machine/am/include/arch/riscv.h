@@ -46,7 +46,7 @@ struct Context {
 #define concat_temp(x, y) x ## y
 #define concat(x, y) concat_temp(x, y)
 #define MAP(c, f) c(f)
-#define STR(s) #s
+#define STR(s) " ## s ## "
 
 #define KPUSH(n) STORE concat(x, n), (n * XLEN)(%[ksp]);
 #define IMM(n) [concat(i, n)]"i"(n*XLEN),

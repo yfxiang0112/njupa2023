@@ -46,7 +46,7 @@ Context *kcontext(Area kstack, void (*entry)(void *), void *arg) {
 
   asm volatile ("addi %0, %0, %1" : "+r"(ksp) : "i"(-CONTEXT_SIZE));
 
-  printf("%s\n", STR(MAP(REGS, KPUSH)));
+  printf("%s\n", STR( MAP(REGS, KPUSH) ));
     
 
   /*
