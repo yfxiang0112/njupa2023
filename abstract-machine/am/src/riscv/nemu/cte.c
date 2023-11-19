@@ -2,6 +2,8 @@
 #include <riscv/riscv.h>
 #include <klib.h>
 
+#define CONTEXT_SIZE  ((NR_REGS + 3 + 1) * XLEN)
+
 static Context* (*user_handler)(Event, Context*) = NULL;
 
 Context* __am_irq_handle(Context *c) {
@@ -41,6 +43,15 @@ bool cte_init(Context*(*handler)(Event, Context*)) {
 }
 
 Context *kcontext(Area kstack, void (*entry)(void *), void *arg) {
+  //asm volatile("csrw mtvec, %0" : : "r"(entry));
+  uintptr_t ksp = (uintptr_t)(kstack.end);
+
+  asm volatile ("addi %0, %0, -144" : "+r"(ksp) : );
+
+  printf("%d\n", ksp);
+
+  
+
   return NULL;
 }
 

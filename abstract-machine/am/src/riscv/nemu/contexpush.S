@@ -38,8 +38,8 @@ f(30) f(31)
 #define OFFSET_EPC    ((NR_REGS + 2) * XLEN)
 
 .align 3
-.globl __am_asm_trap
-__am_asm_trap:
+.globl __am_asm_contexpush
+__am_asm_contexpush:
   addi sp, sp, -CONTEXT_SIZE
 
   MAP(REGS, PUSH)
