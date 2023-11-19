@@ -46,6 +46,8 @@ Context *kcontext(Area kstack, void (*entry)(void *), void *arg) {
   //asm volatile("csrw mtvec, %0" : : "r"(entry));
   uintptr_t ksp = (uintptr_t)(kstack.end);
 
+
+  printf("%x\n", ksp);
   asm volatile ("addi %0, %0, -144" : "+r"(ksp) : );
 
   printf("%x\n", ksp);
