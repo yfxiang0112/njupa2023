@@ -48,7 +48,7 @@ Context *kcontext(Area kstack, void (*entry)(void *), void *arg) {
 
   asm volatile ("addi %0, %0, -144" : "+r"(ksp) : );
 
-  printf("%d\n", ksp);
+  printf("%x\n", ksp);
 
   
 
