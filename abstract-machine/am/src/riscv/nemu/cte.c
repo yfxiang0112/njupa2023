@@ -44,11 +44,19 @@ Context *kcontext(Area kstack, void (*entry)(void *), void *arg) {
   //asm volatile("csrw mtvec, %0" : : "r"(entry));
   uintptr_t ksp = (uintptr_t)(kstack.end);
 
-
-  printf("%x\n", ksp);
   asm volatile ("addi %0, %0, %1" : "+r"(ksp) : "i"(-CONTEXT_SIZE));
 
-  printf("%x\n", ksp);
+  asm volatile (
+    "sw x1, %[i1](%[ksp]);"
+    "sw x2, %[i2](%[ksp]);"
+
+    : [ksp]"+r"(ksp)
+    : [i1]"i"(1*XLEN), [i2]"i"(2*XLEN)
+  );
+
+  for (int i=0; i<36; i++) {
+    printf("%x\n", ((uint32_t*)ksp)[i]);
+  }
 
   
 
