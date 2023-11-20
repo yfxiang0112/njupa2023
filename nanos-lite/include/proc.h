@@ -18,6 +18,10 @@ typedef union {
 
 void naive_uload(PCB *pcb, const char *filename); 
 
+void context_kload(PCB* n_pcb, void (*entry)(void *), void *arg);
+Context* schedule(Context *prev);
+
+
 extern PCB *current;
 
 #endif
