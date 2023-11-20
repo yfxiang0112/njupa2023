@@ -41,18 +41,11 @@ bool cte_init(Context*(*handler)(Event, Context*)) {
 }
 
 Context *kcontext(Area kstack, void (*entry)(void *), void *arg) {
-  //asm volatile("csrw mtvec, %0" : : "r"(entry));
   Context *ksp = (Context*)((uintptr_t)(kstack.end) - CONTEXT_SIZE);
 
   ksp -> gpr[2] = (uintptr_t)ksp;
+  ksp -> gpr[10] = (uintptr_t)arg;
   ksp -> mepc = (uintptr_t)entry;
-    
-
-  /*
-  for (int i=0; i<36; i++) {
-    printf("%x\n", ((uint32_t*)ksp)[i]);
-  }
-  */
 
   return ksp;
 }
