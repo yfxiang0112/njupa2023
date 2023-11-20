@@ -2,9 +2,6 @@
 #include <riscv/riscv.h>
 #include <klib.h>
 
-#define str_temp(s) #s
-#define str(s) str_temp(s)
-
 static Context* (*user_handler)(Event, Context*) = NULL;
 
 Context* __am_irq_handle(Context *c) {
@@ -51,7 +48,7 @@ Context *kcontext(Area kstack, void (*entry)(void *), void *arg) {
 
   //char asm_buf[64];
 
-  printf("%s\n", str(i));
+  printf("%s\n", MAP(REGS, PUSH_STR));
   /*
   for (int i=1; i<NR_REGS; i++) {
     //sprintf(asm_buf, "sw x%d, %d(\%[ksp]);", i, i);
@@ -77,9 +74,11 @@ Context *kcontext(Area kstack, void (*entry)(void *), void *arg) {
   );
   */
 
+  /*
   for (int i=0; i<36; i++) {
     printf("%x\n", ((uint32_t*)ksp)[i]);
   }
+  */
 
   
 
