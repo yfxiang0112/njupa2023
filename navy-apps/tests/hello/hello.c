@@ -6,7 +6,7 @@ int main() {
   write(1, "Hello World!\n", 13);
 
   uint32_t temp;
-  asm volatile ("addi %0, %0, 0" : :"sp"(temp));
+  asm volatile ("mv %0, sp" : "=r"(temp));
   printf("sp=%x\n", temp);
 
   int i = 2;
