@@ -24,7 +24,21 @@ struct Context {
 #define GPRx gpr[10]
 
 
+#if __riscv_xlen == 32
+#define LOAD  "lw"
+#define STORE "sw"
+#define XLEN  4
+#else
+#define LOAD  "ld"
+#define STORE "sd"
+#define XLEN  8
+#endif
 
+#define CONTEXT_SIZE  ((NR_REGS + 3 + 1) * XLEN)
+
+
+/* temporarily used by asm contex backup */
+/*
 #define REGS_LO16(f) \
       f( 1)       f( 3) f( 4) f( 5) f( 6) f( 7) f( 8) f( 9) \
 f(10) f(11) f(12) f(13) f(14) f(15)
@@ -38,16 +52,6 @@ f(30) f(31)
 #endif
 #define REGS(f) REGS_LO16(f) REGS_HI16(f)
 
-#if __riscv_xlen == 32
-#define LOAD  "lw"
-#define STORE "sw"
-#define XLEN  4
-#else
-#define LOAD  "ld"
-#define STORE "sd"
-#define XLEN  8
-#endif
-
 #define str_temp(s) #s
 #define str(s) str_temp(s)
 #define MAP(c, f) c(f)
@@ -55,6 +59,6 @@ f(30) f(31)
 #define PUSH(i) STORE x##i (i * XLEN)(%ksp);
 #define PUSH_STR(i) str(PUSH(i))
 
-#define CONTEXT_SIZE  ((NR_REGS + 3 + 1) * XLEN)
+*/
 
 #endif
