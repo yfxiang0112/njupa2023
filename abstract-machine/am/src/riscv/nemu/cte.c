@@ -50,7 +50,7 @@ Context *kcontext(Area kstack, void (*entry)(void *), void *arg) {
 
   //char asm_buf[64];
 
-  printf("%s\n", MAP(REGS, PUSH_STR));
+  //printf("%s\n", MAP(REGS, PUSH_STR));
   //printf("&kstack=%x, &end=%x, size=%d", &kstack, &(kstack.end), sizeof(kstack.end));
 
   //asm volatile("addi %0, %0, 0" : :"a0"(temp));
