@@ -45,6 +45,7 @@ void context_uload(PCB* n_pcb, const char* filename) {
   uintptr_t entry = loader(n_pcb, filename);
   printf("test:46\n");
 
+  printf("%x\n", (uintptr_t)(heap.end));
   (n_pcb->cp)->GPRx = (uintptr_t)(heap.end);
   printf("test:49\n");
 
