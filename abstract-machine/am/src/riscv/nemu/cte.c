@@ -63,8 +63,8 @@ Context *kcontext(Area kstack, void (*entry)(void *), void *arg) {
   );
   */
 
-  ksp -> gpr[1] = (uintptr_t)entry;
   ksp -> gpr[2] = (uintptr_t)ksp;
+  ksp -> mepc = (uintptr_t)entry;
     
 
   for (int i=0; i<36; i++) {
