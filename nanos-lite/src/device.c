@@ -38,6 +38,7 @@ size_t dispinfo_read(void *buf, size_t offset, size_t len) {
 }
 
 size_t fb_write(const void *buf, size_t offset, size_t len) {
+  // TODO: Optimization need towards yield for each call
   yield();
 
   int w = io_read(AM_GPU_CONFIG).width;

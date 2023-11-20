@@ -9,7 +9,11 @@ _start:
   // See amd64 ABI manual for more details
   andq $0xfffffffffffffff0, %rsp
   movq %rax, %rdi
+
+  // TODO: to be tested.
   movq %rax, %rsp
+  // NOTE: argument support havent implemented
+  
   call call_main
 
 #elif defined(__ISA_X86_64__)
