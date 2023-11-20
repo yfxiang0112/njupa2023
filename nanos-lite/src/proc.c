@@ -22,8 +22,6 @@ void hello_fun(void *arg) {
 
 void init_proc() {
   context_kload(&pcb[0], hello_fun, (void*)0);
-  printf("test1\n");
-  printf("%x\n", &pcb[1]);
   context_uload(&pcb[1], "/bin/pal");
   switch_boot_pcb();
 
@@ -41,18 +39,14 @@ void context_kload(PCB* n_pcb, void (*entry)(void *), void *arg) {
 
 void context_uload(PCB* n_pcb, const char* filename) {
   //fb_write(NULL, 0, io_read(AM_GPU_CONFIG).width*io_read(AM_GPU_CONFIG).width);
-  printf("test:44\n");
   uintptr_t entry = loader(n_pcb, filename);
-  printf("test:46\n");
-
-  printf("%x\n", &(n_pcb->cp->GPRx));
-  (n_pcb->cp)->GPRx = (uintptr_t)(heap.end);
-  printf("test:49\n");
 
   if (!entry) {
     return;
   }
+
   n_pcb->cp = ucontext(NULL, (Area) { n_pcb->stack, n_pcb + 1 }, (void*)entry);
+  (n_pcb->cp)->GPRx = (uintptr_t)(heap.end);
 }
 
 Context* schedule(Context *prev) {
