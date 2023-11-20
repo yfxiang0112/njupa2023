@@ -44,10 +44,7 @@ Context *kcontext(Area kstack, void (*entry)(void *), void *arg) {
   Context *ksp = (Context*)((uintptr_t)(kstack.end) - CONTEXT_SIZE);
 
   ksp -> gpr[2] = (uintptr_t)ksp;
-  for (int i=0; i<sizeof(arg)/sizeof(size_t); i++) {
-    ksp -> gpr[10+i] = ((size_t*)&arg)[i];
-  }
-  //ksp -> gpr[10] = (uintptr_t)arg;
+  ksp -> gpr[10] = (uintptr_t)arg;
   ksp -> mepc = (uintptr_t)entry;
 
   return ksp;

@@ -17,8 +17,10 @@ typedef union {
 } PCB;
 
 void naive_uload(PCB *pcb, const char *filename); 
+uintptr_t loader(PCB *pcb, const char *filename);
 
 void context_kload(PCB* n_pcb, void (*entry)(void *), void *arg);
+void context_uload(PCB* n_pcb, const char* filename);
 Context* schedule(Context *prev);
 
 

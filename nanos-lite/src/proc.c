@@ -22,7 +22,7 @@ void hello_fun(void *arg) {
 
 void init_proc() {
   context_kload(&pcb[0], hello_fun, (void*)0);
-  context_kload(&pcb[1], hello_fun, (void*)1);
+  context_uload(&pcb[1], "/bin/pal");
   switch_boot_pcb();
 
   Log("Initializing processes...");
@@ -35,6 +35,18 @@ void init_proc() {
 
 void context_kload(PCB* n_pcb, void (*entry)(void *), void *arg) {
   n_pcb->cp = kcontext((Area) { n_pcb->stack, n_pcb + 1 }, entry, arg);
+}
+
+void context_uload(PCB* n_pcb, const char* filename) {
+  //fb_write(NULL, 0, io_read(AM_GPU_CONFIG).width*io_read(AM_GPU_CONFIG).width);
+  uintptr_t entry = loader(n_pcb, filename);
+
+  (n_pcb->cp)->GPRx = (uintptr_t)(heap.end);
+
+  if (!entry) {
+    return;
+  }
+  n_pcb->cp = ucontext(NULL, (Area) { n_pcb->stack, n_pcb + 1 }, (void*)entry);
 }
 
 Context* schedule(Context *prev) {
