@@ -179,12 +179,12 @@ config DTRACE_ALL
 config FTRACE
 	depends on TRACE
 	bool "[ftrace] Print function call and return info"
-	default y
+	default n
 
 config ETRACE
   depends on TRACE
   bool "[etrace] Print exception handle info"
-  default y
+  default n
 
 config DIFFTEST
   depends on TARGET_NATIVE_ELF
@@ -196,7 +196,11 @@ config DIFFTEST
 
 config WATCHPOINT
 	bool "Enable watchpoint debuggging"
-	default y 
+	default n 
+
+config STACKCHECK
+	bool "Check the value of stack pointer when running (buggy)"
+	default n 
 
 choice
   prompt "Reference design"

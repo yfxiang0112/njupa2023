@@ -30,6 +30,10 @@ void init_proc() {
 
 }
 
+void context_kload(Area kstack, void (*entry)(void *), void *arg) {
+  pcb[i].cp = kcontext()
+}
+
 Context* schedule(Context *prev) {
   return NULL;
 }
