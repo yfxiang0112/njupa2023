@@ -22,8 +22,11 @@ void hello_fun(void *arg) {
 
 void init_proc() {
   context_kload(&pcb[0], hello_fun, (void*)0);
+  printf("test1\n");
   context_uload(&pcb[1], "/bin/pal");
+  printf("test2\n");
   switch_boot_pcb();
+  printf("test3\n");
 
   Log("Initializing processes...");
 
