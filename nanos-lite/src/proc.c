@@ -41,9 +41,12 @@ void context_kload(PCB* n_pcb, void (*entry)(void *), void *arg) {
 
 void context_uload(PCB* n_pcb, const char* filename) {
   //fb_write(NULL, 0, io_read(AM_GPU_CONFIG).width*io_read(AM_GPU_CONFIG).width);
+  printf("test:44\n");
   uintptr_t entry = loader(n_pcb, filename);
+  printf("test:46\n");
 
   (n_pcb->cp)->GPRx = (uintptr_t)(heap.end);
+  printf("test:49\n");
 
   if (!entry) {
     return;
