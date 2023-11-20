@@ -34,22 +34,21 @@ struct Context {
 
 
 #if __riscv_xlen == 32
-#define LOAD  lw
-#define STORE sw
+#define LOAD  "lw"
+#define STORE "sw"
 #define XLEN  4
 #else
-#define LOAD  ld
-#define STORE sd
+#define LOAD  "ld"
+#define STORE "sd"
 #define XLEN  8
 #endif
 
 #define concat_temp(x, y) x ## y
 #define concat(x, y) concat_temp(x, y)
 #define MAP(c, f) c(f)
-#define STR(s) " ## s ## "
 
-#define KPUSH(n) STORE concat(x, n), (n * XLEN)(%[ksp]);
-#define IMM(n) [concat(i, n)]"i"(n*XLEN),
+#define KPUSH(n) STORE ## "x" ## #n ## ", (" ## n * XLEN ## ")(%[ksp]);"
+//#define IMM(n) ["i" ## #n] ## "i" ## (n*XLEN),
 
 #define CONTEXT_SIZE  ((NR_REGS + 3 + 1) * XLEN)
 

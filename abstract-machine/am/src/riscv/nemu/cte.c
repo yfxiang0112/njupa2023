@@ -2,6 +2,9 @@
 #include <riscv/riscv.h>
 #include <klib.h>
 
+#define str_temp(s) #s
+#define str(s) str_temp(s)
+
 static Context* (*user_handler)(Event, Context*) = NULL;
 
 Context* __am_irq_handle(Context *c) {
@@ -46,9 +49,22 @@ Context *kcontext(Area kstack, void (*entry)(void *), void *arg) {
 
   asm volatile ("addi %0, %0, %1" : "+r"(ksp) : "i"(-CONTEXT_SIZE));
 
-  printf("%s\n", STR( MAP(REGS, KPUSH) ));
-    
+  //char asm_buf[64];
 
+  printf("%s\n", str(i));
+  /*
+  for (int i=1; i<NR_REGS; i++) {
+    //sprintf(asm_buf, "sw x%d, %d(\%[ksp]);", i, i);
+    asm volatile (
+      "sw x" str(i) ", %i(%[ksp])" 
+      : [ksp]"+r"(ksp)
+      : [i]"i"(i*XLEN)
+    );
+  }
+
+  //printf("%s\n", STR( MAP(REGS, KPUSH) ));
+    
+  */
   /*
   asm volatile (
     //"sw x1, %[i1](%[ksp]);"
