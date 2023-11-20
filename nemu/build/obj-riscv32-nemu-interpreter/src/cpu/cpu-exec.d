@@ -10,6 +10,7 @@ deps_/home/yfxiang/njupa/ics2023/nemu/build/obj-riscv32-nemu-interpreter/src/cpu
     $(wildcard include/config/isa/x86.h) \
     $(wildcard include/config/isa/loongarch32r.h) \
     $(wildcard include/config/device.h) \
+    $(wildcard include/config/stackcheck.h) \
     $(wildcard include/config/target/am.h) \
   /home/yfxiang/njupa/ics2023/nemu/include/cpu/cpu.h \
   /home/yfxiang/njupa/ics2023/nemu/include/common.h \

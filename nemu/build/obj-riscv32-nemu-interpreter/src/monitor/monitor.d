@@ -8,6 +8,7 @@ deps_/home/yfxiang/njupa/ics2023/nemu/build/obj-riscv32-nemu-interpreter/src/mon
     $(wildcard include/config/target/am.h) \
     $(wildcard include/config/device.h) \
     $(wildcard include/config/ftrace.h) \
+    $(wildcard include/config/stackcheck.h) \
     $(wildcard include/config/isa/loongarch32r.h) \
     $(wildcard include/config/itrace.h) \
     $(wildcard include/config/isa/x86.h) \

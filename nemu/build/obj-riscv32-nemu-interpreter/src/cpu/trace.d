@@ -4,6 +4,7 @@ source_/home/yfxiang/njupa/ics2023/nemu/build/obj-riscv32-nemu-interpreter/src/c
 
 deps_/home/yfxiang/njupa/ics2023/nemu/build/obj-riscv32-nemu-interpreter/src/cpu/trace.o := \
     $(wildcard include/config/itrace/quit.h) \
+    $(wildcard include/config/stackcheck.h) \
     $(wildcard include/config/itrace/cond.h) \
     $(wildcard include/config/mtrace.h) \
     $(wildcard include/config/mtrace/all.h) \

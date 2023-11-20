@@ -143,7 +143,7 @@ void init_monitor(int argc, char *argv[]) {
 	/* Initialize the function call trace file and read elf file. */
 	IFDEF(CONFIG_FTRACE, init_ftrace(ftrace_elf_file));
 
-  init_stackcheck(ftrace_elf_file);
+  IFDEF(CONFIG_STACKCHECK, init_stackcheck(ftrace_elf_file) );
 
 #ifndef CONFIG_ISA_loongarch32r
   IFDEF(CONFIG_ITRACE, init_disasm(

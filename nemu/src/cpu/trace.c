@@ -10,7 +10,7 @@ int ringidx = 0;
 #endif
 
 extern CPU_state cpu;
-static vaddr_t seg_end;
+IFDEF(CONFIG_STACKCHECK, static vaddr_t seg_end );
 
 void rec_itrace(Decode *_this) {
 #ifdef CONFIG_ITRACE_QUIT
@@ -67,6 +67,7 @@ void dtrace(paddr_t addr, int len, word_t data, const char* name, char* type, bo
 #endif
 }
 
+#ifdef CONFIG_STACKCHECK
 void init_stackcheck(const char* elf_file) {
 	/* load elf file */
 	FILE *fp;
@@ -82,7 +83,6 @@ void init_stackcheck(const char* elf_file) {
 	if (header.e_ident[0]!=0x7f||header.e_ident[1]!='E'||header.e_ident[2]!='L'||header.e_ident[3]!='F') { panic("not an elf file. "); }
 
   for (int i=0; i<header.e_phnum; i++) {
-    printf("%d off=%x\n",i, header.e_phoff);
 	  succ = fseek(fp, header.e_phoff+ i*header.e_phentsize, SEEK_SET); assert(!succ);
     succ = fread(&ph, header.e_phentsize, 1, fp); assert(succ);
     if (ph.p_type == 1) {
@@ -91,20 +91,15 @@ void init_stackcheck(const char* elf_file) {
   }
   fclose(fp);
   assert(seg_end);
-  printf("seg_end=%x\n", seg_end);
 }
 
 void stack_check(CPU_state *cpu) {
-  //printf("ps=%x\n", cpu->gpr[2]);
-  
   if (cpu->gpr[2] < seg_end && (cpu->gpr[2]-CONFIG_MBASE < CONFIG_MSIZE)) {
     
     panic("%s%x%s%x%s%x\n",
           "stack overflow at pc= 0x", cpu->pc,
           ", program data segment end = 0x", seg_end, 
           ", stack pointer = 0x", cpu->gpr[2]);
-    
-    //printf("pc=%x, seg=%x, ps=%x\n", cpu->pc, seg_end, cpu->gpr[2]);
-    //if (cpu->gpr[2]==0x81c96d50) {assert(0);}
   }
 }
+#endif
