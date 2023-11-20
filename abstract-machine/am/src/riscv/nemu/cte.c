@@ -44,36 +44,16 @@ Context *kcontext(Area kstack, void (*entry)(void *), void *arg) {
   //asm volatile("csrw mtvec, %0" : : "r"(entry));
   Context *ksp = (Context*)((uintptr_t)(kstack.end) - CONTEXT_SIZE);
 
-  /*
-  asm volatile ("addi %0, %0, %1" : "+r"(ksp) : "i"(-CONTEXT_SIZE));
-  */
-
-  //char asm_buf[64];
-
-  //printf("%s\n", MAP(REGS, PUSH_STR));
-  //printf("&kstack=%x, &end=%x, size=%d", &kstack, &(kstack.end), sizeof(kstack.end));
-
-  //asm volatile("addi %0, %0, 0" : :"a0"(temp));
-  //printf("a0=%x\n", temp);
-  /*
-  asm volatile (
-    MAP(REGS, PUSH_STR)
-    : [ksp] "+r"(ksp)
-    :
-  );
-  */
-
   ksp -> gpr[2] = (uintptr_t)ksp;
   ksp -> mepc = (uintptr_t)entry;
     
 
+  /*
   for (int i=0; i<36; i++) {
     printf("%x\n", ((uint32_t*)ksp)[i]);
   }
+  */
 
-  
-
-  //return NULL;
   return ksp;
 }
 
