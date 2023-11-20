@@ -42,48 +42,39 @@ bool cte_init(Context*(*handler)(Event, Context*)) {
 
 Context *kcontext(Area kstack, void (*entry)(void *), void *arg) {
   //asm volatile("csrw mtvec, %0" : : "r"(entry));
-  uintptr_t ksp = (uintptr_t)(kstack.end);
+  Context *ksp = (Context*)((uintptr_t)(kstack.end) - CONTEXT_SIZE);
 
+  /*
   asm volatile ("addi %0, %0, %1" : "+r"(ksp) : "i"(-CONTEXT_SIZE));
+  */
 
   //char asm_buf[64];
 
   printf("%s\n", MAP(REGS, PUSH_STR));
-  /*
-  for (int i=1; i<NR_REGS; i++) {
-    //sprintf(asm_buf, "sw x%d, %d(\%[ksp]);", i, i);
-    asm volatile (
-      "sw x" str(i) ", %i(%[ksp])" 
-      : [ksp]"+r"(ksp)
-      : [i]"i"(i*XLEN)
-    );
-  }
+  //printf("&kstack=%x, &end=%x, size=%d", &kstack, &(kstack.end), sizeof(kstack.end));
 
-  //printf("%s\n", STR( MAP(REGS, KPUSH) ));
-    
-  */
+  //asm volatile("addi %0, %0, 0" : :"a0"(temp));
+  //printf("a0=%x\n", temp);
   /*
   asm volatile (
-    //"sw x1, %[i1](%[ksp]);"
-    //"sw x2, %[i2](%[ksp]);"
-    STR(MAP(REGS, KPUSH))
-
-    : [ksp]"+r"(ksp)
-    //: [i1]"i"(1*XLEN), [i2]"i"(2*XLEN)
-    : MAP(REGS, IMM)
+    MAP(REGS, PUSH_STR)
+    : [ksp] "+r"(ksp)
+    :
   );
   */
 
-  /*
+  ksp -> gpr[1] = (uintptr_t)entry;
+  ksp -> gpr[2] = (uintptr_t)ksp;
+    
+
   for (int i=0; i<36; i++) {
     printf("%x\n", ((uint32_t*)ksp)[i]);
   }
-  */
 
   
 
-  return NULL;
-  //return (Context*)ksp;
+  //return NULL;
+  return ksp;
 }
 
 void yield() {
