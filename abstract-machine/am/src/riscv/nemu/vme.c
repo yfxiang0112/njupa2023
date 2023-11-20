@@ -70,6 +70,7 @@ void map(AddrSpace *as, void *va, void *pa, int prot) {
 }
 
 Context *ucontext(AddrSpace *as, Area kstack, void *entry) {
+  printf("entered uctx\n");
   Context *ksp = (Context*)((uintptr_t)(kstack.end) - CONTEXT_SIZE);
 
   ksp -> gpr[2] = (uintptr_t)ksp;
