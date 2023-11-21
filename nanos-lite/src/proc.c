@@ -57,8 +57,8 @@ void context_uload(PCB* n_pcb, const char* filename, char *const argv[], char *c
   printf("argc=%d, envp=%d\n", n_arg, n_env);
   printf("arglen=%d, envp len=%d\n", arg_len, env_len);
 
-  printf("envp=%x\n", (uintptr_t)envp);
-  printf("argv=%x\n", (uintptr_t)argv);
+  printf("envp=%x\n", (uintptr_t)( *envp ));
+  printf("argv=%x\n", (uintptr_t)( *argv ));
   printf("len=%d\n", sizeof(*argv));
 
   usp -= sizeof(uintptr_t); *((uintptr_t*)usp) = 0;
