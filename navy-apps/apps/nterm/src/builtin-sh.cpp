@@ -26,10 +26,30 @@ static void sh_prompt() {
 static void sh_handle_cmd(const char *cmd) {
   char cmd_buf[256];
   if (strlen(cmd)>200) {assert(0);}
+  char* arg_lst[32];
+  int nr_arg = 0;
+
   strncpy(cmd_buf, cmd, strlen(cmd)-1);
   cmd_buf[strlen(cmd)-1] = 0;
   if (strcmp(cmd_buf, "sudo poweroff")==0) { SDL_Quit(); }
-  execvp(cmd_buf, 0);
+
+  for (int i=0; cmd_buf[i]!=0; i++) {
+    if (cmd_buf[i]==' ') {
+      cmd_buf[i] = 0;
+      if (cmd_buf[i+1]!=0 && cmd_buf[i+1] != ' ') {
+        arg_lst[nr_arg] = &(cmd_buf[i+1]);
+        nr_arg ++;
+      }
+    }
+  }
+
+  for (int i=0; i<nr_arg; i++) {
+    printf("%s\n", arg_lst[i]);
+  }
+
+
+
+  //execvp(cmd_buf, 0);
 }
 
 void builtin_sh_run() {
