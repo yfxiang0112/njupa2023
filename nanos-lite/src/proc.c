@@ -51,9 +51,11 @@ void context_uload(PCB* n_pcb, const char* filename, char *const argv[], char *c
   void *new_stack = new_page(8);
   uintptr_t usp = (uintptr_t)(new_stack + 8*PGSIZE - 1);
 
+  printf("test \n");
   int n_arg=0, n_env=0;
   for (; argv[n_arg]!=NULL; n_arg++); 
   for (; envp[n_env]!=NULL; n_env++);
+  printf("test:58\n");
   n_arg ++;
   uintptr_t arg_ptr[n_arg], env_ptr[n_env];
 
@@ -63,8 +65,8 @@ void context_uload(PCB* n_pcb, const char* filename, char *const argv[], char *c
     printf("%d: %s\n", i, envp+i);
   }
   */
+  printf("test:68\n");
 
-  printf("test:67\n");
 
   usp -= sizeof(uintptr_t); *((uintptr_t*)usp) = 0;
   if (*envp) {
@@ -77,7 +79,6 @@ void context_uload(PCB* n_pcb, const char* filename, char *const argv[], char *c
       env_ptr[i] = usp;
     }
   }
-  printf("test:80\n");
   if (*argv) {
     for (int i=n_arg-2; i>=0; i--) {
       printf("%x\n", argv);
@@ -86,7 +87,6 @@ void context_uload(PCB* n_pcb, const char* filename, char *const argv[], char *c
       arg_ptr[i+1] = usp;
     }
   }
-  printf("test:89\n");
   usp -= strlen(filename)+1;
   memcpy((char*)usp, filename, strlen(filename)+1);
   arg_ptr[0] = usp;
