@@ -22,7 +22,9 @@ void hello_fun(void *arg) {
 
 void init_proc() {
   context_kload(&pcb[0], hello_fun, (void*)0);
-  context_uload(&pcb[1], "/bin/hello", ((char* const[]){"--skip", "--test", "test123", NULL} ), ((char* const[]) {"PATH=/bin/", NULL} ));
+  context_uload(&pcb[1], "/bin/hello", 
+                ((char* const[]){"--skip", NULL} ),
+                ((char* const[]) {NULL} ));
   switch_boot_pcb();
 
   Log("Initializing processes...");
@@ -45,7 +47,6 @@ void context_uload(PCB* n_pcb, const char* filename, char *const argv[], char *c
     return;
   }
 
-
   n_pcb->cp = ucontext(NULL, (Area) { (void*)&(n_pcb->stack[0]), (void*)(n_pcb + 1) }, (void*)entry);
   uintptr_t usp = (uintptr_t)(heap.end);
 
@@ -55,15 +56,8 @@ void context_uload(PCB* n_pcb, const char* filename, char *const argv[], char *c
   for (; envp[n_env]!=NULL; n_env++) { env_len += strlen(argv[n_env]) +2; }
   uintptr_t arg_ptr[n_arg], env_ptr[n_env];
 
-  printf("argc=%d, envp=%d\n", n_arg, n_env);
-  printf("arglen=%d, envp len=%d\n", arg_len, env_len);
-
-  printf("envp=%x\n", (uintptr_t)( *envp ));
-  printf("argv=%x\n", (uintptr_t)( *argv ));
-  printf("len=%d\n", sizeof(*argv));
 
   usp -= sizeof(uintptr_t); *((uintptr_t*)usp) = 0;
-
   if (*envp) {
     for (int i=n_env-1; i>=0; i--) {
       usp -= strlen(envp[i])+1;
@@ -79,6 +73,7 @@ void context_uload(PCB* n_pcb, const char* filename, char *const argv[], char *c
     }
   }
 
+
   if (*envp) {
     usp -= sizeof(uintptr_t); *((uintptr_t*)usp) = 0;
     usp -= sizeof(env_ptr);
@@ -90,18 +85,10 @@ void context_uload(PCB* n_pcb, const char* filename, char *const argv[], char *c
     memcpy((char*)usp, arg_ptr, sizeof(arg_ptr));
   }
 
+
   usp -= sizeof(uintptr_t);
   *((uintptr_t*)usp) = n_arg;
   (n_pcb->cp)->GPRx = usp;
-
-  for (uintptr_t i=usp; i<(uintptr_t)(heap.end); i++) {
-    printf(" %02x", *((char*)i));
-  }
-  printf("\n");
-  for (uintptr_t i=usp; i<(uintptr_t)(heap.end); i++) {
-    printf("  %01c", *((char*)i));
-  }
-  printf("\n");
 }
 
 Context* schedule(Context *prev) {
