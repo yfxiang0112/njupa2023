@@ -41,7 +41,7 @@ void context_kload(PCB* n_pcb, void (*entry)(void *), void *arg) {
 }
 
 void context_uload(PCB* n_pcb, const char* filename, char *const argv[], char *const envp[]) {
-      printf("@ uload: \n");
+      printf("@ uload: 44\n");
       for (int i=0; envp[i]!=NULL; i++) {
         printf("%s\n", envp[i]);
       }
@@ -51,9 +51,19 @@ void context_uload(PCB* n_pcb, const char* filename, char *const argv[], char *c
     return;
   }
 
+      printf("@ uload: 54\n");
+      for (int i=0; envp[i]!=NULL; i++) {
+        printf("%s\n", envp[i]);
+      }
+
   n_pcb->cp = ucontext(NULL, (Area) { (void*)&(n_pcb->stack[0]), (void*)(n_pcb + 1) }, (void*)entry);
   void *new_stack = new_page(8);
   uintptr_t usp = (uintptr_t)(new_stack + 8*PGSIZE - 1);
+
+      printf("@ uload: 63\n");
+      for (int i=0; envp[i]!=NULL; i++) {
+        printf("%s\n", envp[i]);
+      }
 
   int n_arg=0, n_env=0;
   for (; argv[n_arg]!=NULL; n_arg++); 
