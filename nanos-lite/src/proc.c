@@ -57,11 +57,11 @@ void context_uload(PCB* n_pcb, const char* filename, char *const argv[], char *c
 
   usp -= sizeof(*envp)+sizeof(size_t);
   char *stack_envp = (char*)usp;
-  memcpy(stack_envp, envp, sizeof(*envp));
+  memcpy(stack_envp, *envp, sizeof(*envp));
 
   usp -= sizeof(*argv);
   char *stack_argv = (char*)usp;
-  memcpy(stack_argv, argv, sizeof(*argv));
+  memcpy(stack_argv, *argv, sizeof(*argv));
 
   usp -= sizeof(uintptr_t);
   for (int i=n_env-1; i>=0; i--) {
