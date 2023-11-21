@@ -22,7 +22,7 @@ void hello_fun(void *arg) {
 
 void init_proc() {
   context_kload(&pcb[0], hello_fun, (void*)0);
-  context_uload(&pcb[1], "/bin/hello", ((char* const[]){"--skip", NULL} ), ((char* const[]) {NULL} ));
+  context_uload(&pcb[1], "/bin/hello", ((char* const[]){"--skip", "--test", NULL} ), ((char* const[]) {NULL} ));
   switch_boot_pcb();
 
   Log("Initializing processes...");
@@ -64,9 +64,9 @@ void context_uload(PCB* n_pcb, const char* filename, char *const argv[], char *c
   usp -= sizeof(uintptr_t); *((uintptr_t*)usp) = 0;
 
   /*
-  usp -= sizeof(*envp);
+  usp -= env_len;
   char *stack_envp = (char*)usp;
-  memcpy(stack_envp, *envp, sizeof(*envp));
+  memcpy(stack_envp, *envp, env_len);
   */
 
   usp -= arg_len;
