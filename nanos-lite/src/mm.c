@@ -4,7 +4,7 @@ static void *pf = NULL;
 
 void* new_page(size_t nr_page) {
   if (!pf) { pf = heap.end; }
-  pf -= nr_page * PGSIZE;
+  pf = (void*)( (uintptr_t)pf - nr_page * PGSIZE );
   return pf;
 }
 
