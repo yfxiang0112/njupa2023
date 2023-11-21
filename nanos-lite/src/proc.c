@@ -55,19 +55,17 @@ void context_uload(PCB* n_pcb, const char* filename, char *const argv[], char *c
 
   printf("argc=%d, envp=%d\n", n_arg, n_env);
 
+  printf("%d\n", sizeof(uintptr_t));
+  usp -= sizeof(uintptr_t); *((uintptr_t*)usp) = 0;
   /*
   usp -= sizeof((char* const*)envp) + sizeof(size_t);
   char *stack_envp = (char*)usp;
   memcpy(stack_envp, envp, sizeof((char* const*)envp));
   */
 
-  //usp -= sizeof((char* const*)argv);
-  usp -= 8;
+  usp -= sizeof(*argv);
   char *stack_argv = (char*)usp;
-  //printf("%x\n", (uintptr_t)stack_argv);
-  memcpy(stack_argv, *argv, 8);
-
-
+  memcpy(stack_argv, *argv, sizeof(*argv));
 
   usp -= sizeof(uintptr_t); *((uintptr_t*)usp) = 0;
   /*
@@ -93,8 +91,6 @@ void context_uload(PCB* n_pcb, const char* filename, char *const argv[], char *c
     printf("%3c", *((char*)i));
   }
   printf("\n");
-
-
 }
 
 Context* schedule(Context *prev) {
