@@ -63,6 +63,7 @@ void context_uload(PCB* n_pcb, const char* filename, char *const argv[], char *c
     for (int i=n_env-1; i>=0; i--) {
       printf("%x\n", envp);
       usp -= strlen(envp[i])+1;
+      printf("test\n");
       memcpy((char*)usp, envp[i], strlen(envp[i])+1);
       env_ptr[i] = usp;
     }
