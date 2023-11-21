@@ -59,7 +59,7 @@ void context_uload(PCB* n_pcb, const char* filename, char *const argv[], char *c
 
   printf("*%x = %x", (uintptr_t)envp, (uintptr_t)envp[0]);
   for (int i=0; i<n_env; i++) {
-    printf("%d: %s\n", i, envp);
+    printf("%d: %s\n", i, envp+i);
   }
 
 
