@@ -126,8 +126,7 @@ int _gettimeofday(struct timeval *tv, struct timezone *tz) {
 
 int _execve(const char *fname, char * const argv[], char *const envp[]) {
   int code = _syscall_(SYS_execve, (intptr_t)fname, (intptr_t)argv, (intptr_t)envp);
-  printf("%d\n", code);
-  if (code < 0) { printf("failed\n");errno = -code; return -1; }
+  if (code < 0) { errno = -code; return -1; }
   return 0;
 }
 
