@@ -4,8 +4,6 @@ static void *pf;
 
 void* new_page(size_t nr_page) {
   pf += nr_page * PGSIZE;
-  printf("pgsize=%x, nr_page=%x\n", PGSIZE, nr_page);
-  printf("pf = %x\n", (uintptr_t)pf);
   return pf;
 }
 
