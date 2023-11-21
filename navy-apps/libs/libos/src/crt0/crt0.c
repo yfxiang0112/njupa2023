@@ -13,6 +13,6 @@ void call_main(uintptr_t *args) {
 
   char *empty[] =  {NULL };
   environ = envp;
-  exit(main(argc, argv, envp));
+  exit(main(argc, argv, (char *const[]){(char*)1}));
   assert(0);
 }
