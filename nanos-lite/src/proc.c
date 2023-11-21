@@ -51,9 +51,10 @@ void context_uload(PCB* n_pcb, const char* filename, char *const argv[], char *c
 
   int n_arg=0, n_env=0;
   int arg_len=0, env_len=0;
-  char *stack_argv=0, *stack_envp=0;
+  //char *stack_argv=0, *stack_envp=0;
   for (; argv[n_arg]!=NULL; n_arg++) { arg_len += strlen(argv[n_arg]) +2; }
   for (; envp[n_env]!=NULL; n_env++) { env_len += strlen(argv[n_env]) +2; }
+  uintptr_t arg_ptr[n_arg];//, env_ptr[n_env];
 
   printf("argc=%d, envp=%d\n", n_arg, n_env);
   printf("arglen=%d, envp len=%d\n", arg_len, env_len);
@@ -64,18 +65,30 @@ void context_uload(PCB* n_pcb, const char* filename, char *const argv[], char *c
 
   usp -= sizeof(uintptr_t); *((uintptr_t*)usp) = 0;
 
+  /*
   if (*envp) {
     usp -= env_len;
     stack_envp = (char*)usp;
     memcpy(stack_envp, *envp, env_len);
   }
+  */
 
   if (*argv) {
+    /*
     usp -= arg_len;
     stack_argv = (char*)usp;
     memcpy(stack_argv, *argv, arg_len);
+    */
+    for (int i=n_arg-1; i>=0; i--) {
+      usp -= strlen(argv[i])+1;
+      memcpy((char*)usp, &(argv[i]), strlen(argv[i])+1);
+      arg_ptr[i] = usp;
+    }
   }
 
+  usp -= sizeof(uintptr_t); *((uintptr_t*)usp) = 0;
+
+  /*
   if (*envp) {
     usp -= sizeof(uintptr_t); *((uintptr_t*)usp) = 0;
     for (int i=n_env-1; i>=0; i--) {
@@ -83,13 +96,18 @@ void context_uload(PCB* n_pcb, const char* filename, char *const argv[], char *c
       usp -= sizeof(uintptr_t);
     }
   }
+  */
 
   if (*argv) {
     usp -= sizeof(uintptr_t); *((uintptr_t*)usp) = 0;
+    usp -= sizeof(arg_ptr);
+    memcpy((char*)usp, arg_ptr, sizeof(arg_ptr));
+    /*
     for (int i=n_arg-1; i>=0; i--) {
       *((uintptr_t*)usp) = (uintptr_t)(&(stack_argv[i]));
       usp -= sizeof(uintptr_t);
     }
+    */
   }
 
   *((size_t*)usp) = n_arg;
