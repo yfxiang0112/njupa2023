@@ -57,6 +57,10 @@ void context_uload(PCB* n_pcb, const char* filename, char *const argv[], char *c
   n_arg ++;
   uintptr_t arg_ptr[n_arg], env_ptr[n_env];
 
+  for (int i=0; i<n_env; i++) {
+    printf("%s\n", envp[i]);
+  }
+
 
   usp -= sizeof(uintptr_t); *((uintptr_t*)usp) = 0;
   if (*envp) {
