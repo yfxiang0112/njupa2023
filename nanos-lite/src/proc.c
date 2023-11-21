@@ -42,13 +42,13 @@ void context_kload(PCB* n_pcb, void (*entry)(void *), void *arg) {
 void context_uload(PCB* n_pcb, const char* filename, char *const argv[], char *const envp[]) {
   //fb_write(NULL, 0, io_read(AM_GPU_CONFIG).width*io_read(AM_GPU_CONFIG).width);
   uintptr_t entry = loader(n_pcb, filename);
-
   if (!entry) {
     return;
   }
 
   n_pcb->cp = ucontext(NULL, (Area) { (void*)&(n_pcb->stack[0]), (void*)(n_pcb + 1) }, (void*)entry);
-  uintptr_t usp = (uintptr_t)(heap.end);
+  void *new_stack = new_page(8);
+  uintptr_t usp = (uintptr_t)(new_stack + 8*PGSIZE - 1);
 
   int n_arg=0, n_env=0;
   int arg_len=0, env_len=0;
