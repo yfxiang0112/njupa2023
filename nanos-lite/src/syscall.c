@@ -76,9 +76,10 @@ void do_syscall(Context *c) {
       //naive_uload(NULL, (char*)(a[1]));
       context_uload(current, (char*)a[1], (char**)a[2], (char**)a[3]);
 
+      printf("test\n");
       char** temp = (char**)a[3];
       for (int i=0; temp[i]!=NULL; i++) {
-        printf("%s\n", temp[i]);
+        printf("%x\n", (uintptr_t)temp[i]);
       }
 
       switch_boot_pcb();
