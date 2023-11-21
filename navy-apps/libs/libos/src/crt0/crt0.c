@@ -11,7 +11,7 @@ void call_main(uintptr_t *args) {
   char *const *argv = (char * const*)( args[1] );
   for (int i=0; i<argc; i++) {
     printf("%x\n", (uintptr_t)(& argv[i] ));
-    printf("%s\n", argv[i]);
+    printf("%s\n", (char*)( argv[i] ));
   }
 
   //for (int i=0; i<)
