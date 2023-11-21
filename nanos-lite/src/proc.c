@@ -76,9 +76,11 @@ void context_uload(PCB* n_pcb, const char* filename, char *const argv[], char *c
   */
   (n_pcb->cp)->GPRx = usp;
 
+  /*
   for (uintptr_t i=usp; i<(uintptr_t)(heap.end); i++) {
     printf("%x ", *((char*)i));
   }
+  */
   printf("\n");
 
 }
