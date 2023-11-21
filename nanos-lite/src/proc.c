@@ -77,6 +77,8 @@ void context_uload(PCB* n_pcb, const char* filename, char *const argv[], char *c
   memcpy((char*)usp, filename, strlen(filename)+1);
   arg_ptr[0] = usp;
 
+  for (int i=0; i<n_arg; i++) { printf("%x\n", arg_ptr[i]); }
+
 
   usp -= sizeof(uintptr_t); *((uintptr_t*)usp) = 0;
   if (*envp) {
