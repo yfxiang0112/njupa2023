@@ -41,6 +41,10 @@ void context_kload(PCB* n_pcb, void (*entry)(void *), void *arg) {
 }
 
 void context_uload(PCB* n_pcb, const char* filename, char *const argv[], char *const envp[]) {
+      printf("@ uload: \n");
+      for (int i=0; envp[i]!=NULL; i++) {
+        printf("%s\n", envp[i]);
+      }
   //fb_write(NULL, 0, io_read(AM_GPU_CONFIG).width*io_read(AM_GPU_CONFIG).width);
   uintptr_t entry = loader(n_pcb, filename);
   if (!entry) {
