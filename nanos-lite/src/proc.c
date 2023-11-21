@@ -41,29 +41,10 @@ void context_kload(PCB* n_pcb, void (*entry)(void *), void *arg) {
 }
 
 void context_uload(PCB* n_pcb, const char* filename, char *const argv[], char *const envp[]) {
-      printf("@ uload: 44\n");
-      for (int i=0; envp[i]!=NULL; i++) {
-        printf("%s\n", envp[i]);
-      }
   //fb_write(NULL, 0, io_read(AM_GPU_CONFIG).width*io_read(AM_GPU_CONFIG).width);
-  uintptr_t entry = loader(n_pcb, filename);
-  if (!entry) {
-    return;
-  }
-
-      printf("@ uload: 54\n");
-      for (int i=0; envp[i]!=NULL; i++) {
-        printf("%s\n", envp[i]);
-      }
-
-  n_pcb->cp = ucontext(NULL, (Area) { (void*)&(n_pcb->stack[0]), (void*)(n_pcb + 1) }, (void*)entry);
   void *new_stack = new_page(8);
   uintptr_t usp = (uintptr_t)(new_stack + 8*PGSIZE - 1);
 
-      printf("@ uload: 63\n");
-      for (int i=0; envp[i]!=NULL; i++) {
-        printf("%s\n", envp[i]);
-      }
 
   int n_arg=0, n_env=0;
   for (; argv[n_arg]!=NULL; n_arg++); 
@@ -105,6 +86,15 @@ void context_uload(PCB* n_pcb, const char* filename, char *const argv[], char *c
     usp -= sizeof(arg_ptr);
     memcpy((char*)usp, arg_ptr, sizeof(arg_ptr));
   }
+
+
+
+  uintptr_t entry = loader(n_pcb, filename);
+  if (!entry) {
+    return;
+  }
+
+  n_pcb->cp = ucontext(NULL, (Area) { (void*)&(n_pcb->stack[0]), (void*)(n_pcb + 1) }, (void*)entry);
 
   usp -= sizeof(uintptr_t);
   *((uintptr_t*)usp) = n_arg;
