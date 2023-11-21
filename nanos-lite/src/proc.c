@@ -50,10 +50,12 @@ void context_uload(PCB* n_pcb, const char* filename, char *const argv[], char *c
   uintptr_t usp = (uintptr_t)(heap.end);
 
   int n_arg=0, n_env=0;
-  for (; argv[n_arg]!=NULL; n_arg++);
-  for (; envp[n_env]!=NULL; n_env++);
+  int arg_len=0, env_len=0;
+  for (; argv[n_arg]!=NULL; n_arg++) { arg_len += strlen(argv[n_arg]); }
+  for (; envp[n_env]!=NULL; n_env++) { env_len += strlen(argv[n_env]); }
 
   printf("argc=%d, envp=%d\n", n_arg, n_env);
+  printf("arglen=%d, envp len=%d\n", arg_len, env_len);
 
   printf("envp=%x\n", (uintptr_t)envp);
   printf("argv=%x\n", (uintptr_t)argv);
@@ -67,9 +69,9 @@ void context_uload(PCB* n_pcb, const char* filename, char *const argv[], char *c
   memcpy(stack_envp, *envp, sizeof(*envp));
   */
 
-  usp -= sizeof(*argv);
+  usp -= arg_len;
   char *stack_argv = (char*)usp;
-  memcpy(stack_argv, *argv, sizeof(*argv));
+  memcpy(stack_argv, *argv, arg_len);
 
   /*
   usp -= sizeof(uintptr_t); *((uintptr_t*)usp) = 0;
