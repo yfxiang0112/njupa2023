@@ -45,7 +45,6 @@ void context_uload(PCB* n_pcb, const char* filename, char *const argv[], char *c
   void *new_stack = new_page(8);
   uintptr_t usp = (uintptr_t)(new_stack + 8*PGSIZE - 1);
 
-
   int n_arg=0, n_env=0;
   for (; argv[n_arg]!=NULL; n_arg++); 
   for (; envp[n_env]!=NULL; n_env++);
@@ -56,10 +55,7 @@ void context_uload(PCB* n_pcb, const char* filename, char *const argv[], char *c
   usp -= sizeof(uintptr_t); *((uintptr_t*)usp) = 0;
   if (*envp) {
     for (int i=n_env-1; i>=0; i--) {
-      printf("%d, %x\n", i, envp);
-      printf("%x %x\n", &(envp[i][0]), (uintptr_t)envp[i]);
       usp -= strlen(envp[i])+1;
-      printf("test\n");
       memcpy((char*)usp, envp[i], strlen(envp[i])+1);
       env_ptr[i] = usp;
     }
@@ -99,7 +95,6 @@ void context_uload(PCB* n_pcb, const char* filename, char *const argv[], char *c
   usp -= sizeof(uintptr_t);
   *((uintptr_t*)usp) = n_arg;
   (n_pcb->cp)->GPRx = usp;
-
 
   /*
   for (uintptr_t i=usp; i<(uintptr_t)(new_stack + 8*PGSIZE - 1); i++) {

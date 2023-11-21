@@ -72,13 +72,7 @@ void do_syscall(Context *c) {
       break;
 
     case SYS_execve:
-      printf("test\n");
-      char** temp = (char**)a[3];
-      for (int i=0; temp[i]!=NULL; i++) {
-        printf("%s\n", temp[i]);
-      }
-
-      //strncpy(curr_pathname, (char*)(a[1]), 1+strlen((char*)(a[1])));
+      strncpy(curr_pathname, (char*)(a[1]), 1+strlen((char*)(a[1])));
       //naive_uload(NULL, (char*)(a[1]));
       context_uload(current, (char*)a[1], (char**)a[2], (char**)a[3]);
 
