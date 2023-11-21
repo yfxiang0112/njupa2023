@@ -63,7 +63,6 @@ void context_uload(PCB* n_pcb, const char* filename, char *const argv[], char *c
       usp -= strlen(envp[i])+1;
       memcpy((char*)usp, envp[i], strlen(envp[i])+1);
       env_ptr[i] = usp;
-      printf("%s %x\n", (char*)usp, usp);
     }
   }
   if (*argv) {
@@ -71,6 +70,7 @@ void context_uload(PCB* n_pcb, const char* filename, char *const argv[], char *c
       usp -= strlen(argv[i])+1;
       memcpy((char*)usp, argv[i], strlen(argv[i])+1);
       arg_ptr[i] = usp;
+      printf("%s %x\n", (char*)usp, usp);
     }
   }
 
