@@ -50,7 +50,7 @@ void context_uload(PCB* n_pcb, const char* filename, char *const argv[], char *c
   n_pcb->cp = ucontext(NULL, (Area) { (void*)&(n_pcb->stack[0]), (void*)(n_pcb + 1) }, (void*)entry);
   void *new_stack = new_page(8);
   uintptr_t usp = (uintptr_t)(new_stack + 8*PGSIZE - 1);
-  printf("%x, %x\n", usp, (uintptr_t)heap.end);
+  printf("%x, %x, %x\n", (uintptr_t)new_stack, usp, (uintptr_t)heap.end);
 
   int n_arg=0, n_env=0;
   for (; argv[n_arg]!=NULL; n_arg++); 
