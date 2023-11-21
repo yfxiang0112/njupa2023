@@ -23,7 +23,10 @@ void do_syscall(Context *c) {
       if(strcmp("/bin/menu", IMAGE_FILE) == 0) naive_uload(NULL, "/bin/menu");
       if(strcmp("/bin/nterm", IMAGE_FILE) == 0 && strcmp("/bin/nterm", curr_pathname) != 0) {
         strncpy(curr_pathname, "/bin/nterm", 11);
-        naive_uload(NULL, "/bin/nterm");
+        //naive_uload(NULL, "/bin/nterm");
+        context_uload(current, "/bin/nterm", (char *const[]){NULL}, (char *const[]){NULL});
+        switch_boot_pcb();
+        yield();
       }
 
       halt(a[1]);  

@@ -59,15 +59,6 @@ void context_uload(PCB* n_pcb, const char* filename, char *const argv[], char *c
   n_arg ++;
   uintptr_t arg_ptr[n_arg], env_ptr[n_env];
 
-  //printf("*%x = %x", (uintptr_t)envp, (uintptr_t)envp[0]);
-  /*
-  for (int i=0; i<n_env; i++) {
-    printf("%d: %s\n", i, envp+i);
-  }
-  */
-
-  printf("argc=%d\n", n_arg);
-
 
   usp -= sizeof(uintptr_t); *((uintptr_t*)usp) = 0;
   if (*envp) {
@@ -82,7 +73,6 @@ void context_uload(PCB* n_pcb, const char* filename, char *const argv[], char *c
   }
   if (*argv) {
     for (int i=n_arg-2; i>=0; i--) {
-      printf("%x\n", argv);
       usp -= strlen(argv[i])+1;
       memcpy((char*)usp, argv[i], strlen(argv[i])+1);
       arg_ptr[i+1] = usp;
