@@ -74,7 +74,8 @@ void do_syscall(Context *c) {
     case SYS_execve:
       strncpy(curr_pathname, (char*)(a[1]), 1+strlen((char*)(a[1])));
       //naive_uload(NULL, (char*)(a[1]));
-      context_uload(current, (char*)a[1], (char**)a[2], (char**)a[3]);
+      size_t code = context_uload(current, (char*)a[1], (char**)a[2], (char**)a[3]);
+      if (code == -2) { c->GPRx = -2; break; }
 
       switch_boot_pcb();
       yield();

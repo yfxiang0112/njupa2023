@@ -40,7 +40,7 @@ void context_kload(PCB* n_pcb, void (*entry)(void *), void *arg) {
   n_pcb->cp = kcontext((Area) { n_pcb->stack, n_pcb + 1 }, entry, arg);
 }
 
-void context_uload(PCB* n_pcb, const char* filename, char *const argv[], char *const envp[]) {
+size_t context_uload(PCB* n_pcb, const char* filename, char *const argv[], char *const envp[]) {
   //fb_write(NULL, 0, io_read(AM_GPU_CONFIG).width*io_read(AM_GPU_CONFIG).width);
   void *new_stack = new_page(8);
   uintptr_t usp = (uintptr_t)(new_stack + 8*PGSIZE - 1);
@@ -86,8 +86,8 @@ void context_uload(PCB* n_pcb, const char* filename, char *const argv[], char *c
 
 
   uintptr_t entry = loader(n_pcb, filename);
-  if (!entry) {
-    return;
+  if (!entry || entry==-2) {
+    return -2;
   }
 
   n_pcb->cp = ucontext(NULL, (Area) { (void*)&(n_pcb->stack[0]), (void*)(n_pcb + 1) }, (void*)entry);
@@ -95,6 +95,8 @@ void context_uload(PCB* n_pcb, const char* filename, char *const argv[], char *c
   usp -= sizeof(uintptr_t);
   *((uintptr_t*)usp) = n_arg;
   (n_pcb->cp)->GPRx = usp;
+
+  return 0;
 
   /*
   for (uintptr_t i=usp; i<(uintptr_t)(new_stack + 8*PGSIZE - 1); i++) {

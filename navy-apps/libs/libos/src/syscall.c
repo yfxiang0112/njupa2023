@@ -49,6 +49,7 @@
 
 extern char end;
 uintptr_t pb_addr = (uintptr_t)(&end);
+size_t errno;
 
 intptr_t _syscall_(intptr_t type, intptr_t a0, intptr_t a1, intptr_t a2) {
   register intptr_t _gpr1 asm (GPR1) = type;
@@ -124,8 +125,9 @@ int _gettimeofday(struct timeval *tv, struct timezone *tz) {
 }
 
 int _execve(const char *fname, char * const argv[], char *const envp[]) {
-  _syscall_(SYS_execve, (intptr_t)fname, (intptr_t)argv, (intptr_t)envp);
-  return -1;
+  int code = _syscall_(SYS_execve, (intptr_t)fname, (intptr_t)argv, (intptr_t)envp);
+  if (code < 0) { errno = -code; return -1; }
+  return 0;
 }
 
 // Syscalls below are not used in Nanos-lite.
