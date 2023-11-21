@@ -10,8 +10,7 @@ void call_main(uintptr_t *args) {
   int argc = *args, n_env;
   char *const *argv = (char * const*)( args[1] );
   for (int i=0; i<argc; i++) {
-    //printf("%x\n", (uintptr_t)(& argv[i] ));
-    printf("%s\n", (char*)(& argv[i] ));
+    printf("%s %x\n", (char*)(& argv[i]), (uintptr_t)(& argv[i]));
   }
 
   //for (int i=0; i<)
