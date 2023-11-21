@@ -65,7 +65,7 @@ void context_uload(PCB* n_pcb, const char* filename, char *const argv[], char *c
   usp -= 8;
   char *stack_argv = (char*)usp;
   //printf("%x\n", (uintptr_t)stack_argv);
-  memcpy(stack_argv, argv, 8);
+  memcpy(stack_argv, *argv, 8);
 
 
 
