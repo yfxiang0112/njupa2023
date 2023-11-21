@@ -49,9 +49,11 @@ void context_uload(PCB* n_pcb, const char* filename, char *const argv[], char *c
   n_pcb->cp = ucontext(NULL, (Area) { (void*)&(n_pcb->stack[0]), (void*)(n_pcb + 1) }, (void*)entry);
   uintptr_t usp = (uintptr_t)(heap.end);
 
-  for (int i=0; argv[i]!=NULL; i++) {
-    printf("%d = %s\n", i, argv[i]);
-  }
+  int n_arg=0, n_env=0;
+  for (; argv[n_arg]!=NULL; n_arg++);
+  for (; envp[n_env]!=NULL; n_env++);
+
+  printf("argc=%d, envp=%d\n", n_arg, n_env);
   /*
   usp -= sizeof(*envp)+sizeof(size_t);
   char *stack_envp = (char*)usp;
