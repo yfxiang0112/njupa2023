@@ -52,8 +52,8 @@ void context_uload(PCB* n_pcb, const char* filename, char *const argv[], char *c
   int n_arg=0, n_env=0;
   int arg_len=0, env_len=0;
   char *stack_argv=0, *stack_envp=0;
-  for (; argv[n_arg]!=NULL; n_arg++) { arg_len += strlen(argv[n_arg]) +1; }
-  for (; envp[n_env]!=NULL; n_env++) { env_len += strlen(argv[n_env]) +1; }
+  for (; argv[n_arg]!=NULL; n_arg++) { arg_len += strlen(argv[n_arg]) +2; }
+  for (; envp[n_env]!=NULL; n_env++) { env_len += strlen(argv[n_env]) +2; }
 
   printf("argc=%d, envp=%d\n", n_arg, n_env);
   printf("arglen=%d, envp len=%d\n", arg_len, env_len);
