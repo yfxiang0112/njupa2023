@@ -54,7 +54,7 @@ void context_uload(PCB* n_pcb, const char* filename, char *const argv[], char *c
   for (; envp[n_env]!=NULL; n_env++);
 
   printf("argc=%d, envp=%d\n", n_arg, n_env);
-  /*
+
   usp -= sizeof(*envp)+sizeof(size_t);
   char *stack_envp = (char*)usp;
   memcpy(stack_envp, envp, sizeof(*envp));
@@ -64,25 +64,22 @@ void context_uload(PCB* n_pcb, const char* filename, char *const argv[], char *c
   memcpy(stack_argv, argv, sizeof(*argv));
 
   usp -= sizeof(uintptr_t);
-  for (int i=(sizeof(*envp)/sizeof(*envp[0]))-1; i>=0; i--) {
+  for (int i=n_env-1; i>=0; i--) {
     *((uintptr_t*)usp) = (uintptr_t)(&(stack_envp[i]));
     usp -= sizeof(uintptr_t);
   }
   usp -= sizeof(uintptr_t);
-  for (int i=(sizeof(*argv)/sizeof(*argv[0]))-1; i>=0; i--) {
+  for (int i=n_arg-1; i>=0; i--) {
     *((uintptr_t*)usp) = (uintptr_t)(&(stack_argv[i]));
     usp -= sizeof(uintptr_t);
   }
 
-  *((size_t*)usp) = (sizeof(*argv)/sizeof(*argv[0]));
-  */
+  *((size_t*)usp) = n_arg;
   (n_pcb->cp)->GPRx = usp;
 
-  /*
   for (uintptr_t i=usp; i<(uintptr_t)(heap.end); i++) {
     printf("%x ", *((char*)i));
   }
-  */
   printf("\n");
 
 }
