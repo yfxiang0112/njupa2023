@@ -22,7 +22,7 @@ void hello_fun(void *arg) {
 
 void init_proc() {
   context_kload(&pcb[0], hello_fun, (void*)0);
-  context_uload(&pcb[1], "/bin/hello", ((char* const[]){"--skip", "--test", NULL} ), ((char* const[]) {NULL} ));
+  context_uload(&pcb[1], "/bin/hello", ((char* const[]){"--skip", "--test", "test2", NULL} ), ((char* const[]) {NULL} ));
   switch_boot_pcb();
 
   Log("Initializing processes...");
