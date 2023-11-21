@@ -50,7 +50,7 @@ static void sh_handle_cmd(const char *cmd) {
 
   //////////////////////////////////////////////////
 
-  if (strcmp( arg_lst[1], "poweroff" ) == 0) {
+  if (nr_arg >= 2 && strcmp( arg_lst[1], "poweroff" ) == 0) {
     if (strcmp( arg_lst[0], "sudo" ) == 0) {
       SDL_Quit();
     }
