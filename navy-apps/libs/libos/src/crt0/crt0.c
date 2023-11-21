@@ -13,7 +13,7 @@ void call_main(uintptr_t *args) {
 
   char *empty[] =  {NULL };
 
-  printf("%d\n", envp==empty);
+  printf("%x, %x, %d\n", (uintptr_t)envp, (uintptr_t)empty, envp==empty);
 
   environ = empty;
   exit(main(argc, argv, envp));
