@@ -1,12 +1,9 @@
 #include <memory.h>
 
-static void *pf = NULL;
+static void *pf;
 
 void* new_page(size_t nr_page) {
-  printf("pf=%x\n", pf);
-  if (!pf) { pf = heap.end; }
-  printf("heap.end = %x\n", heap.end);
-  pf = (void*)( (uintptr_t)pf - nr_page * PGSIZE );
+  pf += nr_page * PGSIZE;
   printf("pgsize=%x, nr_page=%x\n", PGSIZE, nr_page);
   printf("pf = %x\n", (uintptr_t)pf);
   return pf;
