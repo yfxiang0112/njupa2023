@@ -94,7 +94,7 @@ void context_uload(PCB* n_pcb, const char* filename, char *const argv[], char *c
   }
   printf("\n");
   for (uintptr_t i=usp; i<(uintptr_t)(heap.end); i++) {
-    printf("  %c", *((char*)i));
+    printf("  %01c", *((char*)i));
   }
   printf("\n");
 }
