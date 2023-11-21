@@ -91,7 +91,6 @@ void context_uload(PCB* n_pcb, const char* filename, char *const argv[], char *c
     memcpy((char*)usp, arg_ptr, sizeof(arg_ptr));
   }
 
-
   usp -= sizeof(uintptr_t);
   *((uintptr_t*)usp) = n_arg;
   (n_pcb->cp)->GPRx = usp;
