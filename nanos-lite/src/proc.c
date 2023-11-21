@@ -81,15 +81,14 @@ void context_uload(PCB* n_pcb, const char* filename, char *const argv[], char *c
 
 
   usp -= sizeof(uintptr_t); *((uintptr_t*)usp) = 0;
-  if (*envp) {
+  if (n_env >= 0) {
     usp -= sizeof(env_ptr);
     memcpy((char*)usp, env_ptr, sizeof(env_ptr));
   }
   usp -= sizeof(uintptr_t); *((uintptr_t*)usp) = 0;
-  if (*argv) {
+  if (n_arg >= 0) {
     usp -= sizeof(arg_ptr);
     memcpy((char*)usp, arg_ptr, sizeof(arg_ptr));
-    printf("%x\n", *(uintptr_t*)usp);
   }
 
 
