@@ -34,7 +34,7 @@ static void sh_handle_cmd(const char *cmd) {
 
   for (int i=0; cmd_buf[i]!=0; i++) {
     if (cmd_buf[i] != ' ' && cmd_buf != 0 && (i==0 || cmd_buf[i-1]==0)) {
-      arg_lst[nr_arg] = &(cmd_buf[i+1]);
+      arg_lst[nr_arg] = cmd_buf + i;
       nr_arg ++;
     }
 
