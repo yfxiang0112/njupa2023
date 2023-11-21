@@ -4,6 +4,7 @@
 #include <sys/time.h>
 
 static char curr_pathname[64] = IMAGE_FILE;
+extern PCB *current;
 
 void do_syscall(Context *c) {
   uintptr_t a[4];
@@ -69,7 +70,11 @@ void do_syscall(Context *c) {
 
     case SYS_execve:
       strncpy(curr_pathname, (char*)(a[1]), 1+strlen((char*)(a[1])));
-      naive_uload(NULL, (char*)(a[1]));
+      //naive_uload(NULL, (char*)(a[1]));
+      context_uload(current, (char*)a[1], (char**)a[2], (char**)a[3]);
+      switch_boot_pcb();
+      yield();
+
       break;
 
 
