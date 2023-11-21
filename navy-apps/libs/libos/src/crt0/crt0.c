@@ -12,10 +12,7 @@ void call_main(uintptr_t *args) {
   char **envp = (char **)(args + argc + 2);
 
   char *empty[] =  {NULL };
-
-  printf("%x, %x, %d\n", (uintptr_t)*envp, (uintptr_t)*empty, *envp==*empty);
-
-  environ = empty;
+  environ = envp;
   exit(main(argc, argv, envp));
   assert(0);
 }
