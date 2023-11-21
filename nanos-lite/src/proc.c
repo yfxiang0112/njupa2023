@@ -65,7 +65,8 @@ void context_uload(PCB* n_pcb, const char* filename, char *const argv[], char *c
     printf("%d: %s\n", i, envp+i);
   }
   */
-  printf("test:68\n");
+
+  printf("argc=%d\n", n_arg);
 
 
   usp -= sizeof(uintptr_t); *((uintptr_t*)usp) = 0;
