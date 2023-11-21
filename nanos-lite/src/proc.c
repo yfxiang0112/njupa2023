@@ -64,6 +64,7 @@ void context_uload(PCB* n_pcb, const char* filename, char *const argv[], char *c
   }
   */
 
+  printf("test:67\n");
 
   usp -= sizeof(uintptr_t); *((uintptr_t*)usp) = 0;
   if (*envp) {
@@ -76,6 +77,7 @@ void context_uload(PCB* n_pcb, const char* filename, char *const argv[], char *c
       env_ptr[i] = usp;
     }
   }
+  printf("test:80\n");
   if (*argv) {
     for (int i=n_arg-2; i>=0; i--) {
       printf("%x\n", argv);
@@ -84,6 +86,7 @@ void context_uload(PCB* n_pcb, const char* filename, char *const argv[], char *c
       arg_ptr[i+1] = usp;
     }
   }
+  printf("test:89\n");
   usp -= strlen(filename)+1;
   memcpy((char*)usp, filename, strlen(filename)+1);
   arg_ptr[0] = usp;
