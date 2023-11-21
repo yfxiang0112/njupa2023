@@ -2,7 +2,7 @@
 #include <assert.h>
 #include <stdio.h>
 
-int main() {
+int main(int argc, char *argv[], char *envp[]) {
   write(1, "Hello World!\n", 13);
 
   /*

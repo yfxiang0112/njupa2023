@@ -6,9 +6,9 @@
 int main(int argc, char *argv[], char *envp[]);
 extern char **environ;
 void call_main(uintptr_t *args) {
-  printf("%x\n", *args);
   int argc = *args, n_env;
-  char *const *argv = (char * const*)(args + 1);
+  char **argv = (char **)(args + 1);
+  char **envp = (char **)(args + argc);
   for (int i=0; i<argc; i++) {
     printf("%s %x\n", (char*)(argv[i]), (uintptr_t)(argv[i]));
   }

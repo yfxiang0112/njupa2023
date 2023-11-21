@@ -24,7 +24,7 @@ void init_proc() {
   //context_kload(&pcb[0], hello_fun, (void*)0);
   context_uload(&pcb[0], "/bin/hello", 
                 ((char* const[]){"--skip", "test1", "test2", "test3", NULL} ),
-                ((char* const[]) {NULL} ));
+                ((char* const[]) {"PATH=/bin/", NULL} ));
   switch_boot_pcb();
 
   Log("Initializing processes...");
