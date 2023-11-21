@@ -51,7 +51,6 @@ Window *WindowManager::spawn(const char *path, const char *argv[]) {
   for (Window *&win: windows) {
     if (!win) {
       win = new Window(this, path, argv, envp);
-      printf("%x\n", envp);
       focus = win;
       win->move(wx, wy);
       wx += 30; wy += 20;
