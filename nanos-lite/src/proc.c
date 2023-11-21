@@ -64,13 +64,10 @@ void context_uload(PCB* n_pcb, const char* filename, char *const argv[], char *c
   //usp -= sizeof((char* const*)argv);
   usp -= 8;
   char *stack_argv = (char*)usp;
-  printf("%x\n", (uintptr_t)stack_argv);
-  memcpy(stack_argv, (char*)argv, 8);
+  //printf("%x\n", (uintptr_t)stack_argv);
+  memcpy(stack_argv, argv, 8);
 
-  for (uintptr_t i=(uintptr_t)argv; i<(uintptr_t)argv + 8; i++) {
-    printf("%c ", *((char*)i));
-  }
-  printf("\n");
+
 
   usp -= sizeof(uintptr_t);
   /*
