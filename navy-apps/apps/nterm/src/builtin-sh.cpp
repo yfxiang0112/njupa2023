@@ -40,6 +40,7 @@ static void sh_handle_cmd(const char *cmd) {
 
     if (cmd_buf[i]==' ') { cmd_buf[i] = 0; }
   }
+  arg_lst[nr_arg] = 0;
 
   for (int i=0; i<nr_arg; i++) {
     printf("%x, %s\n", (uintptr_t)(&arg_lst[i]), arg_lst[i]);
