@@ -67,6 +67,11 @@ void context_uload(PCB* n_pcb, const char* filename, char *const argv[], char *c
   printf("%x\n", (uintptr_t)stack_argv);
   memcpy(stack_argv, (char*)argv, 8);
 
+  for (uintptr_t i=(uintptr_t)argv; i<(uintptr_t)argv + 8; i++) {
+    printf("%c ", *((char*)i));
+  }
+  printf("\n");
+
   usp -= sizeof(uintptr_t);
   /*
   for (int i=n_env-1; i>=0; i--) {
