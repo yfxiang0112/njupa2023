@@ -83,6 +83,7 @@ void context_uload(PCB* n_pcb, const char* filename, char *const argv[], char *c
       printf("%s\n", argv[i]);
       usp -= strlen(argv[i])+1;
       memcpy((char*)usp, &(argv[i]), strlen(argv[i])+1);
+      printf("%s\n", (char*)usp);
       arg_ptr[i] = usp;
     }
   }
