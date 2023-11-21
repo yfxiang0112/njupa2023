@@ -13,6 +13,10 @@ void call_main(uintptr_t *args) {
     printf("%s %x\n", (char*)(argv[i]), (uintptr_t)(argv[i]));
   }
 
+  for (int i=0; envp[i]!=NULL; i++) {
+    printf("%s %x\n", (char*)(envp[i]), (uintptr_t)(envp[i]));
+  }
+
   //for (int i=0; i<)
 
   char *empty[] =  {NULL };
