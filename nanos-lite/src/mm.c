@@ -3,6 +3,7 @@
 static void *pf = NULL;
 
 void* new_page(size_t nr_page) {
+  printf("pf=%x\n", pf);
   if (!pf) { pf = heap.end; }
   printf("heap.end = %x\n", heap.end);
   pf = (void*)( (uintptr_t)pf - nr_page * PGSIZE );
