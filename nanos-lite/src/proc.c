@@ -21,8 +21,8 @@ void hello_fun(void *arg) {
 }
 
 void init_proc() {
-  //context_kload(&pcb[0], hello_fun, (void*)0);
-  context_uload(&pcb[0], "/bin/pal", 
+  context_kload(&pcb[0], hello_fun, (void*)0);
+  context_uload(&pcb[1], "/bin/pal", 
                 ((char* const[]) {"--skip", NULL} ),
                 //((char* const[]) { NULL} ),
                 ((char* const[]) { NULL} ));
