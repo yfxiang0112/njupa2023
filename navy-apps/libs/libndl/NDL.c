@@ -80,7 +80,7 @@ void NDL_DrawRect(uint32_t *pixels, int x, int y, int w, int h) {
       fb[off+i] = pixels[y*w+i];
     }
     //printf("x=%d, y=%d, w=%d, h=%d, cw=%d, ch=%d\n", x, y, w, h, canvas_w, canvas_h);
-    if (y == canvas_w-1) {
+    if (y == canvas_h-1) {
       printf("test\n");
       lseek(fbdev, 0, SEEK_SET);
       write(fbdev, fb, screen_w*screen_h);
