@@ -17,6 +17,12 @@
 #include <memory/vaddr.h>
 #include <memory/paddr.h>
 
+int isa_mmu_check(vaddr_t vaddr, int len, int type) {
+  if (cpu.csr[5]==0) { return MMU_DIRECT; }
+  if (cpu.csr[5] >> 31 == 1) { return MMU_TRANSLATE; }
+  retrun MMU_FAIL;
+}
+
 paddr_t isa_mmu_translate(vaddr_t vaddr, int len, int type) {
   return MEM_RET_FAIL;
 }

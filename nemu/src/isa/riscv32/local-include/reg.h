@@ -39,6 +39,7 @@ static inline const char* reg_name(int idx) {
 #define SR_MEPC    0x341
 #define SR_MSTATUS 0x300
 #define SR_MCAUSE  0x342
+#define SR_SATP    0x180
 
 static inline int check_csr_idx(int idx) {
   if (idx >= 0 && idx < 4) { return idx; }
