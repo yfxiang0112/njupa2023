@@ -77,7 +77,7 @@ void NDL_DrawRect(uint32_t *pixels, int x, int y, int w, int h) {
   if (x==0 && w==canvas_w && h==1) {
     uint32_t off = (y + (screen_h-canvas_h)/2) * screen_w + x + (screen_w-canvas_w)/2;
     for (int i=0; i<w; i++) {
-      fb[off+i] = pixels[y*w+i];
+      fb[off+i] = pixels[i];
     }
     //printf("x=%d, y=%d, w=%d, h=%d, cw=%d, ch=%d\n", x, y, w, h, canvas_w, canvas_h);
     if (y == canvas_h-1) {
