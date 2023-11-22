@@ -23,8 +23,8 @@ void hello_fun(void *arg) {
 void init_proc() {
   context_kload(&pcb[0], hello_fun, (void*)0);
   context_uload(&pcb[1], "/bin/pal", 
-                ((char* const[]) {"--skip", NULL} ),
-                //((char* const[]) { NULL} ),
+                //((char* const[]) {"--skip", NULL} ),
+                ((char* const[]) { NULL} ),
                 ((char* const[]) { NULL} ));
   switch_boot_pcb();
 
@@ -42,6 +42,7 @@ void context_kload(PCB* n_pcb, void (*entry)(void *), void *arg) {
 
 size_t context_uload(PCB* n_pcb, const char* filename, char *const argv[], char *const envp[]) {
   //fb_write(NULL, 0, io_read(AM_GPU_CONFIG).width*io_read(AM_GPU_CONFIG).width);
+  io_write(AM_GPU_FBDRAW, 0, 0, NULL, io_read(AM_GPU_CONFIG).width, io_read(AM_GPU_CONFIG).height, true);
   void *new_stack = new_page(8);
   uintptr_t usp = (uintptr_t)(new_stack + 8*PGSIZE - 1);
 
