@@ -31,6 +31,9 @@ void NDL_OpenCanvas(int *w, int *h) {
   read(fbinfo, readbuf, strlen(readbuf));
   sscanf(readbuf, "WIDTH : %d\nHEIGHT : %d\n", &screen_w, &screen_h);
   fb = malloc(sizeof(uint32_t[screen_w][screen_h]));
+  for (int i=0; i<screen_w*screen_h; i++) {
+    fb[i] = 0;
+  }
 
   if (*w>screen_w || *w==0) { *w = screen_w; }
   if (*h>screen_h || *h==0) { *h = screen_h; }
