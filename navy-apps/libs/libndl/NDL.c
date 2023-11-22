@@ -81,10 +81,11 @@ void NDL_DrawRect(uint32_t *pixels, int x, int y, int w, int h) {
     }
     //printf("x=%d, y=%d, w=%d, h=%d, cw=%d, ch=%d\n", x, y, w, h, canvas_w, canvas_h);
     if (y == canvas_h-1) {
-      printf("test\n");
+      printf("x=%d, y=%d, w=%d, h=%d, cw=%d, ch=%d\n", x, y, w, h, canvas_w, canvas_h);
       lseek(fbdev, 0, SEEK_SET);
       write(fbdev, fb, screen_w*screen_h);
       close(fbdev);
+      printf("\n");
     }
     return;
   }
