@@ -89,7 +89,7 @@ void map(AddrSpace *as, void *va, void *pa, int prot) {
   // TODO: 2nd lvl pt?
   //
   pte = (ppn1>>2) | (ppn0>>2) | x | w | r | v;
-  printf("pte=%x, ppn1=%x, ppn0=%x\n", pte, ppn1, ppn0);
+  //printf("pte=%x, ppn1=%x, ppn0=%x\n", pte, ppn1, ppn0);
   // NOTE: for i=0 vaddr mapping
 
   //printf("pdir=%x, vpn0=%x, pte_addr=%x\n", pdir, vpn0, pdir * PGSIZE + vpn0 * PTESIZE );
