@@ -41,7 +41,7 @@ paddr_t isa_mmu_translate(vaddr_t vaddr, int len, int type) {
   ppn1 = pte   & 0xfff00000;
   ppn0 = pte   & 0x000ffc00;
 
-  vaddr_t paddr = (ppn1<<2) | (vpn0<<2) | voff;
+  vaddr_t paddr = (ppn1<<2) | (vpn0) | voff;
 
   printf("pte=%x, ppn1=%x, ppn0=%x\n", pte, ppn1<<2, ppn0<<2);
 
