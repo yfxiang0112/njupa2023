@@ -94,7 +94,7 @@ void map(AddrSpace *as, void *va, void *pa, int prot) {
 
   if (*(uintptr_t*)pte1_addr == 0) {
     pte0_addr = (uintptr_t) pgalloc_usr(PGSIZE);
-    *(uintptr_t*)pte1_addr = (pte0_addr & 0xffffc000) | v;
+    *(uintptr_t*)pte1_addr = ((pte0_addr & 0xffff0000) >>2) | v;
   } else {
     uintptr_t pte_ppn = ((*(uintptr_t*)pte1_addr) & 0xffffc000) >> 10;
     pte0_addr = pte_ppn * PGSIZE + (vpn0>>12) * PTESIZE; 
