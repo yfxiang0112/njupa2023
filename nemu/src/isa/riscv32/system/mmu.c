@@ -45,6 +45,8 @@ paddr_t isa_mmu_translate(vaddr_t vaddr, int len, int type) {
     pte = host_read(guest_to_host(pte0_addr), 4);
     assert(pte & 1);
 
+    printf("vaddr=%x, pte_addr=%x\n", vaddr, pte0_addr);
+
     ppn1 = pte   & 0xfff00000;
     ppn0 = pte   & 0x000ffc00;
     paddr = (ppn1<<2) | (ppn0<<2) | voff;
