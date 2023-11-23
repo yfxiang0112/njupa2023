@@ -44,7 +44,7 @@ paddr_t isa_mmu_translate(vaddr_t vaddr, int len, int type) {
     paddr_t pte0_addr = ((pte & 0xfffffc00)>>10) * 4096 + (vpn0>>12) * 4;
     pte = host_read(guest_to_host(pte0_addr), 4);
 
-    printf("vaddr=%x, pte_addr=%x\n", vaddr, pte0_addr);
+    //printf("vaddr=%x, pte_addr=%x\n", vaddr, pte0_addr);
     assert(pte & 1);
 
     ppn1 = pte   & 0xfff00000;
@@ -56,7 +56,7 @@ paddr_t isa_mmu_translate(vaddr_t vaddr, int len, int type) {
     paddr = (ppn1<<2) | (vpn0) | voff;
   }
 
-  printf("paddr=%x, vaddr=%x\n", paddr, vaddr);
+  //printf("paddr=%x, vaddr=%x\n", paddr, vaddr);
 
   // NOTE: for tmp test of equiv mapping
   assert(paddr == vaddr);
