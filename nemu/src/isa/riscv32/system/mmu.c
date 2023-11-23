@@ -33,8 +33,11 @@ paddr_t isa_mmu_translate(vaddr_t vaddr, int len, int type) {
   vpn0 = vaddr & 0x003ff000;
   voff = vaddr & 0x00000fff;
 
+
   vaddr_t satp_ppn = cpu.csr[4] & 0x003fffff;
   vaddr_t pte_addr = satp_ppn * 4096 + vpn0 * 4;
+  printf("vaddr=%x, satp=%x, pte_addr=%x\n", vaddr, cpu.csr[4], pte_addr);
+
   word_t pte = host_read(guest_to_host(pte_addr), 4);// TODO: mem read to get pte value
   ppn1 = pte   & 0xfff00000;
   ppn0 = pte   & 0x000ffc00;
