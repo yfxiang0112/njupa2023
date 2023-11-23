@@ -41,7 +41,6 @@ bool vme_init(void* (*pgalloc_f)(int), void (*pgfree_f)(void*)) {
     }
   }
 
-  printf("cnt=%d\n", cnt);
   set_satp(kas.ptr);
   vme_enable = 1;
 
@@ -76,6 +75,7 @@ void map(AddrSpace *as, void *va, void *pa, int prot) {
   uintptr_t vpn1;//, vpn0;//, voff;
   uintptr_t ppn1, ppn0;//, poff;
   uintptr_t pte;
+  uintptr_t pte1_addr, pte0_addr;
   uintptr_t v=1, r=1<<1, w=1<<2, x=1<<3;
 
   vpn1 = (uintptr_t) va & 0xffc00000;
@@ -86,26 +86,25 @@ void map(AddrSpace *as, void *va, void *pa, int prot) {
   ppn0 = (uintptr_t) pa & 0x003ff000;
   //poff = (uintptr_t) pa & 0x00000fff;
 
-  // TODO: 2nd lvl pt?
-
   pte = (ppn1>>2) | (ppn0>>2) | x | w | r | v;
-  // NOTE: for i=0 vaddr mapping
 
   //printf("pdir=%x, vpn0=%x, pte_addr=%x\n", pdir, vpn0, pdir * PGSIZE + vpn0 * PTESIZE );
 
-  uintptr_t pte_addr = pdir * PGSIZE + (vpn1>>22) * PTESIZE;
+  pte1_addr = pdir * PGSIZE + (vpn1>>22) * PTESIZE;
 
-  //if (*(uintptr_t*)pte_addr == 0) {
-    cnt ++;
+  if (*(uintptr_t*)pte1_addr == 0) {
+    pte0_addr = (uintptr_t) pgalloc_usr(PGSIZE);
+    
+    printf("%d\n", cnt);
 
-  //} else {
+  } else {
+    pte0_addr=pte1_addr;
 
-  //}
-  assert(pte_addr <= (uintptr_t)(as->ptr) + PGSIZE); // NOTE: tmp test for equiv mapping
-  //printf("%x\n", pte_addr);
-  *(uintptr_t*)pte_addr = pte;
-  //printf("test\n");
-  
+    cnt++;
+
+  }
+
+  *(uintptr_t*)pte0_addr = pte;
 }
 
 Context *ucontext(AddrSpace *as, Area kstack, void *entry) {
