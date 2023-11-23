@@ -41,6 +41,7 @@ bool vme_init(void* (*pgalloc_f)(int), void (*pgfree_f)(void*)) {
     }
   }
 
+  printf("cnt=%d\n", cnt);
   set_satp(kas.ptr);
   vme_enable = 1;
 
@@ -96,7 +97,6 @@ void map(AddrSpace *as, void *va, void *pa, int prot) {
 
   //if (*(uintptr_t*)pte_addr == 0) {
     cnt ++;
-    printf("%d\n", cnt);
 
   //} else {
 
