@@ -19,9 +19,8 @@
 #include <memory/host.h>
 
 int isa_mmu_check(vaddr_t vaddr, int len, int type) {
-  //printf("satp=%x\n", cpu.csr[4]);
   if (cpu.csr[4]==0) { return MMU_DIRECT; }
-  if (cpu.csr[4] >> 31 == 1) { return MMU_TRANSLATE; }
+  if (cpu.csr[4] >> 31 == 1) { printf("satp=%x\n",cpu.csr[4]); return MMU_TRANSLATE; }
   return MMU_FAIL;
 }
 
