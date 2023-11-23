@@ -38,6 +38,7 @@ paddr_t isa_mmu_translate(vaddr_t vaddr, int len, int type) {
   //printf("vaddr=%x, satp=%x, pte_addr=%x\n", vaddr, cpu.csr[4], pte_addr);
 
   word_t pte = host_read(guest_to_host(pte_addr), 4);// TODO: mem read to get pte value
+  assert((pte & 1) == 1);
   ppn1 = pte   & 0xfff00000;
   //ppn0 = pte   & 0x000ffc00;
 

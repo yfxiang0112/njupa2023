@@ -7,6 +7,8 @@ static void* (*pgalloc_usr)(int) = NULL;
 static void (*pgfree_usr)(void*) = NULL;
 static int vme_enable = 0;
 
+int cnt=0;
+
 static Area segments[] = {      // Kernel memory mappings
   NEMU_PADDR_SPACE
 };
@@ -68,8 +70,6 @@ void __am_switch(Context *c) {
 }
 
 void map(AddrSpace *as, void *va, void *pa, int prot) {
-  // TODO: address of page tab?
-
   uintptr_t pdir = (uintptr_t)(as->ptr) >> 12;
 
   uintptr_t vpn1;//, vpn0;//, voff;
@@ -86,12 +86,21 @@ void map(AddrSpace *as, void *va, void *pa, int prot) {
   //poff = (uintptr_t) pa & 0x00000fff;
 
   // TODO: 2nd lvl pt?
-  //
+
   pte = (ppn1>>2) | (ppn0>>2) | x | w | r | v;
   // NOTE: for i=0 vaddr mapping
 
   //printf("pdir=%x, vpn0=%x, pte_addr=%x\n", pdir, vpn0, pdir * PGSIZE + vpn0 * PTESIZE );
+
   uintptr_t pte_addr = pdir * PGSIZE + (vpn1>>22) * PTESIZE;
+
+  if (*(uintptr_t*)pte_addr == 0) {
+    cnt ++;
+    printf("%d\n", cnt);
+
+  } else {
+
+  }
   assert(pte_addr <= (uintptr_t)(as->ptr) + PGSIZE); // NOTE: tmp test for equiv mapping
   //printf("%x\n", pte_addr);
   *(uintptr_t*)pte_addr = pte;
