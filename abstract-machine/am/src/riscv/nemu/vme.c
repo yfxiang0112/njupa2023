@@ -72,14 +72,13 @@ void map(AddrSpace *as, void *va, void *pa, int prot) {
 
   uintptr_t pdir = (uintptr_t)(as->ptr) >> 12;
 
-  //uintptr_t vpn1, vpn0;//, voff;
-  uintptr_t vpn0;
+  uintptr_t vpn1;//, vpn0;//, voff;
   uintptr_t ppn1, ppn0;//, poff;
   uintptr_t pte;
   uintptr_t v=1, r=1<<1, w=1<<2, x=1<<3;
 
-  //vpn1 = (uintptr_t) va & 0xffc00000;
-  vpn0 = (uintptr_t) va & 0x003ff000;
+  vpn1 = (uintptr_t) va & 0xffc00000;
+  //vpn0 = (uintptr_t) va & 0x003ff000;
   //voff = (uintptr_t) va & 0x00000fff;
 
   ppn1 = (uintptr_t) pa & 0xffc00000;
@@ -94,7 +93,9 @@ void map(AddrSpace *as, void *va, void *pa, int prot) {
   // NOTE: for i=0 vaddr mapping
 
   //printf("pdir=%x, vpn0=%x, pte_addr=%x\n", pdir, vpn0, pdir * PGSIZE + vpn0 * PTESIZE );
-  *(uintptr_t*)(pdir * PGSIZE + vpn0 * PTESIZE) = pte;
+  uintptr_t pte_addr = pdir * PGSIZE + vpn1 * PTESIZE;
+  assert(pte_addr <= (uintptr_t)(as->ptr) + PGSIZE); // NOTE: tmp test for equiv mapping
+  *(uintptr_t*)pte_addr = pte;
   //printf("test\n");
   
 }
