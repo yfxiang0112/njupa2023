@@ -100,6 +100,8 @@ void map(AddrSpace *as, void *va, void *pa, int prot) {
     pte0_addr = pte_ppn * PGSIZE + (vpn0>>12) * PTESIZE; 
   }
 
+  printf("%x\n", pte0_addr);
+
   *(uintptr_t*)pte0_addr = pte;
 }
 
