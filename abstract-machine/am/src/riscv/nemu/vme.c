@@ -94,15 +94,15 @@ void map(AddrSpace *as, void *va, void *pa, int prot) {
 
   if (*(uintptr_t*)pte1_addr == 0) {
     pte0_addr = (uintptr_t) pgalloc_usr(PGSIZE);
-    *(uintptr_t*)pte1_addr = ((pte0_addr & 0xffff0000) >>2) | v;
+    *(uintptr_t*)pte1_addr = ((pte0_addr & 0xfffff000) >>2) | v;
   } else {
-    uintptr_t pte_ppn = ((*(uintptr_t*)pte1_addr) & 0xffffc000) >> 10;
+    uintptr_t pte_ppn = ((*(uintptr_t*)pte1_addr) & 0xfffffc00) >> 10;
     pte0_addr = pte_ppn * PGSIZE + (vpn0>>12) * PTESIZE; 
   }
 
   //if ((uintptr_t)va==0x80001d34) printf("orig pte_addr=%x\n", pte0_addr);
 
-  printf("pte0_addr = %x, va=%x\n", pte0_addr, va);
+  //printf("pte0_addr = %x, va=%x\n", pte0_addr, va);
 
   *(uintptr_t*)pte0_addr = pte;
 }
