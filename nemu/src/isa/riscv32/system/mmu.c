@@ -53,7 +53,7 @@ paddr_t isa_mmu_translate(vaddr_t vaddr, int len, int type) {
     paddr = (ppn1<<2) | (vpn0) | voff;
   }
 
-  // printf("paddr=%x, vaddr=%x\n", paddr, vaddr);
+  printf("paddr=%x, vaddr=%x\n", paddr, vaddr);
 
   // NOTE: for tmp test of equiv mapping
   assert(paddr == vaddr);
