@@ -30,15 +30,14 @@ bool vme_init(void* (*pgalloc_f)(int), void (*pgfree_f)(void*)) {
 
   kas.ptr = pgalloc_f(PGSIZE);
 
-  printf("test:33\n");
   int i;
   for (i = 0; i < LENGTH(segments); i ++) {
+    printf("%d\n", i);
     void *va = segments[i].start;
     for (; va < segments[i].end; va += PGSIZE) {
       map(&kas, va, va, 0);
     }
   }
-  printf("test:40\n");
 
   set_satp(kas.ptr);
   vme_enable = 1;
