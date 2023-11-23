@@ -91,7 +91,7 @@ void map(AddrSpace *as, void *va, void *pa, int prot) {
   pte = (ppn1>>2) | (ppn0>>2) | x | w | r | v;
   // NOTE: for i=0 vaddr mapping
 
-  printf("pdir=%x, vpn0=%x, pte_addr=%x\n",pdir * PGSIZE + vpn0 * PTESIZE );
+  printf("pdir=%x, vpn0=%x, pte_addr=%x\n", pdir, vpn0, pdir * PGSIZE + vpn0 * PTESIZE );
   *(uintptr_t*)(pdir * PGSIZE + vpn0 * PTESIZE) = pte;
   printf("test\n");
   
