@@ -70,7 +70,7 @@ void __am_switch(Context *c) {
 void map(AddrSpace *as, void *va, void *pa, int prot) {
   // TODO: address of page tab?
 
-  uintptr_t pdir = (uintptr_t)(as->ptr);
+  uintptr_t pdir = (uintptr_t)(as->ptr) >> 12;
 
   //uintptr_t vpn1, vpn0;//, voff;
   uintptr_t vpn0;
