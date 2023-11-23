@@ -47,6 +47,7 @@ static inline int check_csr_idx(int idx) {
   if (idx == SR_MEPC)    { return 1; }
   if (idx == SR_MSTATUS) { return 2; }
   if (idx == SR_MCAUSE)  { return 3; }
+  if (idx == SR_SATP)    { return 4; }
   IFDEF(CONFIG_RT_CHECK, assert(0));
 }
 
