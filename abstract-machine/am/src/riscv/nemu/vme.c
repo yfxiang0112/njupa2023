@@ -94,13 +94,13 @@ void map(AddrSpace *as, void *va, void *pa, int prot) {
 
   uintptr_t pte_addr = pdir * PGSIZE + (vpn1>>22) * PTESIZE;
 
-  if (*(uintptr_t*)pte_addr == 0) {
+  //if (*(uintptr_t*)pte_addr == 0) {
     cnt ++;
     printf("%d\n", cnt);
 
-  } else {
+  //} else {
 
-  }
+  //}
   assert(pte_addr <= (uintptr_t)(as->ptr) + PGSIZE); // NOTE: tmp test for equiv mapping
   //printf("%x\n", pte_addr);
   *(uintptr_t*)pte_addr = pte;
