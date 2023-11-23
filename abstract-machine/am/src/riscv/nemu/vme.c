@@ -102,7 +102,7 @@ void map(AddrSpace *as, void *va, void *pa, int prot) {
 
   //if ((uintptr_t)va==0x80001d34) printf("orig pte_addr=%x\n", pte0_addr);
 
-  //printf("pte0_addr = %x\n", pte0_addr);
+  printf("pte0_addr = %x, va=%x\n", pte0_addr, va);
 
   *(uintptr_t*)pte0_addr = pte;
 }
