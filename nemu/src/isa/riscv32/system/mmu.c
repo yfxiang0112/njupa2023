@@ -25,7 +25,6 @@ int isa_mmu_check(vaddr_t vaddr, int len, int type) {
 }
 
 paddr_t isa_mmu_translate(vaddr_t vaddr, int len, int type) {
-  // NOTE: for ptlvl=1
   paddr_t vpn1, vpn0, voff;
   paddr_t ppn1, ppn0, paddr;
   vpn1 = vaddr & 0xffc00000;
@@ -34,9 +33,8 @@ paddr_t isa_mmu_translate(vaddr_t vaddr, int len, int type) {
 
   paddr_t satp_ppn = cpu.csr[4] & 0x003fffff;
   paddr_t pte_addr = satp_ppn * 4096 + (vpn1>>22) * 4;
-  //printf("vaddr=%x, satp=%x, pte_addr=%x\n", vaddr, cpu.csr[4], pte_addr);
 
-  word_t pte = host_read(guest_to_host(pte_addr), 4);// TODO: mem read to get pte value
+  word_t pte = host_read(guest_to_host(pte_addr), 4);
   assert(pte & 1);
 
   if ((pte&0x2)==0 && (pte&0x4)==0 && (pte&0x8)==0) {
@@ -44,7 +42,6 @@ paddr_t isa_mmu_translate(vaddr_t vaddr, int len, int type) {
     paddr_t pte0_addr = ((pte & 0xfffffc00)>>10) * 4096 + (vpn0>>12) * 4;
     pte = host_read(guest_to_host(pte0_addr), 4);
 
-    //printf("vaddr=%x, pte_addr=%x\n", vaddr, pte0_addr);
     assert(pte & 1);
 
     ppn1 = pte   & 0xfff00000;
@@ -59,9 +56,7 @@ paddr_t isa_mmu_translate(vaddr_t vaddr, int len, int type) {
   //printf("paddr=%x, vaddr=%x\n", paddr, vaddr);
 
   // NOTE: for tmp test of equiv mapping
-  assert(paddr == vaddr);
+  // assert(paddr == vaddr);
 
   return paddr;
-
-  //return MEM_RET_FAIL;
 }

@@ -72,38 +72,30 @@ void __am_switch(Context *c) {
 void map(AddrSpace *as, void *va, void *pa, int prot) {
   uintptr_t pdir = (uintptr_t)(as->ptr) >> 12;
 
-  uintptr_t vpn1, vpn0;//, voff;
-  uintptr_t ppn1, ppn0;//, poff;
+  uintptr_t vpn1, vpn0;
+  uintptr_t ppn1, ppn0;
   uintptr_t pte;
   uintptr_t pte1_addr, pte0_addr;
   uintptr_t v=1, r=1<<1, w=1<<2, x=1<<3;
 
   vpn1 = (uintptr_t) va & 0xffc00000;
   vpn0 = (uintptr_t) va & 0x003ff000;
-  //voff = (uintptr_t) va & 0x00000fff;
-
   ppn1 = (uintptr_t) pa & 0xffc00000;
   ppn0 = (uintptr_t) pa & 0x003ff000;
-  //poff = (uintptr_t) pa & 0x00000fff;
-
-  pte = (ppn1>>2) | (ppn0>>2) | x | w | r | v;
-
-  //printf("pdir=%x, vpn0=%x, pte_addr=%x\n", pdir, vpn0, pdir * PGSIZE + vpn0 * PTESIZE );
 
   pte1_addr = pdir * PGSIZE + (vpn1>>22) * PTESIZE;
 
   if (*(uintptr_t*)pte1_addr == 0) {
     pte0_addr = (uintptr_t) pgalloc_usr(PGSIZE);
     *(uintptr_t*)pte1_addr = ((pte0_addr & 0xfffff000) >>2) | v;
+
   } else {
     uintptr_t pte_ppn = ((*(uintptr_t*)pte1_addr) & 0xfffffc00) >> 10;
     pte0_addr = pte_ppn * PGSIZE + (vpn0>>12) * PTESIZE; 
   }
-
-  //if ((uintptr_t)va==0x80001d34) printf("orig pte_addr=%x\n", pte0_addr);
-
   //printf("pte0_addr = %x, va=%x\n", pte0_addr, va);
 
+  pte = (ppn1>>2) | (ppn0>>2) | x | w | r | v;
   *(uintptr_t*)pte0_addr = pte;
 }
 
