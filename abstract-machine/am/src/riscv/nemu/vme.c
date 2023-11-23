@@ -75,7 +75,7 @@ void map(AddrSpace *as, void *va, void *pa, int prot) {
   uintptr_t vpn1;//, vpn0;//, voff;
   uintptr_t ppn1, ppn0;//, poff;
   uintptr_t pte;
-  uintptr_t pte1_addr, pte0_addr;
+  uintptr_t pte1_addr;//, pte0_addr;
   uintptr_t v=1, r=1<<1, w=1<<2, x=1<<3;
 
   vpn1 = (uintptr_t) va & 0xffc00000;
@@ -93,18 +93,18 @@ void map(AddrSpace *as, void *va, void *pa, int prot) {
   pte1_addr = pdir * PGSIZE + (vpn1>>22) * PTESIZE;
 
   if (*(uintptr_t*)pte1_addr == 0) {
-    pte0_addr = (uintptr_t) pgalloc_usr(PGSIZE);
+    //pte0_addr = (uintptr_t) pgalloc_usr(PGSIZE);
     
     printf("%d\n", cnt);
 
   } else {
-    pte0_addr=pte1_addr;
+    //pte0_addr=pte1_addr;
 
     cnt++;
 
   }
 
-  *(uintptr_t*)pte0_addr = pte;
+  *(uintptr_t*)pte1_addr = pte;
 }
 
 Context *ucontext(AddrSpace *as, Area kstack, void *entry) {
