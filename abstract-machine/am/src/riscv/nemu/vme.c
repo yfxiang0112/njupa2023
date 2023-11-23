@@ -98,6 +98,7 @@ void map(AddrSpace *as, void *va, void *pa, int prot) {
   } else {
     uintptr_t pte_ppn = ((*(uintptr_t*)pte1_addr) & 0xffffc000) >> 10;
     pte0_addr = pte_ppn * PGSIZE + (vpn0>>12) * PTESIZE; 
+    if ((uintptr_t)va==0x80001d34) printf("orig pte_addr=%x\n", pte0_addr);
   }
 
   //printf("pte0_addr = %x\n", pte0_addr);
