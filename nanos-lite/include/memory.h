@@ -7,6 +7,10 @@
 #define PGSIZE 4096
 #endif
 
+#ifndef PTESIZE
+#define PTESIZE XLEN
+#endif
+
 #define PG_ALIGN __attribute((aligned(PGSIZE)))
 
 void* new_page(size_t);

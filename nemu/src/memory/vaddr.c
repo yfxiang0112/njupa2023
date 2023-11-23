@@ -17,13 +17,44 @@
 #include <memory/paddr.h>
 
 word_t vaddr_ifetch(vaddr_t addr, int len) {
-  return paddr_read(addr, len, false);
+  paddr_t paddr = addr;
+  int check = isa_mmu_check(addr, len, 0);
+  assert(check != MMU_FAIL);
+
+  if (check == MMU_TRANSLATE) {
+    paddr = isa_mmu_translate(addr, len, 0);
+
+    // NOTE: tmp test for equiv mapping
+    assert(paddr == addr);
+  }
+  return paddr_read(paddr, len, false);
 }
 
 word_t vaddr_read(vaddr_t addr, int len, bool is_gst) {
-  return paddr_read(addr, len, is_gst);
+  paddr_t paddr = addr;
+  int check = isa_mmu_check(addr, len, 0);
+  assert(check != MMU_FAIL);
+
+  if (check == MMU_TRANSLATE) {
+    paddr = isa_mmu_translate(addr, len, 0);
+
+    // NOTE: tmp test for equiv mapping
+    assert(paddr == addr);
+  }
+  return paddr_read(paddr, len, is_gst);
 }
 
 void vaddr_write(vaddr_t addr, int len, word_t data, bool is_gst) {
-  paddr_write(addr, len, data, is_gst);
+  paddr_t paddr = addr;
+  int check = isa_mmu_check(addr, len, 0);
+  assert(check != MMU_FAIL);
+
+  if (check == MMU_TRANSLATE) {
+    paddr = isa_mmu_translate(addr, len, 0);
+
+    // NOTE: tmp test for equiv mapping
+    assert(paddr == addr);
+  }
+
+  paddr_write(paddr, len, data, is_gst);
 }

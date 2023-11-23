@@ -19,6 +19,8 @@ deps_/home/yfxiang/njupa/ics2023/nemu/build/obj-riscv32-nemu-interpreter/src/isa
   /home/yfxiang/njupa/ics2023/nemu/include/memory/vaddr.h \
   /home/yfxiang/njupa/ics2023/nemu/include/memory/paddr.h \
     $(wildcard include/config/pc/reset/offset.h) \
+  /home/yfxiang/njupa/ics2023/nemu/include/memory/host.h \
+    $(wildcard include/config/rt/check.h) \
 
 /home/yfxiang/njupa/ics2023/nemu/build/obj-riscv32-nemu-interpreter/src/isa/riscv32/system/mmu.o: $(deps_/home/yfxiang/njupa/ics2023/nemu/build/obj-riscv32-nemu-interpreter/src/isa/riscv32/system/mmu.o)
 
