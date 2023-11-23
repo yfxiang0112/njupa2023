@@ -44,6 +44,10 @@ paddr_t isa_mmu_translate(vaddr_t vaddr, int len, int type) {
   ppn0 = pte   & 0x000ffc00;
 
   vaddr_t paddr = (ppn1<<2) | (ppn0<<2) | voff;
+
+  // NOTE: for tmp test of equiv mapping
+  assert(paddr == vaddr);
+
   return paddr;
 
   //return MEM_RET_FAIL;
