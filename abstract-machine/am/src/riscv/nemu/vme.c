@@ -88,13 +88,12 @@ void map(AddrSpace *as, void *va, void *pa, int prot) {
   // TODO: 2nd lvl pt?
   //
   pte = (ppn1>>2) | (ppn0>>2) | x | w | r | v;
-  if (pte==0x2840040f) printf("map: va=%x, pa=%x, pte=%x, ppn1=%x, ppn0=%x, ppn1>>2=%x\n", 
-                              va, pa, pte, ppn1, ppn0, ppn1>>2);
   // NOTE: for i=0 vaddr mapping
 
   //printf("pdir=%x, vpn0=%x, pte_addr=%x\n", pdir, vpn0, pdir * PGSIZE + vpn0 * PTESIZE );
   uintptr_t pte_addr = pdir * PGSIZE + vpn1 * PTESIZE;
   //assert(pte_addr <= (uintptr_t)(as->ptr) + PGSIZE); // NOTE: tmp test for equiv mapping
+  printf("%x\n", pte_addr);
   *(uintptr_t*)pte_addr = pte;
   //printf("test\n");
   
