@@ -63,6 +63,9 @@ void do_syscall(Context *c) {
      
       printf("brk=%x, inc=%d, a3=%x\n", a[1], a[2], a[3]);
 
+      char *temp = (char*)10;
+      char temp2 = *temp;
+      printf("%c\n", temp2);
 
       if (a[2] > 0x8000000) { c->GPRx=-1; break; }
       assert(0);
