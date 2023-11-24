@@ -35,6 +35,7 @@ paddr_t isa_mmu_translate(vaddr_t vaddr, int len, int type) {
   paddr_t pte_addr = satp_ppn * 4096 + (vpn1>>22) * 4;
 
   word_t pte = host_read(guest_to_host(pte_addr), 4);
+  printf("pte_addr = %x, pte = %x\n", pte_addr, pte);
   assert(pte & 1);
 
   if ((pte&0x2)==0 && (pte&0x4)==0 && (pte&0x8)==0) {
