@@ -42,13 +42,15 @@ uintptr_t loader(PCB *pcb, const char *filename) {
           assert(&(pcb->as));
           map(&(pcb->as), load_va, load_pg, 0);
 
+          /*
           printf("vaddr=%x\n", load_va);
           if ((uintptr_t)load_va <= 0x40011ae8 && (uintptr_t)load_va+PGSIZE > 0x40011ae8) {
             printf("test\n");
           }
+          */
 
           fs_read(fd, load_pg, PGSIZE);
-          //load_va += PGSIZE;
+          load_va += PGSIZE;
         }
       } else {
         fs_read(fd, load_va, ph.p_filesz);
