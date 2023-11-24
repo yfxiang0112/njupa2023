@@ -60,6 +60,7 @@ uintptr_t loader(PCB *pcb, const char *filename) {
       } else {
         fs_read(fd, load_va, ph.p_filesz);
       }
+      printf("test:63\n");
       memset((char*)(ph.p_vaddr+ph.p_filesz), 0, ph.p_memsz-ph.p_filesz);
     }
   }
