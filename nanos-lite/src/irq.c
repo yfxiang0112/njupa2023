@@ -9,7 +9,6 @@ static Context* do_event(Event e, Context* c) {
       return schedule(c);
 
     case EVENT_SYSCALL:
-      printf("test @ irq.c:11\n");
       do_syscall(c);
       break;
 
