@@ -35,8 +35,10 @@ uintptr_t loader(PCB *pcb, const char *filename) {
       fs_lseek(fd, ph.p_offset, 0);
 
       if (pcb) {
+        printf("&(pcb->as) = %x\n", &(pcb->as));
         while ((uintptr_t)load_va+PGSIZE <= ph.p_memsz) {
           load_pg = new_page(1);
+          assert(&(pcb->as));
           map(&(pcb->as), load_va, load_pg, 0);
 
           fs_read(fd, load_va, PGSIZE);
