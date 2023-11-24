@@ -75,7 +75,9 @@ int _write(int fd, void *buf, size_t count) {
 }
 
 void *_sbrk(intptr_t increment) {
-  assert(0);
+  printf("sbrk assert\n");
+  _exit(1);
+  
   //if(increment >= 0) memset((char*)(pb_addr), 0, increment);
   //else memset((char*)(pb_addr+increment), 0, -increment);
   /*
