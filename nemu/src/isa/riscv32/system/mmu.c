@@ -37,7 +37,7 @@ paddr_t isa_mmu_translate(vaddr_t vaddr, int len, int type) {
   word_t pte = host_read(guest_to_host(pte_addr), 4);
   if(!(pte&1)) {
     printf("vaddr=%x, pte_addr=%x, pte = %x\n", vaddr, pte_addr, pte);
-    panic("invalid PTE\n");
+    panic("invalid PTE");
   } 
 
   if ((pte&0x2)==0 && (pte&0x4)==0 && (pte&0x8)==0) {
