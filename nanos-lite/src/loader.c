@@ -38,31 +38,18 @@ uintptr_t loader(PCB *pcb, const char *filename) {
         printf("&(pcb->as) = %x\n", &(pcb->as));
         printf("start=%x, end=%x\n", ph.p_vaddr, ph.p_vaddr+ph.p_memsz);
         while ((uintptr_t)load_va <= ph.p_vaddr+ph.p_memsz) {
-          printf(":41 load_va = %x\n", load_va);
           load_pg = new_page(1);
           memset(load_pg, 0, PGSIZE);
-          printf(":43 load_va = %x\n", load_va);
           assert(&(pcb->as));
           map(&(pcb->as), load_va, load_pg, 0);
 
-          printf("va=%x, pa=%x\n", load_va, load_pg);
-          if ((uintptr_t)load_va <= 0x40011ae8 && (uintptr_t)load_va+PGSIZE > 0x40011ae8) {
-            printf("test\n");
-          }
-
           fs_read(fd, load_pg, PGSIZE);
-          if ((uintptr_t)load_va <= 0x40011ae8 && (uintptr_t)load_va+PGSIZE > 0x40011ae8) {
-            printf("test1\n");
-          }
-
           load_va += PGSIZE;
-          printf(":58 load_va = %x\n", load_va);
         }
       } else {
         fs_read(fd, load_va, ph.p_filesz);
         memset((char*)(ph.p_vaddr+ph.p_filesz), 0, ph.p_memsz-ph.p_filesz);
       }
-      printf("test:63\n");
     }
   }
   
