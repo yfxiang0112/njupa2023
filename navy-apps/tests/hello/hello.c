@@ -14,6 +14,7 @@ int main(int argc, char *argv[], char *envp[]) {
   int i = 2;
   volatile int j = 0;
   while (1) {
+    write(1, "test\n", 6);
     j ++;
     if (j == 10000) {
       printf("Hello World from Navy-apps for the %dth time!\n", i ++);

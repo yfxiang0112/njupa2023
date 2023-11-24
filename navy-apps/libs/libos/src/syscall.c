@@ -107,7 +107,7 @@ void *_sbrk(intptr_t increment) {
   pb_addr += (int32_t)increment;
   //printf("%d\n", pb_addr);
 
-  return (void *)pb_ret;
+  return (char *)pb_ret;
   
   //return (void *)-1;
 }
