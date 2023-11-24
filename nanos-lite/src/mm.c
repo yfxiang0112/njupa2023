@@ -26,7 +26,7 @@ void free_page(void *p) {
 /* The brk() system call handler. */
 int mm_brk(uintptr_t brk) {
   uintptr_t curbrk = current->max_brk;
-  printf("brk=%x, curbrk=%x\n",brk, curbrk);
+  //printf("brk=%x, curbrk=%x\n",brk, curbrk);
   if (brk > curbrk) {
     while (brk > curbrk) {
       map(&(current->as), (char*)curbrk, pg_alloc(PGSIZE), 0b111);
