@@ -28,6 +28,7 @@ int mm_brk(uintptr_t brk) {
   //return 0;
   //assert(0);
   uintptr_t curbrk = current->max_brk;
+  printf("brk=%x, curbrk=%x\n",brk, curbrk);
   if (brk > curbrk) {
     //assert(0);
     while (brk > curbrk) {

@@ -39,7 +39,6 @@ uintptr_t loader(PCB *pcb, const char *filename) {
       if (pcb) {
         //printf("&(pcb->as) = %x\n", &(pcb->as));
         //printf("start=%x, end=%x\n", ph.p_vaddr, ph.p_vaddr+ph.p_memsz);
-        pcb->max_brk = ph.p_vaddr + ph.p_memsz;
 
         while ((uintptr_t)load_va <= ph.p_vaddr+ph.p_memsz) {
           load_pg = new_page(1);
@@ -61,7 +60,9 @@ uintptr_t loader(PCB *pcb, const char *filename) {
           load_va += PGSIZE;
           if (!pa_start) pa_start = (uintptr_t)load_pg;
         }
-        memset((char*)(pa_start+ph.p_filesz), 0, ph.p_memsz-ph.p_filesz);
+        memset((char*)(pa_start+ph.p_filesz), 0, (uintptr_t)load_va-pa_start-ph.p_filesz);
+        pcb->max_brk = (uintptr_t)load_va;
+        //pcb->max_brk = ph.p_vaddr + ph.p_memsz;
       } else {
         fs_read(fd, load_va, ph.p_filesz);
         memset((char*)(ph.p_vaddr+ph.p_filesz), 0, ph.p_memsz-ph.p_filesz);
