@@ -5,7 +5,6 @@
 static Context* (*user_handler)(Event, Context*) = NULL;
 
 Context* __am_irq_handle(Context *c) {
-  printf("test@ira_handle\n");
   __am_get_cur_as(c);
 
   if (user_handler) {
