@@ -25,7 +25,7 @@ word_t vaddr_ifetch(vaddr_t addr, int len) {
     paddr = isa_mmu_translate(addr, len, 0);
 
     // NOTE: tmp test for equiv mapping
-    assert(paddr == addr);
+    // assert(paddr == addr);
   }
   return paddr_read(paddr, len, false);
 }
@@ -39,7 +39,7 @@ word_t vaddr_read(vaddr_t addr, int len, bool is_gst) {
     paddr = isa_mmu_translate(addr, len, 0);
 
     // NOTE: tmp test for equiv mapping
-    assert(paddr == addr);
+    // assert(paddr == addr);
   }
   return paddr_read(paddr, len, is_gst);
 }
@@ -53,7 +53,7 @@ void vaddr_write(vaddr_t addr, int len, word_t data, bool is_gst) {
     paddr = isa_mmu_translate(addr, len, 0);
 
     // NOTE: tmp test for equiv mapping
-    assert(paddr == addr);
+    // assert(paddr == addr);
   }
 
   paddr_write(paddr, len, data, is_gst);
