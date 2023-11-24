@@ -14,7 +14,7 @@ uintptr_t loader(PCB *pcb, const char *filename) {
   Elf_Ehdr elf;
   Elf_Phdr ph;
   size_t fd;
-  char *load_va=0, *load_pg=0;
+  char *load_va, *load_pg;
 
   fd = fs_open(filename, 0, 0);
   if(fd==2) { return -2; }
@@ -61,9 +61,11 @@ uintptr_t loader(PCB *pcb, const char *filename) {
         }
 
 
+        /*
         for (i=0; i<ph.p_memsz-ph.p_filesz; i+=4) {
           printf("%x\n", *(uint32_t*)(ph.p_filesz-(uintptr_t)load_va+(uintptr_t)load_pg));
         }
+        */
 
       } else {
         fs_read(fd, load_va, ph.p_filesz);
