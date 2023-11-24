@@ -60,7 +60,7 @@ uintptr_t loader(PCB *pcb, const char *filename) {
           load_va += PGSIZE;
           if (!pa_start) pa_start = (uintptr_t)load_pg;
         }
-        printf("loadva=%x, fileend=%x\n", (uintptr_t)load_pg+PGSIZE, pa_start+ph.p_filesz);
+        printf("loadva=%x, pastart=%x, fileend=%x\n", (uintptr_t)load_pg+PGSIZE, pa_start, pa_start+ph.p_filesz);
         memset((char*)(pa_start+ph.p_filesz), 0, (uintptr_t)load_pg+PGSIZE-pa_start-ph.p_filesz);
         pcb->max_brk = (uintptr_t)load_va;
         //pcb->max_brk = ph.p_vaddr + ph.p_memsz;
