@@ -44,7 +44,6 @@ uintptr_t loader(PCB *pcb, const char *filename) {
           map(&(pcb->as), load_va, load_pg, 0b111);
 
           fs_read(fd, load_pg, PGSIZE);
-          load_va += PGSIZE;
 
           if ((uintptr_t)load_va<0x40004a68 && (uintptr_t)load_va+PGSIZE>0x40004a68) {
             printf("orig paddr=%x\n", 0x40004a68 - (uintptr_t)load_va + (uintptr_t)load_pg);
@@ -54,6 +53,8 @@ uintptr_t loader(PCB *pcb, const char *filename) {
             }
 
           }
+
+          load_va += PGSIZE;
         }
       } else {
         fs_read(fd, load_va, ph.p_filesz);
