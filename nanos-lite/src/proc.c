@@ -21,8 +21,8 @@ void hello_fun(void *arg) {
 }
 
 void init_proc() {
-  context_kload(&pcb[0], hello_fun, (void*)0);
-  context_uload(&pcb[1], IMAGE_FILE, 
+  //context_kload(&pcb[0], hello_fun, (void*)0);
+  context_uload(&pcb[0], IMAGE_FILE, 
                 //((char* const[]) {"--skip", NULL} ),
                 ((char* const[]) { NULL} ),
                 ((char* const[]) { NULL} ));
@@ -37,7 +37,6 @@ void init_proc() {
 }
 
 void context_kload(PCB* n_pcb, void (*entry)(void *), void *arg) {
-  printf("kstack=%x\n", n_pcb->stack);
   n_pcb->cp = kcontext((Area) { n_pcb->stack, n_pcb + 1 }, entry, arg);
 }
 
