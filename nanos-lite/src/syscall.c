@@ -62,7 +62,7 @@ void do_syscall(Context *c) {
       //TODO: 
      
       printf("brk=%x, inc=%d, a3=%x\n", a[1], a[2], a[3]);
-      if (a[2] > 0x8000000) { c->GPRx=0; break; }
+      if (a[2] > 0x8000000) { c->GPRx=-1; break; }
       assert(0);
       for (uint32_t i=0; i<(int32_t)a[2]; i++) {
         *(uint32_t*)(a[1] + i) = 0;
