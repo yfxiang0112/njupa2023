@@ -5,8 +5,8 @@
 #include <BMP.h>
 
 int main() {
-  assert(0);
   NDL_Init(0);
+  assert(0);
   int w, h;
   void *bmp = BMP_Load("/share/pictures/projectn.bmp", &w, &h);
   assert(bmp);
