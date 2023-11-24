@@ -27,10 +27,16 @@ void free_page(void *p) {
 int mm_brk(uintptr_t brk) {
   //return 0;
   //assert(0);
-  if (brk > current->max_brk) {
-    assert(0);
+  uintptr_t curbrk = current->max_brk;
+  if (brk > curbrk) {
+    //assert(0);
+    while (brk - curbrk > 0) {
+      map(&(current->as), (char*)curbrk, pg_alloc(PGSIZE), 0b111);
+      curbrk += PGSIZE;
+    }
+    current->max_brk = curbrk;
   }
-  return -1;
+  return 0;
 }
 
 void init_mm() {
