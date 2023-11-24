@@ -84,22 +84,30 @@ void map(AddrSpace *as, void *va, void *pa, int prot) {
 
   pte1_addr = pdir * PGSIZE + (vpn1>>22) * PTESIZE;
 
-  if ((uintptr_t)va < 0x80000000) {
-    printf("va = %x, pa = %x\n", va, pa);
-  }
+  if ((uintptr_t)va < 0x80000000) printf("test:87\n");
 
   if (*(uintptr_t*)pte1_addr == 0) {
     pte0_addr = (uintptr_t) pgalloc_usr(PGSIZE);
+    if ((uintptr_t)va < 0x80000000) printf("test:91\n");
     *(uintptr_t*)pte1_addr = ((pte0_addr & 0xfffff000) >>2) | v;
+    if ((uintptr_t)va < 0x80000000) printf("test:93\n");
 
   } else {
+    if ((uintptr_t)va < 0x80000000) printf("test:96\n");
     uintptr_t pte_ppn = ((*(uintptr_t*)pte1_addr) & 0xfffffc00) >> 10;
+    if ((uintptr_t)va < 0x80000000) printf("test:98\n");
     pte0_addr = pte_ppn * PGSIZE + (vpn0>>12) * PTESIZE; 
   }
   //printf("pte0_addr = %x, va=%x\n", pte0_addr, va);
+  if ((uintptr_t)va < 0x80000000) printf("test:102\n");
 
   pte = (ppn1>>2) | (ppn0>>2) | x | w | r | v;
   *(uintptr_t*)pte0_addr = pte;
+
+  if ((uintptr_t)va < 0x80000000) {
+    printf("&pte1 = %x, &pte0 = %x, va = %x, pa = %x\n", va, pa);
+  }
+
 }
 
 Context *ucontext(AddrSpace *as, Area kstack, void *entry) {
