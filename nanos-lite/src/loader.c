@@ -60,6 +60,7 @@ uintptr_t loader(PCB *pcb, const char *filename) {
             uintptr_t endva = ph.p_filesz + ph.p_vaddr - (uintptr_t)load_va + (uintptr_t)load_pg;
             for (int i=0; i<ph.p_memsz-ph.p_filesz; i+=4) {
               printf("%x\n", *(uint32_t*)(endva+i));
+              *(uint32_t*)(endva+i) = 0;
             }
 
           }
