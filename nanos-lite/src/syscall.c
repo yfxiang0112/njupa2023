@@ -1,5 +1,6 @@
 #include <common.h>
 #include <proc.h>
+#include <memory.h>
 #include "syscall.h"
 #include <sys/time.h>
 
@@ -59,25 +60,11 @@ void do_syscall(Context *c) {
       break;
 
     case SYS_brk:
-      //TODO: 
      
       printf("brk=%x, inc=%x, a3=%x\n", a[1], a[2], a[3]);
+      uint32_t ret = mm_brk((uintptr_t)a[1] + (int32_t)a[2]);
 
-      /*
-      char *temp = (char*)10;
-      char temp2 = *temp;
-      printf("%c\n", temp2);
-      */
-
-      if (a[2] > 0x8000000) { c->GPRx=-1; break; }
-      assert(0);
-      for (uint32_t i=0; i<(int32_t)a[2]; i++) {
-        *(uint32_t*)(a[1] + i) = 0;
-      }
-
-
-      c->GPRx = 0;
-      
+      c->GPRx = ret;
       break;
 
     case SYS_execve:
