@@ -84,6 +84,10 @@ void map(AddrSpace *as, void *va, void *pa, int prot) {
 
   pte1_addr = pdir * PGSIZE + (vpn1>>22) * PTESIZE;
 
+  if ((uintptr_t)va < 0x80000000) {
+    printf("va = %x, pa = %x\n", va, pa);
+  }
+
   if (*(uintptr_t*)pte1_addr == 0) {
     pte0_addr = (uintptr_t) pgalloc_usr(PGSIZE);
     *(uintptr_t*)pte1_addr = ((pte0_addr & 0xfffff000) >>2) | v;
