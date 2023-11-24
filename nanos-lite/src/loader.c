@@ -74,6 +74,7 @@ uintptr_t loader(PCB *pcb, const char *filename) {
   }
   
   fs_close(fd);
+  printf("entry=%x\n", elf.e_entry);
   return elf.e_entry;
 }
 
