@@ -66,6 +66,9 @@ paddr_t isa_mmu_translate(vaddr_t vaddr, int len, int type) {
     printf("trans paddr = %x\n", paddr); 
     printf("trans val=%x\n", host_read(guest_to_host(paddr), 4));
   }
+  if (paddr == 0x8216ba68) {
+    printf("paddr check, vaddr=%x\n", vaddr);
+  }
 
   return paddr;
 }

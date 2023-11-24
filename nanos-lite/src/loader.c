@@ -47,9 +47,10 @@ uintptr_t loader(PCB *pcb, const char *filename) {
 
           if ((uintptr_t)load_va<0x40004a68 && (uintptr_t)load_va+PGSIZE>0x40004a68) {
             printf("orig paddr=%x\n", 0x40004a68 - (uintptr_t)load_va + (uintptr_t)load_pg);
+            printf("orig val = %08x\n", *(uint32_t*)(0x40004a68 - (uintptr_t)load_va + (uintptr_t)load_pg));
             for (int i=-16; i<16; i+=4) {
 
-              printf("content = %08x\n", *(uint32_t*)(0x40004a68 - (uintptr_t)load_va + (uintptr_t)load_pg + i));
+              printf("%08x\n", *(uint32_t*)(0x40004a68 - (uintptr_t)load_va + (uintptr_t)load_pg + i));
             }
 
           }
