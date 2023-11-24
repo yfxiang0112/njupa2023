@@ -2,12 +2,13 @@
 #include <proc.h>
 
 static Context* do_event(Event e, Context* c) {
-  assert(0);
+  printf("test @irq.c:5\n");
   switch (e.event) {
     case EVENT_YIELD: 
       return schedule(c);
 
     case EVENT_SYSCALL:
+      printf("test @ irq.c:11\n");
       do_syscall(c);
       break;
 
