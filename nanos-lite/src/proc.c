@@ -98,6 +98,8 @@ size_t context_uload(PCB* n_pcb, const char* filename, char *const argv[], char 
   *((uintptr_t*)usp) = n_arg;
   (n_pcb->cp)->GPRx = usp;
 
+  printf("uarea.start=%x, end=%x\n", n_pcb->as.area.start, n_pcb->as.area.end);
+
   return 0;
 
   /*
