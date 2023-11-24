@@ -35,8 +35,8 @@ uintptr_t loader(PCB *pcb, const char *filename) {
       fs_lseek(fd, ph.p_offset, 0);
 
       if (pcb) {
-        printf("&(pcb->as) = %x\n", &(pcb->as));
-        printf("start=%x, end=%x\n", ph.p_vaddr, ph.p_vaddr+ph.p_memsz);
+        //printf("&(pcb->as) = %x\n", &(pcb->as));
+        //printf("start=%x, end=%x\n", ph.p_vaddr, ph.p_vaddr+ph.p_memsz);
         while ((uintptr_t)load_va <= ph.p_vaddr+ph.p_memsz) {
           load_pg = new_page(1);
           memset(load_pg, 0, PGSIZE);
@@ -45,6 +45,7 @@ uintptr_t loader(PCB *pcb, const char *filename) {
 
           fs_read(fd, load_pg, PGSIZE);
 
+          /*
           if ((uintptr_t)load_va<0x40004a68 && (uintptr_t)load_va+PGSIZE>0x40004a68) {
             printf("orig paddr=%x\n", 0x40004a68 - (uintptr_t)load_va + (uintptr_t)load_pg);
             printf("orig val = %08x\n", *(uint32_t*)(0x40004a68 - (uintptr_t)load_va + (uintptr_t)load_pg));
@@ -54,6 +55,7 @@ uintptr_t loader(PCB *pcb, const char *filename) {
             }
 
           }
+          */
 
           load_va += PGSIZE;
         }
