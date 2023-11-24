@@ -9,11 +9,10 @@ void call_main(uintptr_t *args) {
   int argc = *args;
   char **argv = (char **)(args + 1);
   char **envp = (char **)(args + argc + 2);
-  asm volatile ("ebreak");
-
 
   char *empty[] =  {NULL };
   environ = envp;
+  asm volatile ("ebreak");
   exit(main(argc, argv, envp));
   assert(0);
 }
