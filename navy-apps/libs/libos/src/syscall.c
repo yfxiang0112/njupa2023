@@ -95,7 +95,7 @@ void *_sbrk(intptr_t increment) {
   }
   */
 
-  _write(1, "test:98\n", 6);
+  _write(1, "test:98\n", 11);
   /*
   if (_syscall_(SYS_brk, pb_addr, increment, 0) == 0) {
     uintptr_t pb_ret = pb_addr;
@@ -106,6 +106,8 @@ void *_sbrk(intptr_t increment) {
   */
   uintptr_t pb_ret = pb_addr;
   pb_addr += (int32_t)increment;
+
+  _write(1, "test:110\n", 12);
 
   return (char *)pb_ret;
   
