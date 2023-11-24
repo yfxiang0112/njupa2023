@@ -8,7 +8,6 @@ static char curr_pathname[64] = IMAGE_FILE;
 extern PCB *current;
 
 void do_syscall(Context *c) {
-  printf("test @syscall.c:11\n");
   uintptr_t a[4];
   a[0] = c->GPR1;
   a[1] = c->GPR2;

@@ -123,5 +123,4 @@ Context* schedule(Context *prev) {
     }
   }
   assert(0);
-  return current->cp;
 }
