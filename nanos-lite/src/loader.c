@@ -14,7 +14,7 @@ uintptr_t loader(PCB *pcb, const char *filename) {
   Elf_Ehdr elf;
   Elf_Phdr ph;
   size_t fd;
-  char *load_va, *load_pg=0;
+  char *load_va=0, *load_pg=0;
 
   fd = fs_open(filename, 0, 0);
   if(fd==2) { return -2; }
@@ -38,7 +38,6 @@ uintptr_t loader(PCB *pcb, const char *filename) {
         //printf("&(pcb->as) = %x\n", &(pcb->as));
         //printf("start=%x, end=%x\n", ph.p_vaddr, ph.p_vaddr+ph.p_memsz);
         while ((uintptr_t)load_va <= ph.p_vaddr+ph.p_memsz) {
-          printf("test\n");
           load_pg = new_page(1);
           memset(load_pg, 0, PGSIZE);
           assert(&(pcb->as));
