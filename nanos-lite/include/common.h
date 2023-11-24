@@ -14,7 +14,7 @@
 #include <klib-macros.h>
 #include <debug.h>
 
-#define IMAGE_FILE "/bin/nterm"
+#define IMAGE_FILE "/bin/dummy"
 
 
 size_t ramdisk_read(void *buf, size_t offset, size_t len);

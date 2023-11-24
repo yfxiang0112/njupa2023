@@ -1,5 +1,6 @@
 #include <am.h>
 #include <nemu.h>
+#include <riscv/riscv.h>
 #include <klib.h>
 
 static AddrSpace kas = {};
@@ -113,6 +114,8 @@ Context *ucontext(AddrSpace *as, Area kstack, void *entry) {
   cp -> gpr[2] = (uintptr_t)cp;
   //ksp -> gpr[10] = (uintptr_t)arg;
   cp -> mepc = (uintptr_t)entry;
+
+  cp -> pdir = as -> ptr;
 
   return cp;
 }

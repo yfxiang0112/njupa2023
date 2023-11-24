@@ -97,7 +97,7 @@ size_t context_uload(PCB* n_pcb, const char* filename, char *const argv[], char 
     return -2;
   }
 
-  n_pcb->cp = ucontext(NULL, (Area) { (void*)&(n_pcb->stack[0]), (void*)(n_pcb + 1) }, (void*)entry);
+  n_pcb->cp = ucontext(&(n_pcb->as), (Area) { (void*)&(n_pcb->stack[0]), (void*)(n_pcb + 1) }, (void*)entry);
 
   usp -= sizeof(uintptr_t);
   *((uintptr_t*)usp) = n_arg;
