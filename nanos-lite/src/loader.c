@@ -42,6 +42,7 @@ uintptr_t loader(PCB *pcb, const char *filename) {
           assert(&(pcb->as));
           map(&(pcb->as), load_va, load_pg, 0);
 
+          printf("vaddr=%x\n", load_va);
           if ((uintptr_t)load_va <= 0x40011ae8 && (uintptr_t)load_va+PGSIZE > 0x40011ae8) {
             printf("test\n");
           }
