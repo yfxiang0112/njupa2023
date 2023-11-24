@@ -49,6 +49,9 @@ uintptr_t loader(PCB *pcb, const char *filename) {
 
           fs_read(fd, load_pg, PGSIZE);
           load_va += PGSIZE;
+          if ((uintptr_t)load_va <= 0x40011ae8 && (uintptr_t)load_va+PGSIZE > 0x40011ae8) {
+            printf("test\n");
+          }
         }
       } else {
         fs_read(fd, load_va, ph.p_filesz);
