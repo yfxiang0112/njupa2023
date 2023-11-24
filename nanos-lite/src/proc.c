@@ -44,8 +44,13 @@ size_t context_uload(PCB* n_pcb, const char* filename, char *const argv[], char 
   //fb_write(NULL, 0, io_read(AM_GPU_CONFIG).width*io_read(AM_GPU_CONFIG).width);
   protect(&(n_pcb->as));
   io_write(AM_GPU_FBDRAW, 0, 0, NULL, io_read(AM_GPU_CONFIG).width, io_read(AM_GPU_CONFIG).height, true);
-  void *new_stack = new_page(8);
-  uintptr_t usp = (uintptr_t)(new_stack + 8*PGSIZE - 1);
+  void *new_stack = new_page(STACK_SIZE / PGSIZE);
+  uintptr_t usp = (uintptr_t)(new_stack + STACK_SIZE - 1);
+
+  uintptr_t ustack_va = (uintptr_t)(n_pcb->as.area.end) - STACK_SIZE;
+  for (int i=0; i<STACK_SIZE/PGSIZE; i++) {
+    map(&(n_pcb->as), (char*)(ustack_va+ PGSIZE*i), (char*)(new_stack+ PGSIZE*i), 0b111);
+  }
 
   int n_arg=0, n_env=0;
   for (; argv[n_arg]!=NULL; n_arg++); 
@@ -97,8 +102,6 @@ size_t context_uload(PCB* n_pcb, const char* filename, char *const argv[], char 
   usp -= sizeof(uintptr_t);
   *((uintptr_t*)usp) = n_arg;
   (n_pcb->cp)->GPRx = usp;
-
-  printf("uarea.start=%x, end=%x\n", n_pcb->as.area.start, n_pcb->as.area.end);
 
   return 0;
 
