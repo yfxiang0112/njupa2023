@@ -12,7 +12,6 @@ void call_main(uintptr_t *args) {
 
   char *empty[] =  {NULL };
   environ = envp;
-  asm volatile ("ebreak");
   exit(main(argc, argv, envp));
   assert(0);
 }
