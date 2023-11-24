@@ -56,17 +56,16 @@ uintptr_t loader(PCB *pcb, const char *filename) {
 
           }
           */
+          if ((uintptr_t)load_va + PGSIZE > ph.p_vaddr + ph.p_memsz) {
+            uintptr_t endva = ph.p_filesz + ph.p_vaddr - (uintptr_t)load_va + (uintptr_t)load_pg;
+            for (int i=0; i<ph.p_memsz-ph.p_filesz; i+=4) {
+              printf("%x\n", *(uint32_t*)(endva+i));
+            }
+
+          }
 
           load_va += PGSIZE;
         }
-
-
-        /*
-        for (i=0; i<ph.p_memsz-ph.p_filesz; i+=4) {
-          printf("%x\n", *(uint32_t*)(ph.p_filesz-(uintptr_t)load_va+(uintptr_t)load_pg));
-        }
-        */
-
       } else {
         fs_read(fd, load_va, ph.p_filesz);
         memset((char*)(ph.p_vaddr+ph.p_filesz), 0, ph.p_memsz-ph.p_filesz);
