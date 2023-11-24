@@ -60,10 +60,10 @@ uintptr_t loader(PCB *pcb, const char *filename) {
           load_va += PGSIZE;
           if (!pa_start) pa_start = (uintptr_t)load_pg;
         }
-        printf("pgend=%x, pastart=%x, fileend=%x, memend=%x\n", (uintptr_t)load_pg+PGSIZE, pa_start, pa_start+ph.p_filesz, pa_start+ph.p_memsz);
-        printf("set_len=%x\n", ((uintptr_t)load_pg-pa_start-ph.p_filesz)%PGSIZE);
-        uintptr_t set_len = ((uintptr_t)load_pg-pa_start-ph.p_filesz)%PGSIZE;
-        memset((char*)(pa_start+ph.p_filesz+4), 0, set_len-4);//(uintptr_t)load_pg+PGSIZE-pa_start-ph.p_filesz);
+        //printf("pgend=%x, pastart=%x, fileend=%x, memend=%x\n", (uintptr_t)load_pg+PGSIZE, pa_start, pa_start+ph.p_filesz, pa_start+ph.p_memsz);
+        //printf("set_len=%x\n", ((uintptr_t)load_pg-pa_start-ph.p_filesz)%PGSIZE);
+        // NOTE: the first mmbrk page might be not zeroed out
+        memset((char*)(pa_start+ph.p_filesz+1), 0, ph.p_memsz-ph.p_filesz);//(uintptr_t)load_pg+PGSIZE-pa_start-ph.p_filesz);
         pcb->max_brk = (uintptr_t)load_va;
         //pcb->max_brk = ph.p_vaddr + ph.p_memsz;
       } else {
