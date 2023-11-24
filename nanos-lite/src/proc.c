@@ -91,7 +91,6 @@ size_t context_uload(PCB* n_pcb, const char* filename, char *const argv[], char 
   if (!entry || entry==-2) {
     return -2;
   }
-  printf("entry = %x\n", entry);
 
   n_pcb->cp = ucontext(NULL, (Area) { (void*)&(n_pcb->stack[0]), (void*)(n_pcb + 1) }, (void*)entry);
 

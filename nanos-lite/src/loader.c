@@ -41,7 +41,7 @@ uintptr_t loader(PCB *pcb, const char *filename) {
           load_pg = new_page(1);
           memset(load_pg, 0, PGSIZE);
           assert(&(pcb->as));
-          map(&(pcb->as), load_va, load_pg, 0);
+          map(&(pcb->as), load_va, load_pg, 0b111);
 
           fs_read(fd, load_pg, PGSIZE);
           load_va += PGSIZE;
