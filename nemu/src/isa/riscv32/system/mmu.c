@@ -37,7 +37,7 @@ paddr_t isa_mmu_translate(vaddr_t vaddr, int len, int type) {
   word_t pte = host_read(guest_to_host(pte_addr), 4);
   if(!(pte&1)) {
     printf("vaddr=%x, pte_addr=%x, pte = %x\n", vaddr, pte_addr, pte);
-    panic("invalid PTE");
+    panic("invalid PTE: vaddr=%x, pte_addr=%x, pte = %x\n", vaddr, pte_addr, pte);
   } 
 
   if ((pte&0x2)==0 && (pte&0x4)==0 && (pte&0x8)==0) {
@@ -45,7 +45,10 @@ paddr_t isa_mmu_translate(vaddr_t vaddr, int len, int type) {
     paddr_t pte0_addr = ((pte & 0xfffffc00)>>10) * 4096 + (vpn0>>12) * 4;
     pte = host_read(guest_to_host(pte0_addr), 4);
 
-    assert(pte & 1);
+    if(!(pte&1)) {
+      printf("vaddr=%x, pte_addr=%x, pte = %x\n", vaddr, pte_addr, pte);
+      panic("invalid PTE: vaddr=%x, pte_addr=%x, pte = %x\n", vaddr, pte_addr, pte);
+    } 
 
     ppn1 = pte   & 0xfff00000;
     ppn0 = pte   & 0x000ffc00;
