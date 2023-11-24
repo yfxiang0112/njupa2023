@@ -50,6 +50,7 @@ uintptr_t loader(PCB *pcb, const char *filename) {
           fs_read(fd, load_va, PGSIZE);
           load_va += PGSIZE;
         }
+        printf("test\n");
       } else {
         fs_read(fd, load_va, ph.p_filesz);
       }
