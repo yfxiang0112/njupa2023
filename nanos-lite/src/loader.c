@@ -1,4 +1,5 @@
 #include <proc.h>
+#include <memory.h>
 #include <elf.h>
 
 #ifdef __LP64__
@@ -13,7 +14,7 @@ uintptr_t loader(PCB *pcb, const char *filename) {
   Elf_Ehdr elf;
   Elf_Phdr ph;
   size_t fd;
-  char *load_ptr;
+  char *load_va, *load_pg;
 
   fd = fs_open(filename, 0, 0);
   if(fd==2) { return -2; }
@@ -30,10 +31,21 @@ uintptr_t loader(PCB *pcb, const char *filename) {
     fs_read(fd, &ph, elf.e_phentsize);
 
     if (ph.p_type == 1) {
-      load_ptr = (char*) ph.p_vaddr;
+      load_va = (char*) ph.p_vaddr;
       fs_lseek(fd, ph.p_offset, 0);
-      fs_read(fd, load_ptr, ph.p_filesz);
-      memset(load_ptr+ph.p_filesz, 0, ph.p_memsz-ph.p_filesz);
+
+      if (pcb) {
+        while ((uintptr_t)load_va+PGSIZE <= ph.p_memsz) {
+          load_pg = new_page(1);
+          map(&(pcb->as), load_va, load_pg, 0);
+
+          fs_read(fd, load_va, PGSIZE);
+          load_va += PGSIZE;
+        }
+      } else {
+        fs_read(fd, load_va, ph.p_filesz);
+      }
+      memset((char*)(ph.p_vaddr+ph.p_filesz), 0, ph.p_memsz-ph.p_filesz);
     }
   }
   
