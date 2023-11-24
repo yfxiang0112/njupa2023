@@ -15,6 +15,7 @@ uintptr_t loader(PCB *pcb, const char *filename) {
   Elf_Phdr ph;
   size_t fd;
   char *load_va, *load_pg;
+  uintptr_t pa_start;
 
   fd = fs_open(filename, 0, 0);
   if(fd==2) { return -2; }
@@ -32,6 +33,7 @@ uintptr_t loader(PCB *pcb, const char *filename) {
 
     if (ph.p_type == 1) {
       load_va = (char*) ph.p_vaddr;
+      pa_start = 0;
       fs_lseek(fd, ph.p_offset, 0);
 
       if (pcb) {
@@ -39,7 +41,6 @@ uintptr_t loader(PCB *pcb, const char *filename) {
         //printf("start=%x, end=%x\n", ph.p_vaddr, ph.p_vaddr+ph.p_memsz);
         while ((uintptr_t)load_va <= ph.p_vaddr+ph.p_memsz) {
           load_pg = new_page(1);
-          memset(load_pg, 0, PGSIZE);
           assert(&(pcb->as));
           map(&(pcb->as), load_va, load_pg, 0b111);
 
@@ -56,6 +57,7 @@ uintptr_t loader(PCB *pcb, const char *filename) {
 
           }
           */
+          /*
           if ((uintptr_t)load_va + PGSIZE > ph.p_vaddr + ph.p_memsz) {
             uintptr_t endva = ph.p_filesz + ph.p_vaddr - (uintptr_t)load_va + (uintptr_t)load_pg;
             for (int i=0; i<ph.p_memsz-ph.p_filesz; i+=4) {
@@ -64,9 +66,12 @@ uintptr_t loader(PCB *pcb, const char *filename) {
             }
 
           }
+          */
 
           load_va += PGSIZE;
+          if (!pa_start) pa_start = (uintptr_t)load_pg;
         }
+        memset((char*)(pa_start+ph.p_filesz), 0, ph.p_memsz-ph.p_filesz);
       } else {
         fs_read(fd, load_va, ph.p_filesz);
         memset((char*)(ph.p_vaddr+ph.p_filesz), 0, ph.p_memsz-ph.p_filesz);
