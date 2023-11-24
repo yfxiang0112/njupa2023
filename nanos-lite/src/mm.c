@@ -32,6 +32,7 @@ int mm_brk(uintptr_t brk) {
   if (brk > curbrk) {
     //assert(0);
     while (brk > curbrk) {
+      printf("test\n");
       map(&(current->as), (char*)curbrk, pg_alloc(PGSIZE), 0b111);
       curbrk += PGSIZE;
       printf("brk=%x, curbrk=%x\n",brk, curbrk);
