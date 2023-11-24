@@ -57,6 +57,7 @@ uintptr_t loader(PCB *pcb, const char *filename) {
           }
           */
 
+          printf("test\n");
           load_va += PGSIZE;
           if (!pa_start) pa_start = (uintptr_t)load_pg;
         }
