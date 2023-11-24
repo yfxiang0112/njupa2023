@@ -61,7 +61,7 @@ void do_syscall(Context *c) {
     case SYS_brk:
       //TODO: 
      
-      printf("brk=%x, inc=%d, a3=%x\n", a[1], a[2], a[3]);
+      printf("brk=%x, inc=%x, a3=%x\n", a[1], a[2], a[3]);
 
       /*
       char *temp = (char*)10;
