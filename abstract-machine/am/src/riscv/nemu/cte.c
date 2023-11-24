@@ -5,6 +5,7 @@
 static Context* (*user_handler)(Event, Context*) = NULL;
 
 Context* __am_irq_handle(Context *c) {
+  printf("curr pdir=%x\n", c->pdir);
   __am_get_cur_as(c);
 
   if (user_handler) {
