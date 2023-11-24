@@ -61,6 +61,7 @@ void do_syscall(Context *c) {
     case SYS_brk:
       //TODO: 
      
+      assert(0);
       for (uint32_t i=0; i<(int32_t)a[2]; i++) {
         *(uint32_t*)(a[1] + i) = 0;
       }
