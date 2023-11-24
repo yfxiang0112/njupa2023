@@ -2,6 +2,7 @@
 #include <proc.h>
 
 static Context* do_event(Event e, Context* c) {
+  assert(0);
   switch (e.event) {
     case EVENT_YIELD: 
       return schedule(c);

@@ -19,8 +19,6 @@ void do_syscall(Context *c) {
   printf("[STRACE]: syscall ID = %d at pc = 0x%x\n", a[0], c->mepc);
   #endif
 
-assert(0);
-
   switch (a[0]) {
     case SYS_exit:  
       if(strcmp("/bin/menu", IMAGE_FILE) == 0) naive_uload(NULL, "/bin/menu");
