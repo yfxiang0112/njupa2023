@@ -38,8 +38,9 @@ uintptr_t loader(PCB *pcb, const char *filename) {
         printf("&(pcb->as) = %x\n", &(pcb->as));
         printf("start=%x, end=%x\n", ph.p_vaddr, ph.p_vaddr+ph.p_memsz);
         while ((uintptr_t)load_va+PGSIZE <= ph.p_vaddr+ph.p_memsz) {
+          printf(":41 load_va = %x\n", load_va);
           load_pg = new_page(1);
-          printf(":42 load_va = %x\n", load_va);
+          printf(":43 load_va = %x\n", load_va);
           assert(&(pcb->as));
           map(&(pcb->as), load_va, load_pg, 0);
 
