@@ -55,7 +55,7 @@ uintptr_t loader(PCB *pcb, const char *filename) {
           }
 
           load_va += PGSIZE;
-          printf("load_va = %x\n", load_va);
+          printf(":58 load_va = %x\n", load_va);
         }
       } else {
         fs_read(fd, load_va, ph.p_filesz);
