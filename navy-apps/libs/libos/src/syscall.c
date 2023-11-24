@@ -76,10 +76,12 @@ int _write(int fd, void *buf, size_t count) {
 
 void *_sbrk(intptr_t increment) {
   //printf("sbrk assert\n");
+  /*
   _write(1, "test:79\n", 11);
   uintptr_t succ = _syscall_(SYS_brk, pb_addr, (intptr_t)increment, 0);
   if (succ == -1) { return (char*)-1; }
   _write(1, "test:82\n", 11);
+  */
   //assert(0);
   
   //if(increment >= 0) memset((char*)(pb_addr), 0, increment);
@@ -97,7 +99,7 @@ void *_sbrk(intptr_t increment) {
   }
   */
 
-  _write(1, "test:98\n", 11);
+  //_write(1, "test:98\n", 11);
   /*
   if (_syscall_(SYS_brk, pb_addr, increment, 0) == 0) {
     uintptr_t pb_ret = pb_addr;
@@ -109,9 +111,11 @@ void *_sbrk(intptr_t increment) {
   uintptr_t pb_ret = pb_addr;
   pb_addr += (int32_t)increment;
 
+  /*
   char tmp[32];
   sprintf(tmp, "pb_ret=%x\n", pb_ret);
   _write(1, tmp, 32);
+  */
 
   return (char *)pb_ret;
   
