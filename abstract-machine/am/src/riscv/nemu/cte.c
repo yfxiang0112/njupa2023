@@ -49,6 +49,7 @@ Context *kcontext(Area kstack, void (*entry)(void *), void *arg) {
   ksp -> gpr[2] = (uintptr_t)ksp;
   ksp -> gpr[10] = (uintptr_t)arg;
   ksp -> mepc = (uintptr_t)entry;
+  ksp -> pdir = NULL;
 
   return ksp;
 }
