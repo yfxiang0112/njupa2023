@@ -45,7 +45,7 @@ uintptr_t loader(PCB *pcb, const char *filename) {
           assert(&(pcb->as));
           map(&(pcb->as), load_va, load_pg, 0b111);
 
-          fs_read(fd, load_pg, PGSIZE);
+          fs_read(fd, load_pg + (ph.p_vaddr&0xfff), PGSIZE);
 
           /*
           if ((uintptr_t)load_va<0x40004a68 && (uintptr_t)load_va+PGSIZE>0x40004a68) {
