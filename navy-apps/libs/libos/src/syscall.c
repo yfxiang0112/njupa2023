@@ -68,10 +68,12 @@ void _exit(int status) {
 }
 
 int _open(const char *path, int flags, mode_t mode) {
+  asm volatile ("ebreak");
   return _syscall_(SYS_open, (uintptr_t)path, flags, mode);
 }
 
 int _write(int fd, void *buf, size_t count) {
+  asm volatile ("ebreak");
   return _syscall_(SYS_write, fd, (intptr_t)buf, count);
 }
 
@@ -93,6 +95,7 @@ void *_sbrk(intptr_t increment) {
 }
 
 int _read(int fd, void *buf, size_t count) {
+  asm volatile ("ebreak");
   return _syscall_(SYS_read, fd, (intptr_t)buf, count);
 }
 
