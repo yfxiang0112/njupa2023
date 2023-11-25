@@ -50,7 +50,7 @@ size_t context_uload(PCB* n_pcb, const char* filename, char *const argv[], char 
   uintptr_t ustack_va = (uintptr_t)(n_pcb->as.area.end) - STACK_SIZE;
   uintptr_t usp_va = (uintptr_t)(ustack_va + STACK_SIZE - 1);
   for (int i=0; i<STACK_SIZE/PGSIZE; i++) {
-    //printf("usatck_va=%x, ustack_pa=%x\n", ustack_va+ PGSIZE*i, new_stack+ PGSIZE*i);
+    printf("usatck_va=%x, ustack_pa=%x\n", ustack_va+ PGSIZE*i, new_stack+ PGSIZE*i);
     map(&(n_pcb->as), (char*)(ustack_va+ PGSIZE*i), (char*)(new_stack+ PGSIZE*i), 0b111);
   }
 
