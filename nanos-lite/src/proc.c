@@ -114,9 +114,11 @@ size_t context_uload(PCB* n_pcb, const char* filename, char *const argv[], char 
   *((uintptr_t*)usp) = n_arg;
   (n_pcb->cp)->GPRx = usp_va;
   
+  /*
   for (uintptr_t i=usp; i<(uintptr_t)(new_stack + 8*PGSIZE - 1); i++) {
     printf("%x %02x %c\n", i, *((char*)i), *((char*)i));
   }
+  */
 
   return 0;
 }
