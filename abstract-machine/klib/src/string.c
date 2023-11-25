@@ -98,7 +98,7 @@ void *memcpy(void *dst, const void *src, size_t n) {
 		*((unsigned char*)dst +i) = *((unsigned char*)src +i);
 
     if ((uintptr_t)dst + i == 0x82173c7c) {
-      printf("memcpy val=%x\n", *((uint32_t*)src + i));
+      printf("memcpy val=%08x\n", *((uint32_t*)src + i));
     }
 	}
 	return dst;
