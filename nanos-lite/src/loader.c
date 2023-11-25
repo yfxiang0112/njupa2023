@@ -38,7 +38,7 @@ uintptr_t loader(PCB *pcb, const char *filename) {
 
       if (pcb) {
         //printf("&(pcb->as) = %x\n", &(pcb->as));
-        printf("start=%x, end=%x\n", ph.p_vaddr, ph.p_vaddr+ph.p_memsz);
+        printf("start=%x, fileend=%x, memend=%x\n", ph.p_vaddr, ph.p_vaddr+ph.p_filesz, ph.p_vaddr+ph.p_memsz);
 
         while ((uintptr_t)load_va <= ph.p_vaddr+ph.p_memsz) {
           load_pg = new_page(1);

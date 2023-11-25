@@ -11,7 +11,6 @@ void* new_page(size_t nr_page) {
   if ((uintptr_t)ret < 0x82173c7c && (uintptr_t)pf > 0x82173c7c) {
     printf("test @newpg : nrpg=%d\n", nr_page);
   }
-  printf("new page paddr=%x - %x\n", (uintptr_t)ret, (uintptr_t)pf-1);
 
   return ret;
 }
