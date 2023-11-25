@@ -36,6 +36,7 @@ uintptr_t loader(PCB *pcb, const char *filename) {
       pa_start = 0;
       fs_lseek(fd, ph.p_offset, 0);
 
+      pcb=NULL;
       if (pcb) {
         //printf("&(pcb->as) = %x\n", &(pcb->as));
         printf("start=%x, fileend=%x, memend=%x\n", ph.p_vaddr, ph.p_vaddr+ph.p_filesz, ph.p_vaddr+ph.p_memsz);
@@ -68,6 +69,7 @@ uintptr_t loader(PCB *pcb, const char *filename) {
         //pcb->max_brk = ph.p_vaddr + ph.p_memsz;
       } else {
         fs_read(fd, load_va, ph.p_filesz);
+        printf("start=%x, fileend=%x, memend=%x\n", ph.p_vaddr, ph.p_vaddr+ph.p_filesz, ph.p_vaddr+ph.p_memsz);
         memset((char*)(ph.p_vaddr+ph.p_filesz), 0, ph.p_memsz-ph.p_filesz);
       }
     }
