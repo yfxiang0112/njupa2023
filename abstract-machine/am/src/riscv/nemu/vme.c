@@ -98,11 +98,9 @@ void map(AddrSpace *as, void *va, void *pa, int prot) {
   pte = (ppn1>>2) | (ppn0>>2) | x | w | r | v;
   *(uintptr_t*)pte0_addr = pte;
 
-  /*
-  if ((uintptr_t)va < 0x80000000) {
+  if ((uintptr_t)va < 0x4000dc7c && (uintptr_t)va+4096 > 0x4000dc7c ) {
     printf("&pte1 = %x, &pte0 = %x, va = %x, pa = %x\n", va, pa);
   }
-  */
 
 }
 
