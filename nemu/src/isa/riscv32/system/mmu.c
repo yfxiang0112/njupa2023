@@ -41,10 +41,6 @@ paddr_t isa_mmu_translate(vaddr_t vaddr, int len, int type) {
     panic("invalid PTE: vaddr=0x%x, pte_addr=0x%x, pte=0x%x\n", vaddr, pte_addr, pte);
   } 
 
-
-
-
-
   if ((pte&0x2)==0 && (pte&0x4)==0 && (pte&0x8)==0) {
     
     paddr_t pte0_addr = ((pte & 0xfffffc00)>>10) * 4096 + (vpn0>>12) * 4;

@@ -21,13 +21,10 @@ void hello_fun(void *arg) {
 }
 
 void init_proc() {
-  //context_kload(&pcb[0], hello_fun, (void*)0);
-  context_uload(&pcb[0], IMAGE_FILE, 
+  context_kload(&pcb[0], hello_fun, (void*)0);
+  context_uload(&pcb[1], IMAGE_FILE, 
                 ((char* const[]) {"--skip", NULL} ),
                 //((char* const[]) { NULL} ),
-                ((char* const[]) { NULL} ));
-  context_uload(&pcb[1], "/bin/hello", 
-                ((char* const[]) { NULL} ),
                 ((char* const[]) { NULL} ));
   switch_boot_pcb();
 
@@ -57,9 +54,6 @@ size_t context_uload(PCB* n_pcb, const char* filename, char *const argv[], char 
     map(&(n_pcb->as), (char*)(ustack_va+ PGSIZE*i), (char*)(new_stack+ PGSIZE*i), 0b111);
   }
   
-
-
-
   int n_arg=0, n_env=0;
   for (; argv[n_arg]!=NULL; n_arg++); 
   for (; envp[n_env]!=NULL; n_env++);
