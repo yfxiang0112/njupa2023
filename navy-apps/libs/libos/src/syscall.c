@@ -52,7 +52,6 @@ extern char end;
 uintptr_t pb_addr = (uintptr_t)(&end);
 
 intptr_t _syscall_(intptr_t type, intptr_t a0, intptr_t a1, intptr_t a2) {
-  asm volatile ("ebreak");
   register intptr_t _gpr1 asm (GPR1) = type;
   register intptr_t _gpr2 asm (GPR2) = a0;
   register intptr_t _gpr3 asm (GPR3) = a1;
@@ -68,16 +67,16 @@ void _exit(int status) {
 }
 
 int _open(const char *path, int flags, mode_t mode) {
-  asm volatile ("ebreak");
   return _syscall_(SYS_open, (uintptr_t)path, flags, mode);
 }
 
 int _write(int fd, void *buf, size_t count) {
-  asm volatile ("ebreak");
   return _syscall_(SYS_write, fd, (intptr_t)buf, count);
 }
 
 void *_sbrk(intptr_t increment) {
+
+  if (increment==0) {asm volatile("ebreak");}
 
   uintptr_t succ = _syscall_(SYS_brk, pb_addr, (intptr_t)increment, 0);
   if (succ == -1) { return (char*)-1; }
@@ -95,7 +94,6 @@ void *_sbrk(intptr_t increment) {
 }
 
 int _read(int fd, void *buf, size_t count) {
-  asm volatile ("ebreak");
   return _syscall_(SYS_read, fd, (intptr_t)buf, count);
 }
 
