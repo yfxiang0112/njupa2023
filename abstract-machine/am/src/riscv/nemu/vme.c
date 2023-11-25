@@ -99,7 +99,7 @@ void map(AddrSpace *as, void *va, void *pa, int prot) {
   *(uintptr_t*)pte0_addr = pte;
 
   if ((uintptr_t)va < 0x4000dc7c && (uintptr_t)va+4096 > 0x4000dc7c ) {
-    printf("&pte1 = %x, &pte0 = %x, va = %x, pa = %x\n", va, pa);
+    printf("@map: va = %x, pa = %x\n", va, pa);
   }
 
 }
