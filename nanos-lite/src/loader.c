@@ -32,7 +32,7 @@ uintptr_t loader(PCB *pcb, const char *filename) {
     fs_read(fd, &ph, elf.e_phentsize);
 
     if (ph.p_type == 1) {
-      load_va = (char*) ph.p_vaddr;
+      load_va = (char*) ( ph.p_vaddr & 0xfffff000);
       pa_start = 0;
       fs_lseek(fd, ph.p_offset, 0);
 
