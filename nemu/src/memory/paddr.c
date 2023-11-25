@@ -34,6 +34,10 @@ static word_t pmem_read(paddr_t addr, int len) {
 }
 
 static void pmem_write(paddr_t addr, int len, word_t data) {
+  if (addr == 0x82173c7c) {
+    printf("paddr write, paddr=%x, data=%08x\n", addr, data);
+  }
+
   host_write(guest_to_host(addr), len, data);
 }
 
