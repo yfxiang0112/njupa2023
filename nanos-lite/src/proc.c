@@ -106,11 +106,11 @@ size_t context_uload(PCB* n_pcb, const char* filename, char *const argv[], char 
 
   return 0;
 
-  /*
+  
   for (uintptr_t i=usp; i<(uintptr_t)(new_stack + 8*PGSIZE - 1); i++) {
     printf("%02x %c   ", *((char*)i), *((char*)i));
   }
-  */
+  
 }
 
 Context* schedule(Context *prev) {
