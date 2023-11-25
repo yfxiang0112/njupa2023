@@ -103,6 +103,7 @@ void map(AddrSpace *as, void *va, void *pa, int prot) {
   if ((uintptr_t)va < 0x4000dc7c && (uintptr_t)va+4096 > 0x4000dc7c ) {
     printf("@map: va = %x, pa = %x\n", va, pa);
   }
+  if (pte0_addr == 0x821387fc) { printf("pte=%x\n", pte);}
 
 }
 
