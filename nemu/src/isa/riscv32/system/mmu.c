@@ -90,7 +90,7 @@ paddr_t isa_mmu_translate(vaddr_t vaddr, int len, int type) {
   }
   */
 
-  if (vaddr<0x80000000 && vaddr>0x7ffff000) { printf("in stack vaddr=%x, pte_addr=%x, paddr=%x\n", vaddr, pte_addr, paddr);}
+  //if (vaddr<0x80000000 && vaddr>0x7ffff000) { printf("in stack vaddr=%x, pte_addr=%x, paddr=%x\n", vaddr, pte_addr, paddr);}
 
   return paddr;
 }
