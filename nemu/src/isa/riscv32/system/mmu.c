@@ -71,7 +71,7 @@ paddr_t isa_mmu_translate(vaddr_t vaddr, int len, int type) {
     printf("vaddr = %x, trans paddr = %x\n", vaddr, paddr); 
     printf("trans val=%08x\n", host_read(guest_to_host(paddr), 4));
   }
-  if (vaddr == 0x4000e0c4 - 1069) { 
+  if (vaddr == 0x4000e0c4 - 1096) { 
     printf("vaddr = %x, trans paddr = %x\n", vaddr, paddr); 
     printf("trans val=%08x\n", host_read(guest_to_host(paddr), 4));
   }
