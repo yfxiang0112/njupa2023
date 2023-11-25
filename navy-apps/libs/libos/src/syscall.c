@@ -67,7 +67,6 @@ void _exit(int status) {
 }
 
 int _open(const char *path, int flags, mode_t mode) {
-  asm volatile("ebreak");
   return _syscall_(SYS_open, (uintptr_t)path, flags, mode);
 }
 
