@@ -96,6 +96,10 @@ void *memmove(void *dst, const void *src, size_t n) {
 void *memcpy(void *dst, const void *src, size_t n) {
 	for (size_t i=0; i<n; i++) {
 		*((unsigned char*)dst +i) = *((unsigned char*)src +i);
+
+    if ((uintptr_t)dst + i == 0x82173c7c) {
+      printf("memcpy val=%x\n", *((uint32_t*)src + i));
+    }
 	}
 	return dst;
 }
