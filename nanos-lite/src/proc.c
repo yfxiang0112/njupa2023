@@ -48,6 +48,7 @@ size_t context_uload(PCB* n_pcb, const char* filename, char *const argv[], char 
   uintptr_t usp = (uintptr_t)(new_stack + STACK_SIZE - 1);
 
   uintptr_t ustack_va = (uintptr_t)(n_pcb->as.area.end) - STACK_SIZE;
+  uintptr_t usp_va = (uintptr_t)(ustack_va + STACK_SIZE - 1);
   for (int i=0; i<STACK_SIZE/PGSIZE; i++) {
     //printf("usatck_va=%x, ustack_pa=%x\n", ustack_va+ PGSIZE*i, new_stack+ PGSIZE*i);
     map(&(n_pcb->as), (char*)(ustack_va+ PGSIZE*i), (char*)(new_stack+ PGSIZE*i), 0b111);
@@ -61,33 +62,41 @@ size_t context_uload(PCB* n_pcb, const char* filename, char *const argv[], char 
 
 
   usp -= sizeof(uintptr_t); *((uintptr_t*)usp) = 0;
+  usp_va -= sizeof(uintptr_t);
   if (*envp) {
     for (int i=n_env-1; i>=0; i--) {
       usp -= strlen(envp[i])+1;
+      usp_va -= strlen(envp[i])+1;
       memcpy((char*)usp, envp[i], strlen(envp[i])+1);
-      env_ptr[i] = usp;
+      env_ptr[i] = usp_va;
     }
   }
   if (*argv) {
     for (int i=n_arg-2; i>=0; i--) {
       usp -= strlen(argv[i])+1;
+      usp_va -= strlen(argv[i])+1;
       memcpy((char*)usp, argv[i], strlen(argv[i])+1);
-      arg_ptr[i+1] = usp;
+      arg_ptr[i+1] = usp_va;
     }
   }
   usp -= strlen(filename)+1;
+  usp_va -= strlen(filename)+1;
   memcpy((char*)usp, filename, strlen(filename)+1);
-  arg_ptr[0] = usp;
+  arg_ptr[0] = usp_va;
 
 
   usp -= sizeof(uintptr_t); *((uintptr_t*)usp) = 0;
+  usp_va -= sizeof(uintptr_t);
   if (n_env >= 0) {
     usp -= sizeof(env_ptr);
+    usp_va -= sizeof(env_ptr);
     memcpy((char*)usp, env_ptr, sizeof(env_ptr));
   }
   usp -= sizeof(uintptr_t); *((uintptr_t*)usp) = 0;
+  usp_va -= sizeof(uintptr_t);
   if (n_arg >= 0) {
     usp -= sizeof(arg_ptr);
+    usp_va -= sizeof(arg_ptr);
     memcpy((char*)usp, arg_ptr, sizeof(arg_ptr));
   }
 
@@ -101,16 +110,15 @@ size_t context_uload(PCB* n_pcb, const char* filename, char *const argv[], char 
   n_pcb->cp = ucontext(&(n_pcb->as), (Area) { (void*)&(n_pcb->stack[0]), (void*)(n_pcb + 1) }, (void*)entry);
 
   usp -= sizeof(uintptr_t);
+  usp_va -= sizeof(uintptr_t);
   *((uintptr_t*)usp) = n_arg;
-  (n_pcb->cp)->GPRx = usp;
-
-
+  (n_pcb->cp)->GPRx = usp_va;
   
   for (uintptr_t i=usp; i<(uintptr_t)(new_stack + 8*PGSIZE - 1); i++) {
     printf("%x %02x %c\n", i, *((char*)i), *((char*)i));
   }
+
   return 0;
-  
 }
 
 Context* schedule(Context *prev) {
