@@ -67,6 +67,7 @@ paddr_t isa_mmu_translate(vaddr_t vaddr, int len, int type) {
   // assert(paddr == vaddr);
   //
 
+  /*
   if (vaddr == 0x4000e0c4) { 
     printf("vaddr = %x, trans paddr = %x\n", vaddr, paddr); 
     printf("trans val=%08x\n", host_read(guest_to_host(paddr), 4));
@@ -75,6 +76,7 @@ paddr_t isa_mmu_translate(vaddr_t vaddr, int len, int type) {
     printf("vaddr = %x, trans paddr = %x\n", vaddr, paddr); 
     printf("trans val=%08x\n", host_read(guest_to_host(paddr), 4));
   }
+  */
 
   /*
   if (paddr == 0x82163ecd + 16) {
@@ -82,9 +84,11 @@ paddr_t isa_mmu_translate(vaddr_t vaddr, int len, int type) {
   }
   */
 
+  /*
   if (paddr == 0x82173c7c) {
     printf("paddr check, vaddr=%x, content=%08x, pc=%x\n", vaddr, host_read(guest_to_host(0x82163edd),4), cpu.pc);
   }
+  */
 
   return paddr;
 }
