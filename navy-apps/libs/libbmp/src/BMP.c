@@ -20,6 +20,7 @@ struct BitmapHeader {
 } __attribute__((packed));
 
 void* BMP_Load(const char *filename, int *width, int *height) {
+  asm volatile("ebreak");
   FILE *fp = fopen(filename, "r");
   if (!fp) return NULL;
 
