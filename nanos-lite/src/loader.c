@@ -36,7 +36,6 @@ uintptr_t loader(PCB *pcb, const char *filename) {
       pa_start = 0;
       fs_lseek(fd, ph.p_offset, 0);
 
-      pcb=NULL;
       if (pcb) {
         //printf("&(pcb->as) = %x\n", &(pcb->as));
         printf("start=%x, fileend=%x, memend=%x\n", ph.p_vaddr, ph.p_vaddr+ph.p_filesz, ph.p_vaddr+ph.p_memsz);
