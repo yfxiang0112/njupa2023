@@ -38,7 +38,7 @@ paddr_t isa_mmu_translate(vaddr_t vaddr, int len, int type) {
 
   word_t pte = host_read(guest_to_host(pte_addr), 4);
   if(!(pte&1)) {
-    nemu_state.state = NEMU_STOP;
+    nemu_state.state = NEMU_ABORT;
     return 0x80000000;
     //panic("invalid PTE: vaddr=0x%x, pte_addr=0x%x, pte=0x%x\n", vaddr, pte_addr, pte);
   } 
