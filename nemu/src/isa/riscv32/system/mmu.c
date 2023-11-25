@@ -34,14 +34,16 @@ paddr_t isa_mmu_translate(vaddr_t vaddr, int len, int type) {
   paddr_t satp_ppn = cpu.csr[4] & 0x003fffff;
   paddr_t pte_addr = satp_ppn * 4096 + (vpn1>>22) * 4;
 
-//  extern NEMUState nemu_state;
-
   word_t pte = host_read(guest_to_host(pte_addr), 4);
   if(!(pte&1)) {
     //nemu_state.state = NEMU_ABORT;
     //return 0x80000000;
     panic("invalid PTE: vaddr=0x%x, pte_addr=0x%x, pte=0x%x\n", vaddr, pte_addr, pte);
   } 
+
+
+
+
 
   if ((pte&0x2)==0 && (pte&0x4)==0 && (pte&0x8)==0) {
     
@@ -65,32 +67,6 @@ paddr_t isa_mmu_translate(vaddr_t vaddr, int len, int type) {
 
   // NOTE: for tmp test of equiv mapping
   // assert(paddr == vaddr);
-  //
-
-  /*
-  if (vaddr == 0x4000e0c4) { 
-    printf("vaddr = %x, trans paddr = %x\n", vaddr, paddr); 
-    printf("trans val=%08x\n", host_read(guest_to_host(paddr), 4));
-  }
-  if (vaddr == 0x4000e0c4 - 1096) { 
-    printf("vaddr = %x, trans paddr = %x\n", vaddr, paddr); 
-    printf("trans val=%08x\n", host_read(guest_to_host(paddr), 4));
-  }
-  */
-
-  /*
-  if (paddr == 0x82163ecd + 16) {
-    printf("paddr check, vaddr=%x, content=%08x, pc=%x\n", vaddr, host_read(guest_to_host(0x82163edd),4), cpu.pc);
-  }
-  */
-
-  /*
-  if (paddr == 0x82173c7c) {
-    printf("paddr check, vaddr=%x, content=%08x, pc=%x\n", vaddr, host_read(guest_to_host(0x82163edd),4), cpu.pc);
-  }
-  */
-
-  //if (vaddr<0x80000000 && vaddr>0x7ffff000) { printf("in stack vaddr=%x, pte_addr=%x, paddr=%x\n", vaddr, pte_addr, paddr);}
 
   return paddr;
 }

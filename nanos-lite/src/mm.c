@@ -8,10 +8,6 @@ void* new_page(size_t nr_page) {
   void* ret = pf;
   pf += nr_page * PGSIZE;
 
-  if ((uintptr_t)ret < 0x82173c7c && (uintptr_t)pf > 0x82173c7c) {
-    printf("test @newpg : nrpg=%d\n", nr_page);
-  }
-
   return ret;
 }
 

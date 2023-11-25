@@ -38,7 +38,7 @@ uintptr_t loader(PCB *pcb, const char *filename) {
 
       if (pcb) {
         //printf("&(pcb->as) = %x\n", &(pcb->as));
-        printf("start=%x, fileend=%x, memend=%x\n", ph.p_vaddr, ph.p_vaddr+ph.p_filesz, ph.p_vaddr+ph.p_memsz);
+        //printf("start=%x, fileend=%x, memend=%x\n", ph.p_vaddr, ph.p_vaddr+ph.p_filesz, ph.p_vaddr+ph.p_memsz);
 
         while ((uintptr_t)load_va <= ph.p_vaddr+ph.p_memsz) {
           load_pg = new_page(1);
@@ -47,25 +47,20 @@ uintptr_t loader(PCB *pcb, const char *filename) {
 
           fs_read(fd, load_pg + (ph.p_vaddr&0xfff), PGSIZE);
 
-          /*
-          if ((uintptr_t)load_va<0x40004a68 && (uintptr_t)load_va+PGSIZE>0x40004a68) {
-            printf("orig paddr=%x\n", 0x40004a68 - (uintptr_t)load_va + (uintptr_t)load_pg);
-            printf("orig val = %08x\n", *(uint32_t*)(0x40004a68 - (uintptr_t)load_va + (uintptr_t)load_pg));
-            for (int i=-16; i<16; i+=4) {
-              printf("%08x\n", *(uint32_t*)(0x40004a68 - (uintptr_t)load_va + (uintptr_t)load_pg + i));
-            }
-          }
-          */
+
+
+
+
 
           load_va += PGSIZE;
           if (!pa_start) pa_start = (uintptr_t)load_pg;
         }
-        printf("pgend=%x, pastart=%x, fileend=%x, memend=%x\n", (uintptr_t)load_pg+PGSIZE, pa_start, pa_start+ph.p_filesz, pa_start+ph.p_memsz);
-        //printf("set_len=%x\n", ((uintptr_t)load_pg-pa_start-ph.p_filesz)%PGSIZE);
+        //printf("pgend=%x, pastart=%x, fileend=%x, memend=%x\n", (uintptr_t)load_pg+PGSIZE, pa_start, pa_start+ph.p_filesz, pa_start+ph.p_memsz);
+
         // NOTE: the first mmbrk page might be not zeroed out
-        memset((char*)(pa_start+ph.p_filesz+(ph.p_vaddr&0xfff)), 0, ph.p_memsz-ph.p_filesz);//(uintptr_t)load_pg+PGSIZE-pa_start-ph.p_filesz);
+        memset((char*)(pa_start+(ph.p_vaddr&0xfff)+ph.p_filesz), 0, ph.p_memsz-ph.p_filesz);
         pcb->max_brk = (uintptr_t)load_va;
-        //pcb->max_brk = ph.p_vaddr + ph.p_memsz;
+
       } else {
         fs_read(fd, load_va, ph.p_filesz);
         memset((char*)(ph.p_vaddr+ph.p_filesz), 0, ph.p_memsz-ph.p_filesz);
@@ -74,7 +69,7 @@ uintptr_t loader(PCB *pcb, const char *filename) {
   }
   
   fs_close(fd);
-  printf("entry=%x\n", elf.e_entry);
+  //printf("entry=%x\n", elf.e_entry);
   return elf.e_entry;
 }
 

@@ -61,7 +61,7 @@ void do_syscall(Context *c) {
 
     case SYS_brk:
       if (a[2]==0) { printf("test\n"); }
-      printf("brk=%x, inc=%x, a3=%x\n", a[1], a[2], a[3]);
+      //printf("brk=%x, inc=%x, a3=%x\n", a[1], a[2], a[3]);
       uint32_t ret = mm_brk((uintptr_t)a[1] + (int32_t)a[2]);
 
       c->GPRx = ret;
