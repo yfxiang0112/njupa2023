@@ -11,7 +11,7 @@ static Context* do_event(Event e, Context* c) {
       break;
 
     case EVENT_IRQ_TIMER:
-      //Log("Nanos-lite received irq-timer event");
+      Log("Nanos-lite received irq-timer event");
       return schedule(c);
       break;
 
