@@ -18,6 +18,10 @@ Context* __am_irq_handle(Context *c) {
       ev.event = EVENT_YIELD;
     }
 
+    else if (c->mcause == 0x80000007) {
+      ev.event = EVENT_IRQ_TIMER;
+    }
+
     else {
       printf("Unkown mcause code: %d\n", c->mcause);
       ev.event = EVENT_ERROR; 
