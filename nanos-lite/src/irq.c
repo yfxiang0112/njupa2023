@@ -11,8 +11,8 @@ static Context* do_event(Event e, Context* c) {
       break;
 
     case EVENT_IRQ_TIMER:
+      Log("Nanos-lite received irq-timer event");
       return schedule(c);
-      //Log("Nanos-lite received irq-timer event");
       break;
 
     default: panic("Unhandled event ID = %d", e.event);
