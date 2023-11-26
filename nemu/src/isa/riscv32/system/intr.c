@@ -29,7 +29,7 @@ word_t isa_raise_intr(word_t NO, vaddr_t epc) {
 }
 
 word_t isa_query_intr() {
-  if (cpu.intr && (cpu.csr[2]&0b100)) {
+  if (cpu.intr && (cpu.csr[2]&0b1000)) {
     cpu.intr = false;
     return IRQ_TIMER;
   }
