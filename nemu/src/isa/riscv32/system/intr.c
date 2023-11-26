@@ -28,8 +28,8 @@ word_t isa_raise_intr(word_t NO, vaddr_t epc) {
   return csr(SR_MTVEC);
 }
 
-word_t isa_query_intr() {
-  if (cpu.intr) {
+word_t isa_quljery_intr() {
+  if (cpu.intr && (cpu.csr[2]&0b100)) {
     cpu.intr = false;
     return IRQ_TIMER;
   }
