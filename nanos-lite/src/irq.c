@@ -11,8 +11,6 @@ static Context* do_event(Event e, Context* c) {
       break;
 
     case EVENT_IRQ_TIMER:
-      putch('T');
-      putch('\n');
       //Log("Nanos-lite received irq-timer event");
       break;
 
