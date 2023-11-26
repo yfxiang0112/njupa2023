@@ -60,6 +60,9 @@ paddr_t isa_mmu_translate(vaddr_t vaddr, int len, int type) {
   }
 
   //printf("paddr=%x, vaddr=%x\n", paddr, vaddr);
+  if (vaddr>0x70000000 && vaddr<0x80000000) {
+    printf("vaddr=%x, paddr=%x\n", vaddr, paddr);
+  }
 
   // NOTE: for tmp test of equiv mapping
   // assert(paddr == vaddr);
