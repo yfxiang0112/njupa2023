@@ -100,7 +100,9 @@ static void execute(uint64_t n) {
 
     word_t intr = isa_query_intr();
     if (intr != INTR_EMPTY) {
-      cpu.pc = isa_raise_intr(intr, cpu.pc);
+      vaddr_t entry = isa_raise_intr(intr, cpu.pc);
+      printf("event entry=%x\n", entry);
+      cpu.pc = entry;
     }
   }
 
