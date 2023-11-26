@@ -25,11 +25,15 @@ word_t isa_raise_intr(word_t NO, vaddr_t epc) {
   csr(SR_MEPC) = epc;
   csr(SR_MCAUSE) = NO;
 
+  csr(SR_MSTATUS) = csr(SR_MSTATUS) & 0xffffff7f;
+  csr(SR_MSTATUS) = csr(SR_MSTATUS) | ((csr(SR_MSTATUS)&0b100)<<4);
+  csr(SR_MSTATUS) = csr(SR_MSTATUS) & 0xfffffff7;
+
   return csr(SR_MTVEC);
 }
 
 word_t isa_query_intr() {
-  if (cpu.intr && (cpu.csr[2]&0b1000)) {
+  if (cpu.intr && (csr(SR_MSTATUS)&0b1000)) {
     cpu.intr = false;
     return IRQ_TIMER;
   }
