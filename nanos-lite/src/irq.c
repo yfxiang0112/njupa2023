@@ -12,7 +12,7 @@ static Context* do_event(Event e, Context* c) {
 
     case EVENT_IRQ_TIMER:
       //Log("Nanos-lite received irq-timer event");
-      printf("timer interrupt\n");
+      //printf("timer interrupt\n");
       return schedule(c);
       break;
 
