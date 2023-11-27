@@ -54,7 +54,7 @@ Context *kcontext(Area kstack, void (*entry)(void *), void *arg) {
   ksp -> gpr[2] = (uintptr_t)ksp;
   ksp -> gpr[10] = (uintptr_t)arg;
   ksp -> mepc = (uintptr_t)entry;
-  ksp -> mstatus = 0x88;
+  ksp -> mstatus = 0x80;
 
   ksp -> next_priv = 0;
   ksp -> pdir = NULL;

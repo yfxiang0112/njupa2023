@@ -111,7 +111,7 @@ Context *ucontext(AddrSpace *as, Area kstack, void *entry, uintptr_t sp) {
   cp -> gpr[2] = sp;
   //ksp -> gpr[10] = (uintptr_t)arg;
   cp -> mepc = (uintptr_t)entry;
-  cp -> mstatus = 0x88;
+  cp -> mstatus = 0x80;
 
   cp -> next_priv = 1;
   cp -> pdir = as -> ptr;
