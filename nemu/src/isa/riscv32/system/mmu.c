@@ -13,14 +13,15 @@
 * See the Mulan PSL v2 for more details.
 ***************************************************************************************/
 
+#include "../local-include/reg.h"
 #include <isa.h>
 #include <memory/vaddr.h>
 #include <memory/paddr.h>
 #include <memory/host.h>
 
 int isa_mmu_check(vaddr_t vaddr, int len, int type) {
-  if (cpu.csr[4]==0) { return MMU_DIRECT; }
-  if (cpu.csr[4] >> 31 == 1) { return MMU_TRANSLATE; }
+  if (csr(SR_SATP)==0) { return MMU_DIRECT; }
+  if (csr(SR_SATP) >> 31 == 1) { return MMU_TRANSLATE; }
   return MMU_FAIL;
 }
 
@@ -31,7 +32,7 @@ paddr_t isa_mmu_translate(vaddr_t vaddr, int len, int type) {
   vpn0 = vaddr & 0x003ff000;
   voff = vaddr & 0x00000fff;
 
-  paddr_t satp_ppn = cpu.csr[4] & 0x003fffff;
+  paddr_t satp_ppn = csr(SR_SATP) & 0x003fffff;
   paddr_t pte_addr = satp_ppn * 4096 + (vpn1>>22) * 4;
 
   word_t pte = host_read(guest_to_host(pte_addr), 4);

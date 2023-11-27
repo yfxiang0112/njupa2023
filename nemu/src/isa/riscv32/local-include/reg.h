@@ -35,19 +35,21 @@ static inline const char* reg_name(int idx) {
 
 // CSR ///////////////////////
 
-#define SR_MTVEC   0x305
-#define SR_MEPC    0x341
-#define SR_MSTATUS 0x300
-#define SR_MCAUSE  0x342
-#define SR_SATP    0x180
+#define SR_MTVEC     0x305
+#define SR_MEPC      0x341
+#define SR_MSTATUS   0x300
+#define SR_MCAUSE    0x342
+#define SR_SATP      0x180
+#define SR_MSCRATCH  0x340
 
 static inline int check_csr_idx(int idx) {
   if (idx >= 0 && idx < 4) { return idx; }
-  if (idx == SR_MTVEC)   { return 0; }
-  if (idx == SR_MEPC)    { return 1; }
-  if (idx == SR_MSTATUS) { return 2; }
-  if (idx == SR_MCAUSE)  { return 3; }
-  if (idx == SR_SATP)    { return 4; }
+  if (idx == SR_MTVEC)      { return 0; }
+  if (idx == SR_MEPC)       { return 1; }
+  if (idx == SR_MSTATUS)    { return 2; }
+  if (idx == SR_MCAUSE)     { return 3; }
+  if (idx == SR_SATP)       { return 4; }
+  if (idx == SR_MSCRATCH)   { return 5; }
   IFDEF(CONFIG_RT_CHECK, assert(0));
 }
 

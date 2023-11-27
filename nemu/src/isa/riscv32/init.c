@@ -13,6 +13,7 @@
 * See the Mulan PSL v2 for more details.
 ***************************************************************************************/
 
+#include "local-include/reg.h"
 #include <isa.h>
 #include <memory/paddr.h>
 
@@ -34,7 +35,7 @@ static void restart() {
   cpu.gpr[0] = 0;
 
   /* initialize mstatus register. */
-  cpu.csr[3] = 0x1800;
+  csr(SR_MCAUSE) = 0x1800;
 }
 
 void init_isa() {

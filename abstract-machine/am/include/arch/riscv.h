@@ -9,6 +9,8 @@
 
 struct Context {
   uintptr_t gpr[NR_REGS], mcause, mstatus, mepc;
+
+  uintptr_t next_priv;
   void *pdir;
 };
 
@@ -34,7 +36,7 @@ struct Context {
 #define XLEN  8
 #endif
 
-#define CONTEXT_SIZE  ((NR_REGS + 3 + 1) * XLEN)
+#define CONTEXT_SIZE  ((NR_REGS + 3 + 1 + 1) * XLEN)
 
 
 /* temporarily used by asm contex backup */
