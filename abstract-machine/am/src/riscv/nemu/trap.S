@@ -49,22 +49,22 @@ __am_asm_trap:
 
   csrr  sp, mscratch
   addi  sp, sp, -CONTEXT_SIZE
-  STORE t0, OFFSET_T0(sp)   // TODO:test 
-  csrr  t0, mscratch     // TODO:test 
-  STORE t0, OFFSET_SP(sp)   // TODO:test 
+  STORE t0, OFFSET_T0(sp)   # TODO:test 
+  csrr  t0, mscratch     # TODO:test 
+  STORE t0, OFFSET_SP(sp)   # TODO:test 
 
-  li t0, 0               // TODO:test 
-  STORE t0, OFFSET_NPRV(sp) // TODO:test 
+  li t0, 0               # TODO:test 
+  STORE t0, OFFSET_NPRV(sp) # TODO:test 
   jal save_context
 
 priv_is_usr:
   addi sp, sp, -CONTEXT_SIZE
-  STORE t0, OFFSET_T0(sp)   // TODO: test 
-  csrr  t0, mscratch     // TODO: test
-  STORE t0, OFFSET_SP(sp)   // TODO: test
+  STORE t0, OFFSET_T0(sp)   # TODO: test 
+  csrr  t0, mscratch     # TODO: test
+  STORE t0, OFFSET_SP(sp)   # TODO: test
 
-  li t0, 1               // TODO: test
-  STORE t0, OFFSET_NPRV(sp) // TODO: test
+  li t0, 1               # TODO: test
+  STORE t0, OFFSET_NPRV(sp) # TODO: test
   jal save_context
 
 
@@ -99,13 +99,13 @@ save_context:
 
   MAP(REGS, POP)
 
-  LOAD t0, OFFSET_NPRV(sp) // TODO: test
+  LOAD t0, OFFSET_NPRV(sp) # TODO: test
   addi sp, sp, CONTEXT_SIZE
-  beqz t0, join_ret // TODO: test
+  beqz t0, join_ret # TODO: test
   csrw mscratch, sp
 
 join_ret:
-  LOAD t0, (OFFSET_T0-CONTEXT_SIZE)(sp) // TODO: test
+  LOAD t0, (OFFSET_T0-CONTEXT_SIZE)(sp) # TODO: test
   LOAD sp, (OFFSET_SP-CONTEXT_SIZE)(sp)
 
   mret
