@@ -140,7 +140,7 @@ Context* schedule(Context *prev) {
     }
   }
   */
-  schedule_cnt = (schedule_cnt + 1) % 1000;
+  schedule_cnt = (schedule_cnt + 1) % 100;
   curr_idx = schedule_cnt==0 ? 2 : 1;
 
   current = &pcb[curr_idx];
