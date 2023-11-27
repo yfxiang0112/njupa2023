@@ -7,7 +7,8 @@ static PCB pcb_boot = {};
 PCB *current = NULL;
 static int curr_idx=3;
 
-//static int fg_pcb = 0; 
+static int fg_pcb = 1; 
+char ev_buf[32];
 static uint32_t schedule_cnt = 0;
 
 void switch_boot_pcb() {
@@ -25,11 +26,17 @@ void hello_fun(void *arg) {
 
 void init_proc() {
   //context_kload(&pcb[0], hello_fun, (void*)0);
-  context_uload(&pcb[1], IMAGE_FILE, 
+  context_uload(&pcb[0], "/bin/hello", 
+                ((char* const[]) { NULL} ),
+                ((char* const[]) { NULL} ));
+  context_uload(&pcb[1], IMAGE_FILE_1, 
                 //((char* const[]) {"--skip", NULL} ),
                 ((char* const[]) { NULL} ),
                 ((char* const[]) { NULL} ));
-  context_uload(&pcb[2], "/bin/hello", 
+  context_uload(&pcb[2], IMAGE_FILE_2, 
+                ((char* const[]) { NULL} ),
+                ((char* const[]) { NULL} ));
+  context_uload(&pcb[3], IMAGE_FILE_3, 
                 ((char* const[]) { NULL} ),
                 ((char* const[]) { NULL} ));
   switch_boot_pcb();
@@ -140,8 +147,12 @@ Context* schedule(Context *prev) {
     }
   }
   */
-  schedule_cnt = (schedule_cnt + 1) % 100;
-  curr_idx = schedule_cnt==0 ? 2 : 1;
+  events_read(ev_buf, 0, 31);
+  if (strcmp(ev_buf, "kd F1") == 0) { fg_pcb = 1; }
+  if (strcmp(ev_buf, "kd F2") == 0) { fg_pcb = 1; }
+  if (strcmp(ev_buf, "kd F3") == 0) { fg_pcb = 1; }
+  curr_idx = schedule_cnt==0 ? 0 : fg_pcb;
+  schedule_cnt = (schedule_cnt + 1) % 2000;
 
   current = &pcb[curr_idx];
   return current->cp;
