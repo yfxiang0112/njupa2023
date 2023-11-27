@@ -148,9 +148,10 @@ Context* schedule(Context *prev) {
   }
   */
   events_read(ev_buf, 0, 31);
+  printf("%s\n", ev_buf);
   if (strcmp(ev_buf, "kd F1") == 0) { fg_pcb = 1; }
-  if (strcmp(ev_buf, "kd F2") == 0) { fg_pcb = 1; }
-  if (strcmp(ev_buf, "kd F3") == 0) { fg_pcb = 1; }
+  if (strcmp(ev_buf, "kd F2") == 0) { fg_pcb = 2; }
+  if (strcmp(ev_buf, "kd F3") == 0) { fg_pcb = 3; }
   curr_idx = schedule_cnt==0 ? 0 : fg_pcb;
   schedule_cnt = (schedule_cnt + 1) % 2000;
 
