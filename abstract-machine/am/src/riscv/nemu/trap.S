@@ -55,7 +55,7 @@ __am_asm_trap:
 
   li t0, 0               # TODO:test 
   STORE t0, OFFSET_NPRV(sp) # TODO:test 
-  jal save_context
+  j save_context
 
 priv_is_usr:
   addi sp, sp, -CONTEXT_SIZE
@@ -65,7 +65,7 @@ priv_is_usr:
 
   li t0, 1               # TODO: test
   STORE t0, OFFSET_NPRV(sp) # TODO: test
-  jal save_context
+  j save_context
 
 
 save_context:
