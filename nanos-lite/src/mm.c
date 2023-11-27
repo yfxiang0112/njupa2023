@@ -15,7 +15,6 @@ void* new_page(size_t nr_page) {
 static void* pg_alloc(int n) {
   assert(n%PGSIZE == 0);
   void* new_pg = new_page(n/PGSIZE);
-  printf("test\n");
   memset(new_pg, 0, n);
   return new_pg;
 }
@@ -32,6 +31,7 @@ int mm_brk(uintptr_t brk) {
   if (brk > curbrk) {
     while (brk > curbrk) {
       map(&(current->as), (char*)curbrk, pg_alloc(PGSIZE), 0b111);
+      printf("test\n");
       curbrk += PGSIZE;
       //printf("brk=%x, curbrk=%x\n",brk, curbrk);
     }
