@@ -55,6 +55,7 @@ int main() {
   while (1) {
     SDL_Event e;
     //SDL_WaitEvent(&e);
+    SDL_Delay(1);
     SDL_PollEvent(&e);
 
     if (e.type == SDL_KEYDOWN) {
