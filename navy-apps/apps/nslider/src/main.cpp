@@ -54,7 +54,8 @@ int main() {
 
   while (1) {
     SDL_Event e;
-    SDL_WaitEvent(&e);
+    //SDL_WaitEvent(&e);
+    SDL_PollEvent(&e);
 
     if (e.type == SDL_KEYDOWN) {
       switch(e.key.keysym.sym) {
@@ -68,6 +69,7 @@ int main() {
         case SDLK_7: rep = rep * 10 + 7; break;
         case SDLK_8: rep = rep * 10 + 8; break;
         case SDLK_9: rep = rep * 10 + 9; break;
+        case SDLK_Q: SDL_Quit();
         case SDLK_J:
         case SDLK_DOWN: next(rep); rep = 0; g = 0; break;
         case SDLK_K:
