@@ -5,6 +5,7 @@
 static Context* (*user_handler)(Event, Context*) = NULL;
 
 Context* __am_irq_handle(Context *c) {
+  printf("ra=%x\n", c->gpr[1]);
   if (user_handler) {
     Event ev = {0};
     uint32_t ex_code = 0;
