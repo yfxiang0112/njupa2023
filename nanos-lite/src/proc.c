@@ -153,7 +153,7 @@ Context* schedule(Context *prev) {
   if (strcmp(ev_buf, "kd F2\n") == 0) { fg_pcb = 2; }
   if (strcmp(ev_buf, "kd F3\n") == 0) { fg_pcb = 3; }
   curr_idx = schedule_cnt==0 ? 0 : fg_pcb;
-  schedule_cnt = (schedule_cnt + 1) % 2000;
+  schedule_cnt = (schedule_cnt + 1) % 500;
 
   current = &pcb[curr_idx];
   return current->cp;
