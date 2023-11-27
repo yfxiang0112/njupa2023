@@ -148,6 +148,7 @@ Context* schedule(Context *prev) {
   }
   */
   events_read(ev_buf, 0, 31);
+  printf("%s\n", ev_buf);
   if (strcmp(ev_buf, "kd F1\n") == 0) { fg_pcb = 1; }
   if (strcmp(ev_buf, "kd F2\n") == 0) { fg_pcb = 2; }
   if (strcmp(ev_buf, "kd F3\n") == 0) { fg_pcb = 3; }
