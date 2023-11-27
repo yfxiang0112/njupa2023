@@ -7,6 +7,9 @@ static PCB pcb_boot = {};
 PCB *current = NULL;
 static int curr_idx=3;
 
+//static int fg_pcb = 0; 
+static uint32_t schedule_cnt = 0;
+
 void switch_boot_pcb() {
   current = &pcb_boot;
 }
@@ -128,6 +131,7 @@ size_t context_uload(PCB* n_pcb, const char* filename, char *const argv[], char 
 
 Context* schedule(Context *prev) {
   current->cp = prev;
+  /*
   while(1) {
     curr_idx = (curr_idx+1)%4;
     if (pcb[curr_idx].cp != 0) {
@@ -135,5 +139,10 @@ Context* schedule(Context *prev) {
       break;
     }
   }
+  */
+  schedule_cnt = (schedule_cnt + 1) % 1000;
+  curr_idx = schedule_cnt==0 ? 1 : 0;
+
+  current = &pcb[curr_idx];
   return current->cp;
 }
