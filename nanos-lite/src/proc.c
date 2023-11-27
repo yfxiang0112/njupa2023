@@ -141,7 +141,7 @@ Context* schedule(Context *prev) {
   }
   */
   schedule_cnt = (schedule_cnt + 1) % 1000;
-  curr_idx = schedule_cnt==0 ? 1 : 0;
+  curr_idx = schedule_cnt==0 ? 2 : 1;
 
   current = &pcb[curr_idx];
   return current->cp;
