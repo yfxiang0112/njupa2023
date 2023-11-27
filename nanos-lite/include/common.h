@@ -14,9 +14,9 @@
 #include <klib-macros.h>
 #include <debug.h>
 
-#define IMAGE_FILE_1 "/bin/nterm"
-#define IMAGE_FILE_2 "/bin/nterm"
-#define IMAGE_FILE_3 "/bin/nterm"
+#define IMAGE_FILE_1 "/bin/pal"
+#define IMAGE_FILE_2 "/bin/nslider"
+#define IMAGE_FILE_3 "/bin/bird"
 
 
 size_t ramdisk_read(void *buf, size_t offset, size_t len);
