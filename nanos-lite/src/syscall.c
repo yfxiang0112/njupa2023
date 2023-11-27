@@ -4,7 +4,7 @@
 #include "syscall.h"
 #include <sys/time.h>
 
-static char curr_pathname[64] = IMAGE_FILE_1;
+static char curr_pathname[64] = "bin/nterm";
 extern PCB *current;
 
 void do_syscall(Context *c) {
@@ -21,8 +21,9 @@ void do_syscall(Context *c) {
 
   switch (a[0]) {
     case SYS_exit:  
-      if(strcmp("/bin/menu", IMAGE_FILE_1) == 0) naive_uload(NULL, "/bin/menu");
-      if(strcmp("/bin/nterm", IMAGE_FILE_1) == 0 && strcmp("/bin/nterm", curr_pathname) != 0) {
+      //if(strcmp("/bin/menu", IMAGE_FILE_1) == 0) naive_uload(NULL, "/bin/menu");
+      //if(strcmp("/bin/nterm", IMAGE_FILE_1) == 0 && strcmp("/bin/nterm", curr_pathname) != 0) {
+      if(strcmp("/bin/nterm", curr_pathname) != 0) {
         strncpy(curr_pathname, "/bin/nterm", 11);
         //naive_uload(NULL, "/bin/nterm");
         context_uload(current, "/bin/nterm", (char *const[]){NULL}, (char *const[]){NULL});
