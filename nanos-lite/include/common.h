@@ -16,7 +16,7 @@
 
 #define IMAGE_FILE_1 "/bin/pal"
 #define IMAGE_FILE_2 "/bin/nslider"
-#define IMAGE_FILE_3 "/bin/bird"
+#define IMAGE_FILE_3 "/bin/nterm"
 
 
 size_t ramdisk_read(void *buf, size_t offset, size_t len);
