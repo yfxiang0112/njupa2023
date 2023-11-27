@@ -28,8 +28,8 @@ static void fork_child(const char *nterm_proc) {
     NULL
   };
 
-  //assert(0 == pipe(nterm_to_app));
-  //assert(0 == pipe(app_to_nterm));
+  assert(0 == pipe(nterm_to_app));
+  assert(0 == pipe(app_to_nterm));
   read_fd = app_to_nterm[0];
   write_fd = nterm_to_app[1];
 
