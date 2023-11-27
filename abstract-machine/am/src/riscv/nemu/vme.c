@@ -105,10 +105,10 @@ void map(AddrSpace *as, void *va, void *pa, int prot) {
   */
 }
 
-Context *ucontext(AddrSpace *as, Area kstack, void *entry) {
+Context *ucontext(AddrSpace *as, Area kstack, void *entry, uintptr_t sp) {
   Context *cp = (Context*)((uintptr_t)(kstack.end) - CONTEXT_SIZE);
 
-  cp -> gpr[2] = (uintptr_t)cp;
+  cp -> gpr[2] = sp;
   //ksp -> gpr[10] = (uintptr_t)arg;
   cp -> mepc = (uintptr_t)entry;
   cp -> mstatus = 0x88;
