@@ -123,6 +123,7 @@ int _fstat(int fd, struct stat *buf) {
 }
 
 int _stat(const char *fname, struct stat *buf) {
+  assert(0);
   return -1;
 }
 
@@ -137,34 +138,42 @@ pid_t _getpid() {
 }
 
 pid_t _fork() {
+  assert(0);
   return -1;
 }
 
 pid_t vfork() {
+  assert(0);
   return -1;
 }
 
 int _link(const char *d, const char *n) {
+  assert(0);
   return -1;
 }
 
 int _unlink(const char *n) {
+  assert(0);
   return -1;
 }
 
 pid_t _wait(int *status) {
+  assert(0);
   return -1;
 }
 
 clock_t _times(void *buf) {
+  assert(0);
   return 0;
 }
 
 int pipe(int pipefd[2]) {
+  assert(0);
   return -1;
 }
 
 int dup(int oldfd) {
+  assert(0);
   return -1;
 }
 
@@ -173,14 +182,17 @@ int dup2(int oldfd, int newfd) {
 }
 
 unsigned int sleep(unsigned int seconds) {
+  assert(0);
   return -1;
 }
 
 ssize_t readlink(const char *pathname, char *buf, size_t bufsiz) {
+  assert(0);
   return -1;
 }
 
 int symlink(const char *target, const char *linkpath) {
+  assert(0);
   return -1;
 }
 
