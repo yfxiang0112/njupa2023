@@ -6,6 +6,8 @@ Completed all mandatory tasks from PA.1 to PA.4, in RISCV-32 ISA. Most of the op
 
 Note: This repo is forked from [my old account](https://github.com/hxd3d0021).
 
+如果感觉到有帮助的话，麻烦点个star谢谢喵😽
+
 ## Course Information
 
 The project *ICSPA* is the programming assignment of the course ICS(Introduction to Computer System) 
